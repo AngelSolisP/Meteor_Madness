@@ -15,7 +15,7 @@ const ALERT_STAGES = [
             "Sigue páginas científicas confiables (NASA, UN-SPIDER, agencia espacial local).",
             "No creas rumores virales sobre \"fin del mundo\" en línea."
         ],
-        criteria: "Sin objetos peligrosos detectados. Umbrales no alcanzados: tamaño <10m, probabilidad <1%. Monitoreo continuo por IAWN. Fuente: Naciones Unidas A/AC.105/C.1/2017/CRP.25."
+        criteria: "Sin objetos peligrosos detectados. Umbrales no alcanzados: tamaño <10m, probabilidad <1%. Monitoreo continuo por IAWN."
     },
     {
         title: "ETAPA 2 — MODO VIGILANCIA",
@@ -27,7 +27,7 @@ const ALERT_STAGES = [
             "Escucha alertas de IAWN o gobiernos.",
             "Escuelas, líderes locales y agencias de emergencia pueden iniciar sesiones informativas."
         ],
-        criteria: "Objeto detectado bajo observación. Tamaño variable, densidad afecta energía (rocosa: ~3000 kg/m³, metálica: ~7800 kg/m³). Refinamiento orbital por IAWN. Fuente: NASA NEO Program."
+        criteria: "Objeto detectado bajo observación. Tamaño variable, densidad afecta energía (rocosa: ~3000 kg/m³, metálica: ~7800 kg/m³). Refinamiento orbital por IAWN."
     },
     {
         title: "ETAPA 3 — MODO ALERTA",
@@ -40,7 +40,7 @@ const ALERT_STAGES = [
             "Mantén un kit de emergencia: agua, linterna, radio a batería, primeros auxilios, documentos importantes.",
             "Evita difundir información no verificada."
         ],
-        criteria: "Advertencia IAWN: probabilidad >1%, tamaño >10m (magnitud 28). Efectos llegan a superficie. Responsable: IAWN. Fuente: Naciones Unidas A/AC.105/C.1/2017/CRP.25."
+        criteria: "Advertencia IAWN: probabilidad >1%, tamaño >10m (magnitud 28). Efectos llegan a superficie. Responsable: IAWN."
     },
     {
         title: "ETAPA 4 — MODO ADVERTENCIA DE IMPACTO",
@@ -53,7 +53,7 @@ const ALERT_STAGES = [
             "Si no puedes evacuar: Quédate indoors, lejos de ventanas. Ve a un sótano o habitación interior. Acuéstate plano y protege tu cabeza durante la onda de choque.",
             "Mantén agua y comida para al menos 72 horas."
         ],
-        criteria: "Planificación terrestre: probabilidad >10%, tiempo <20 años, tamaño >20m (magnitud 27). Preparación civil. Responsable: Gobiernos + SMPAG. Fuente: Naciones Unidas A/AC.105/C.1/2017/CRP.25."
+        criteria: "Planificación terrestre: probabilidad >10%, tiempo <20 años, tamaño >20m (magnitud 27). Preparación civil. Responsable: Gobiernos + SMPAG."
     },
     {
         title: "ETAPA 5 — DESPUÉS DEL IMPACTO",
@@ -66,7 +66,7 @@ const ALERT_STAGES = [
             "Sigue instrucciones de oficiales de emergencia y salud.",
             "No toques ni te acerques a fragmentos de meteorito — pueden estar calientes o tóxicos."
         ],
-        criteria: "Después del impacto o peligro pasado. Evaluación post-evento considera tamaño y densidad reales. Responsable: Equipos de rescate locales. Fuente: USGS Impact Effects Calculator."
+        criteria: "Después del impacto o peligro pasado. Evaluación post-evento considera tamaño y densidad reales. Responsable: Equipos de rescate locales."
     }
 ];
 

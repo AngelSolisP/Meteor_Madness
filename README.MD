@@ -2,37 +2,31 @@
 
 ## Contexto del Proyecto
 
+Basado en la información proporcionada por NASA API y USGS, se creó una herramienta de visualización y simulación de impactos de asteroides. La herramienta utiliza los datos del meteorito con la trayectoria, la velocidad y el tamaño.
+
 Este documento detalla el análisis de los conjuntos de datos proporcionados para el proyecto "Meteor Madness", una herramienta de visualización y simulación de impactos de asteroides desarrollada en el contexto de un hackathon. El objetivo principal es integrar datos de la NASA sobre asteroides con datos geológicos del USGS (terremotos, elevación y zonas de tsunami) para simular y visualizar las consecuencias de un impacto.
 
-## Objetivos del Análisis
+## Cómo usar el Visualizador de Meteoritos
 
-1.  **Inspeccionar la estructura completa** de todos los archivos de datos (JSON/GeoJSON).
-2.  **Identificar campos exactos utilizables** para los cálculos requeridos.
-3.  **Determinar qué datos usar y cuáles descartar** para el MVP.
-4.  **Definir cálculos viables** con los datos disponibles.
+El visualizador te permite personalizar el diámetro del asteroide/meteorito, densidad, velocidad, ángulo, latitud y longitud. Una vez modificado cada uno de estos parámetros, te aparecerán en pantallas las coordenadas para poder visualizarlo en el mapa.
 
-## Cálculos Requeridos (Resumen)
+Como características de esta visualización, dependiendo del impacto aparecerá en 3 rangos de colores, por ejemplo: amarillo (impacto medio), naranja (impacto alto), rojo (impacto catastrófico). La forma en que se medirá el impacto será por rango de profundidad.
 
-*   **Masa del asteroide:** `π/6 × diámetro³ × 3000 kg/m³`
-*   **Energía cinética:** `½mv²`
-*   **Equivalente TNT:** `E / 4.184×10¹² J/megatón`
-*   **Tamaño de cráter:** `scaling laws (fórmulas de Collins et al.)`
-*   **Magnitud sísmica estimada.**
-*   **Radio de afectación por tsunami** (si el impacto es oceánico).
+## Herramientas
 
----
+*   Visual Studio Code
+*   GitHub
+*   Python
+*   JavaScript/CSS/HTML
+*   Claude/ChatGPT/Gemini
 
-## 1. Análisis de Estructura y Campos Clave por Dataset
+## Actividades
 
-### 1.1. Datos de Asteroides (NASA NEO API)
-
-#### `nasa_neo_feed_complete.json`
-
-Este archivo parece contener un feed completo de objetos cercanos a la Tierra (NEO).
-
-*   **Estructura:** Objeto JSON con una clave principal `near_earth_objects` que contiene fechas como claves, y cada fecha tiene una lista de objetos NEO.
-*   **Campos Clave Identificados:**
-    *   `id`: Identificador único del asteroide. (String)
-    *   `name`: Nombre del asteroide. (String)
-    *   `nasa_jpl_url`: URL de JPL para más detalles. (String)
-    *   `absolute_magnitude_h`: Magnitud absoluta. (Float
+*   **Crear la página web**
+    *   Conectarlo al backend y frontend (conectado a las APIs y a los cálculos)
+    *   Revisar funcionamiento: Interactivo (características de los meteoritos y/o de ubicación)
+    *   Característica: Dashboard, modelado, Visualización
+*   **Análisis de datos**
+    *   Recopilar la Información
+*   **Cálculos**
+    *   Probabilidad, cálculo de riesgos

@@ -15,7 +15,7 @@ const ALERT_STAGES = [
             "Sigue páginas científicas confiables (NASA, UN-SPIDER, agencia espacial local).",
             "No creas rumores virales sobre \"fin del mundo\" en línea."
         ],
-        criteria: "Esta etapa se activa cuando no hay objetos que cumplan con los criterios de alerta establecidos por la IAWN. Los asteroides detectados están por debajo de los umbrales de tamaño (>10 metros de diámetro), probabilidad de impacto (>1%) o tiempo de aproximación. La densidad típica de los asteroides (rocosa ~3000 kg/m³ o metálica ~7800 kg/m³) se considera en las estimaciones de energía, pero los criterios se basan principalmente en el diámetro observado para evitar sesgos por variaciones en densidad."
+        criteria: "Sin objetos peligrosos detectados. Umbrales no alcanzados: tamaño <10m, probabilidad <1%. Monitoreo continuo por IAWN. Fuente: Naciones Unidas A/AC.105/C.1/2017/CRP.25."
     },
     {
         title: "ETAPA 2 — MODO VIGILANCIA",
@@ -27,7 +27,7 @@ const ALERT_STAGES = [
             "Escucha alertas de IAWN o gobiernos.",
             "Escuelas, líderes locales y agencias de emergencia pueden iniciar sesiones informativas."
         ],
-        criteria: "Se activa cuando se detecta un asteroide que podría acercarse peligrosamente, pero aún no cumple con los umbrales de alerta. Los objetos monitoreados pueden tener tamaños variables, pero la densidad influye en la masa y energía potencial: asteroides más densos (metálicos) generan más energía cinética que los rocosos del mismo tamaño. Esta etapa permite refinar las órbitas antes de escalar a alertas superiores."
+        criteria: "Objeto detectado bajo observación. Tamaño variable, densidad afecta energía (rocosa: ~3000 kg/m³, metálica: ~7800 kg/m³). Refinamiento orbital por IAWN. Fuente: NASA NEO Program."
     },
     {
         title: "ETAPA 3 — MODO ALERTA",
@@ -40,7 +40,7 @@ const ALERT_STAGES = [
             "Mantén un kit de emergencia: agua, linterna, radio a batería, primeros auxilios, documentos importantes.",
             "Evita difundir información no verificada."
         ],
-        criteria: "Se activa cuando la IAWN emite una advertencia de impactos predichos con probabilidad >1% para objetos >10 metros de tamaño (o magnitud absoluta 28 si solo se disponen datos de brillo). La mayoría de objetos >10m tendrán efectos (explosión aérea y fragmentos) que pueden llegar a la superficie terrestre. La IAWN está obligada a alertar a las poblaciones si los cuerpos tendrán efectos que alcancen el suelo."
+        criteria: "Advertencia IAWN: probabilidad >1%, tamaño >10m (magnitud 28). Efectos llegan a superficie. Responsable: IAWN. Fuente: Naciones Unidas A/AC.105/C.1/2017/CRP.25."
     },
     {
         title: "ETAPA 4 — MODO ADVERTENCIA DE IMPACTO",
@@ -53,7 +53,7 @@ const ALERT_STAGES = [
             "Si no puedes evacuar: Quédate indoors, lejos de ventanas. Ve a un sótano o habitación interior. Acuéstate plano y protege tu cabeza durante la onda de choque.",
             "Mantén agua y comida para al menos 72 horas."
         ],
-        criteria: "Se recomienda iniciar la planificación de preparación terrestre cuando se advierte de un posible impacto: predicho dentro de 20 años, probabilidad de impacto >10%, y objeto >20 metros de tamaño (o magnitud absoluta 27 si solo datos de brillo). Esto proporciona información a poblaciones y centros poblacionales para comenzar preparaciones de emergencia si es necesario. Los sorprendentes efectos del evento de Chelyabinsk en 2013 de un objeto ~18m llevaron al establecimiento de este límite inferior."
+        criteria: "Planificación terrestre: probabilidad >10%, tiempo <20 años, tamaño >20m (magnitud 27). Preparación civil. Responsable: Gobiernos + SMPAG. Fuente: Naciones Unidas A/AC.105/C.1/2017/CRP.25."
     },
     {
         title: "ETAPA 5 — DESPUÉS DEL IMPACTO",
@@ -66,7 +66,7 @@ const ALERT_STAGES = [
             "Sigue instrucciones de oficiales de emergencia y salud.",
             "No toques ni te acerques a fragmentos de meteorito — pueden estar calientes o tóxicos."
         ],
-        criteria: "Después del impacto (si ocurrió) o cuando el peligro ha pasado. Los criterios previos ya no aplican, pero la evaluación post-impacto considera el tamaño real del objeto (diámetro y densidad) para entender los efectos observados, como el evento de Chelyabinsk (2013) con un asteroide de ~18 metros que causó daños significativos debido a su composición rocosa y velocidad."
+        criteria: "Después del impacto o peligro pasado. Evaluación post-evento considera tamaño y densidad reales. Responsable: Equipos de rescate locales. Fuente: USGS Impact Effects Calculator."
     }
 ];
 
@@ -75,27 +75,27 @@ const ALERT_SCENARIOS = [
     {
         scenario: "Los científicos de IAWN reportan que un asteroide de 500 metros pasará a 10 millones de kilómetros de la Tierra en 6 meses. No hay riesgo de impacto.",
         correctLevel: 0, // Index in ALERT_STAGES
-        explanation: "Este es MONITOR MODE (Verde) porque el asteroide está a una distancia segura y no representa peligro alguno. Su gran tamaño (>50m) normalmente activaría planificación SMPAG, pero la distancia elimina el riesgo."
+        explanation: "MONITOR MODE (Verde): Sin riesgo. Monitoreo IAWN. Fuente: NASA."
     },
     {
         scenario: "Se detecta un asteroide de 100 metros que pasará a 500,000 kilómetros de la Tierra. Los científicos están calculando su órbita con más precisión.",
         correctLevel: 1,
-        explanation: "Este es WATCH MODE (Amarillo) porque el objeto está bajo observación. Aunque mide 100m (por encima del umbral de 50m para SMPAG), la distancia y baja probabilidad lo mantienen en vigilancia."
+        explanation: "WATCH MODE (Amarillo): Observación orbital. IAWN calcula trayectorias. Fuente: ESA."
     },
     {
         scenario: "Un asteroide de 50 metros tiene un 2% de probabilidad de impactar la Tierra en 10 años. La IAWN emite una advertencia oficial.",
         correctLevel: 2,
-        explanation: "Este es ALERT MODE (Naranja) porque cumple criterios de advertencia IAWN: >1% prob para objetos >10m. La IAWN está obligada a alertar a las poblaciones si los cuerpos tendrán efectos que alcancen el suelo."
+        explanation: "ALERT MODE (Naranja): Advertencia IAWN por probabilidad >1% y tamaño >10m. Fuente: Naciones Unidas."
     },
     {
         scenario: "Un asteroide de 200 metros tiene un 15% de probabilidad de impactar la Tierra en 5 años. Gobiernos y expertos están coordinando planes de emergencia.",
         correctLevel: 3,
-        explanation: "Este es IMPACT WARNING MODE (Rojo) porque cumple criterios de preparación terrestre: >20m, >10% prob en <20 años. Se inicia planificación de preparación terrestre para poblaciones y centros poblacionales."
+        explanation: "IMPACT WARNING MODE (Rojo): Planificación SMPAG por >20m, >10% prob, <20 años. Fuente: Naciones Unidas."
     },
     {
         scenario: "El asteroide ha impactado causando daños. Equipos de rescate están en la zona evaluando la situación.",
         correctLevel: 4,
-        explanation: "Este es AFTER IMPACT (Verde de recuperación) porque el peligro inmediato ha pasado. La evaluación post-impacto revela cómo el diámetro y densidad reales afectaron los daños observados."
+        explanation: "AFTER IMPACT (Verde): Recuperación. Evaluación de tamaño y densidad reales. Fuente: USGS."
     }
 ];
 

@@ -41,6 +41,10 @@ async function initializeApp() {
         console.log('Paso 5/7: Inicializando tooltips educativos...');
         initTooltips();
 
+        // 5.5 Inicializar simulador
+        console.log('Paso 5.5/7: Inicializando simulador...');
+        initSimulator();
+
         // 6. Cargar datos de asteroides
         console.log('Paso 6/7: Cargando datos de asteroides...');
         const asteroids = await loadAsteroidData();

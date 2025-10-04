@@ -32,12 +32,19 @@ function initializeUIController() {
         toggleHazardousCheckbox.addEventListener('change', handleHazardousToggle);
     }
 
-    // Botón de simulador (preparado para Fase 2)
+    // Botón de simulador
     const simulatorBtn = document.getElementById('btn-simulator');
 
     if (simulatorBtn) {
         simulatorBtn.addEventListener('click', () => {
-            console.log('Función de simulador - preparado para Fase 2');
+            // Toggle simulator mode
+            if (typeof activateSimulatorMode === 'function' && typeof deactivateSimulatorMode === 'function') {
+                if (SimulatorState && SimulatorState.isActive) {
+                    deactivateSimulatorMode();
+                } else {
+                    activateSimulatorMode();
+                }
+            }
         });
     }
 

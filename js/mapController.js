@@ -111,7 +111,22 @@ function addAsteroidMarkers(asteroids) {
             marker.bindPopup(popupContent);
 
             // Evento click para mostrar panel de información
-            marker.on('click', () => {
+            marker.on('click', (e) => {
+                // Detener propagación para evitar que el simulador capture el evento
+                L.DomEvent.stopPropagation(e);
+
+                // Si el simulador está activo, desactivarlo primero
+                if (typeof SimulatorState !== 'undefined' && SimulatorState.isActive) {
+                    if (typeof deactivateSimulatorMode === 'function') {
+                        deactivateSimulatorMode();
+                    }
+                }
+
+                // Si el panel del simulador está abierto, cerrarlo
+                if (typeof closeSimulatorPanel === 'function') {
+                    closeSimulatorPanel();
+                }
+
                 highlightMarker(asteroid.id);
                 // Llamar a función del UI controller (se define en uiController.js)
                 if (typeof showAsteroidPanel === 'function') {

@@ -222,7 +222,7 @@ main {
     width: 420px;
     background-color: var(--bg-medium);
     box-shadow: var(--shadow-lg);
-    z-index: 1001;
+    z-index: 1002;
     overflow-y: auto;
     transition: right var(--transition);
     border-left: 2px solid var(--accent-orange);
@@ -1006,5 +1006,464 @@ footer p {
 
     .chart-canvas {
         max-height: 200px;
+    }
+}
+
+/* ============================================
+   SIMULATOR PANEL
+   ============================================ */
+
+.simulator-panel {
+    position: fixed;
+    top: 100px;
+    right: -450px;
+    width: 420px;
+    height: calc(100vh - 160px);
+    background-color: var(--bg-medium);
+    box-shadow: var(--shadow-lg);
+    z-index: 1001;
+    overflow-y: auto;
+    overflow-x: hidden;
+    transition: right var(--transition);
+    border-left: 2px solid var(--accent-orange);
+    border-radius: var(--border-radius) 0 0 var(--border-radius);
+}
+
+.simulator-panel.active {
+    right: 0;
+}
+
+.simulator-panel h2 {
+    font-size: 1.5rem;
+    color: var(--accent-orange);
+    margin-bottom: var(--spacing-md);
+    padding-bottom: var(--spacing-sm);
+    border-bottom: 2px solid var(--bg-light);
+}
+
+/* Slider Container */
+.slider-container {
+    margin-bottom: var(--spacing-md);
+}
+
+.slider-container label {
+    display: block;
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    margin-bottom: var(--spacing-xs);
+    font-weight: 600;
+}
+
+/* Custom Slider Styling */
+.sim-slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 8px;
+    border-radius: 4px;
+    background: linear-gradient(to right, #ff6b35 0%, #ff6b35 50%, #3a4a6b 50%, #3a4a6b 100%);
+    outline: none;
+    transition: opacity 0.2s;
+}
+
+.sim-slider:hover {
+    opacity: 0.9;
+}
+
+/* Webkit (Chrome, Safari) */
+.sim-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--accent-orange);
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(255, 107, 53, 0.5), var(--shadow-sm);
+    transition: transform 0.2s;
+}
+
+.sim-slider::-webkit-slider-thumb:hover {
+    transform: scale(1.1);
+}
+
+/* Firefox */
+.sim-slider::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--accent-orange);
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(255, 107, 53, 0.5), var(--shadow-sm);
+    border: none;
+    transition: transform 0.2s;
+}
+
+.sim-slider::-moz-range-thumb:hover {
+    transform: scale(1.1);
+}
+
+/* Slider Display */
+.slider-display {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: var(--spacing-xs);
+}
+
+.slider-value {
+    font-size: 1rem;
+    color: var(--accent-yellow);
+    font-weight: 600;
+}
+
+.slider-comparison {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    font-style: italic;
+}
+
+/* Composition Radio Buttons */
+.composition-container {
+    margin-top: var(--spacing-md);
+}
+
+.composition-label {
+    display: block;
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    margin-bottom: var(--spacing-sm);
+    font-weight: 600;
+}
+
+.radio-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+}
+
+.radio-label {
+    display: flex;
+    align-items: center;
+    padding: var(--spacing-xs) var(--spacing-sm);
+    background-color: var(--bg-light);
+    border: 1px solid transparent;
+    border-radius: var(--border-radius-sm);
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.radio-label:hover {
+    background-color: rgba(255, 107, 53, 0.1);
+    border-color: var(--accent-orange);
+}
+
+.radio-label input[type="radio"] {
+    margin-right: var(--spacing-sm);
+    cursor: pointer;
+    accent-color: var(--accent-orange);
+}
+
+.radio-label input[type="radio"]:checked + span {
+    color: var(--accent-orange);
+    font-weight: 600;
+}
+
+/* Destruction Radii Display */
+.destruction-radii {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+    margin-top: var(--spacing-sm);
+}
+
+.radius-item {
+    display: flex;
+    align-items: center;
+    padding: var(--spacing-sm);
+    background-color: var(--bg-light);
+    border-radius: var(--border-radius-sm);
+    border-left: 4px solid;
+}
+
+.radius-item.radius-total {
+    border-left-color: #ff0000;
+}
+
+.radius-item.radius-severe {
+    border-left-color: #ff6b35;
+}
+
+.radius-item.radius-moderate {
+    border-left-color: #ffd700;
+}
+
+.radius-color {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin-right: var(--spacing-sm);
+}
+
+.radius-total .radius-color {
+    background-color: #ff0000;
+    box-shadow: 0 0 8px #ff0000;
+}
+
+.radius-severe .radius-color {
+    background-color: #ff6b35;
+    box-shadow: 0 0 8px #ff6b35;
+}
+
+.radius-moderate .radius-color {
+    background-color: #ffd700;
+    box-shadow: 0 0 8px #ffd700;
+}
+
+.radius-label {
+    flex: 1;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+.radius-value {
+    font-size: 1rem;
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+/* Simulator Panel Animations */
+.simulator-panel.active::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(10, 14, 39, 0.3);
+    z-index: -1;
+    animation: backdropFadeIn 0.4s ease-out;
+}
+
+/* Active Simulator Button */
+.sidebar-btn.active {
+    background: linear-gradient(135deg, var(--accent-orange), var(--accent-red));
+    transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(255, 107, 53, 0.5);
+}
+
+/* Map Crosshair Cursor */
+#map.crosshair-cursor {
+    cursor: crosshair !important;
+}
+
+/* Impact Marker Custom Style */
+.impact-marker {
+    animation: markerPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes markerPulse {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.1);
+        opacity: 0.8;
+    }
+}
+
+/* Responsive Simulator Panel */
+@media (max-width: 768px) {
+    .simulator-panel {
+        width: 100%;
+        right: -100%;
+        top: 80px;
+        height: calc(100vh - 80px);
+    }
+
+    .slider-display {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+    }
+
+    .radio-label {
+        font-size: 0.85rem;
+    }
+}
+
+/* ============================================
+   COMPARISON MODAL
+   ============================================ */
+
+.comparison-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.9);
+    width: 80%;
+    max-width: 900px;
+    max-height: 85vh;
+    background-color: var(--bg-medium);
+    box-shadow: var(--shadow-lg);
+    border: 2px solid var(--accent-orange);
+    border-radius: var(--border-radius);
+    z-index: 2000;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.4s ease-out;
+    overflow-y: auto;
+}
+
+.comparison-modal.active {
+    opacity: 1;
+    pointer-events: all;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.comparison-content {
+    padding: var(--spacing-lg);
+}
+
+.comparison-summary {
+    background-color: var(--bg-light);
+    padding: var(--spacing-md);
+    border-radius: var(--border-radius);
+    margin-bottom: var(--spacing-lg);
+    border-left: 4px solid var(--accent-orange);
+}
+
+.comparison-summary h3 {
+    color: var(--accent-orange);
+    margin-bottom: var(--spacing-sm);
+    font-size: 1.2rem;
+}
+
+.comparison-table-section {
+    margin-bottom: var(--spacing-lg);
+}
+
+.comparison-table-section h3 {
+    color: var(--text-secondary);
+    margin-bottom: var(--spacing-sm);
+    font-size: 1.1rem;
+}
+
+.comparison-chart-section {
+    margin-bottom: var(--spacing-lg);
+}
+
+.comparison-chart-section h3 {
+    color: var(--text-secondary);
+    margin-bottom: var(--spacing-sm);
+    font-size: 1.1rem;
+}
+
+.comparison-chart-canvas {
+    max-height: 300px;
+    width: 100% !important;
+}
+
+.comparison-stats {
+    background-color: var(--bg-light);
+    padding: var(--spacing-md);
+    border-radius: var(--border-radius);
+    text-align: center;
+}
+
+.comparison-stats p {
+    font-size: 1.1rem;
+    color: var(--text-primary);
+    line-height: 1.6;
+}
+
+/* Difference coloring */
+.catalog-cell-value.positive {
+    color: #e63946;
+}
+
+.catalog-cell-value.negative {
+    color: #4ecca3;
+}
+
+/* ============================================
+   FLOATING LEGEND
+   ============================================ */
+
+.impact-legend {
+    position: fixed;
+    bottom: 80px;
+    right: 20px;
+    background-color: var(--bg-medium);
+    border: 2px solid var(--accent-orange);
+    border-radius: var(--border-radius);
+    padding: var(--spacing-md);
+    box-shadow: var(--shadow-lg);
+    z-index: 999;
+    min-width: 200px;
+    animation: legendSlideIn 0.4s ease-out;
+}
+
+.impact-legend h4 {
+    color: var(--accent-orange);
+    font-size: 1rem;
+    margin-bottom: var(--spacing-sm);
+    border-bottom: 1px solid var(--bg-light);
+    padding-bottom: var(--spacing-xs);
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-xs);
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+.legend-color {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 2px solid white;
+    flex-shrink: 0;
+}
+
+@keyframes legendSlideIn {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Responsive Comparison Modal */
+@media (max-width: 768px) {
+    .comparison-modal {
+        width: 95%;
+        max-height: 90vh;
+    }
+
+    .comparison-chart-canvas {
+        max-height: 200px;
+    }
+
+    .impact-legend {
+        bottom: 70px;
+        right: 10px;
+        min-width: 150px;
+        padding: var(--spacing-sm);
+    }
+
+    .impact-legend h4 {
+        font-size: 0.9rem;
+    }
+
+    .legend-item {
+        font-size: 0.8rem;
     }
 }

@@ -189,7 +189,7 @@
         <div class="alert-content">
             <div class="alert-tabs">
                 <button class="alert-tab active" data-tab="guide">📖 Guía de Etapas</button>
-                <button class="alert-tab" data-tab="quiz">🎯 Prueba tu Conocimiento</button>
+                <button class="alert-tab" data-tab="sources">📚 Fuentes y Recursos</button>
             </div>
 
             <div class="alert-section active" id="guide-section">
@@ -224,31 +224,49 @@
                 </div>
             </div>
 
-            <div class="alert-section" id="quiz-section">
-                <div class="quiz-content">
-                    <h3>Escenario de Alerta</h3>
-                    <div class="scenario-text" id="scenario-text">
-                        Los científicos de IAWN reportan que un asteroide de 500 metros pasará a 10 millones de kilómetros de la Tierra en 6 meses. No hay riesgo de impacto.
-                    </div>
-                    <div class="scenario-question">
-                        <h4>¿Qué nivel de alerta corresponde a este escenario?</h4>
-                        <div class="alert-level-options">
-                            <button class="level-btn" data-level="0">🟢 VERDE - Monitor</button>
-                            <button class="level-btn" data-level="1">🟡 AMARILLO - Watch</button>
-                            <button class="level-btn" data-level="2">🟠 NARANJA - Alert</button>
-                            <button class="level-btn" data-level="3">🔴 ROJO - Impact Warning</button>
-                            <button class="level-btn" data-level="4">🟢 VERDE - After Impact</button>
+            <div class="alert-section" id="sources-section">
+                <div class="sources-content">
+                    <h3>Fuentes de Información y Planes de Mitigación</h3>
+                    <div class="sources-grid">
+                        <div class="source-item">
+                            <h4>🌐 Naciones Unidas - Oficina de Asuntos del Espacio Ultraterrestre (UNOOSA)</h4>
+                            <p>Documentos oficiales sobre respuesta a amenazas de asteroides.</p>
+                            <a href="https://www.unoosa.org" target="_blank">unoosa.org</a>
+                        </div>
+                        <div class="source-item">
+                            <h4>🚀 NASA - Near-Earth Object Program</h4>
+                            <p>Detección, seguimiento y caracterización de NEOs.</p>
+                            <a href="https://cneos.jpl.nasa.gov" target="_blank">cneos.jpl.nasa.gov</a>
+                        </div>
+                        <div class="source-item">
+                            <h4>🇪🇺 ESA - Space Situational Awareness</h4>
+                            <p>Monitoreo de objetos cercanos a la Tierra.</p>
+                            <a href="https://www.esa.int/Safety_Security/Space_Situational_Awareness" target="_blank">esa.int/SSA</a>
+                        </div>
+                        <div class="source-item">
+                            <h4>📊 USGS - Impact Effects Calculator</h4>
+                            <p>Herramienta para calcular efectos de impactos.</p>
+                            <a href="https://impact.ese.ic.ac.uk/ImpactEarth/" target="_blank">impact.ese.ic.ac.uk</a>
+                        </div>
+                        <div class="source-item">
+                            <h4>🌍 IAWN - International Asteroid Warning Network</h4>
+                            <p>Red internacional para alertas de asteroides.</p>
+                            <a href="https://www.iawn.net" target="_blank">iawn.net</a>
+                        </div>
+                        <div class="source-item">
+                            <h4>🛰️ SMPAG - Space Mission Planning Advisory Group</h4>
+                            <p>Planificación de misiones de mitigación.</p>
+                            <a href="https://www.smpag.net" target="_blank">smpag.net</a>
                         </div>
                     </div>
-                    <div class="scenario-feedback" id="scenario-feedback" style="display: none;">
-                        <div class="feedback-result" id="feedback-result"></div>
-                        <p id="feedback-explanation"></p>
-                    </div>
-                </div>
-                <div class="quiz-navigation">
-                    <button id="quiz-next" class="nav-btn">Siguiente Escenario</button>
-                    <div class="scenario-indicator">
-                        <span id="current-scenario">1</span> / <span id="total-scenarios">5</span>
+                    <div class="mitigation-info">
+                        <h4>Planes de Mitigación Internacionales</h4>
+                        <ul>
+                            <li><strong>IAWN:</strong> Alertas tempranas y comunicación global</li>
+                            <li><strong>SMPAG:</strong> Coordinación de misiones espaciales de desvío</li>
+                            <li><strong>Gobiernos Nacionales:</strong> Preparación civil y evacuación</li>
+                            <li><strong>Agencias Espaciales:</strong> Observación y caracterización</li>
+                        </ul>
                     </div>
                 </div>
             </div>

@@ -70,34 +70,6 @@ const ALERT_STAGES = [
     }
 ];
 
-// Escenarios para elegir nivel de alerta
-const ALERT_SCENARIOS = [
-    {
-        scenario: "Los científicos de IAWN reportan que un asteroide de 500 metros pasará a 10 millones de kilómetros de la Tierra en 6 meses. No hay riesgo de impacto.",
-        correctLevel: 0, // Index in ALERT_STAGES
-        explanation: "MONITOR MODE (Verde): Sin riesgo. Monitoreo IAWN. Fuente: NASA."
-    },
-    {
-        scenario: "Se detecta un asteroide de 100 metros que pasará a 500,000 kilómetros de la Tierra. Los científicos están calculando su órbita con más precisión.",
-        correctLevel: 1,
-        explanation: "WATCH MODE (Amarillo): Observación orbital. IAWN calcula trayectorias. Fuente: ESA."
-    },
-    {
-        scenario: "Un asteroide de 50 metros tiene un 2% de probabilidad de impactar la Tierra en 10 años. La IAWN emite una advertencia oficial.",
-        correctLevel: 2,
-        explanation: "ALERT MODE (Naranja): Advertencia IAWN por probabilidad >1% y tamaño >10m. Fuente: Naciones Unidas."
-    },
-    {
-        scenario: "Un asteroide de 200 metros tiene un 15% de probabilidad de impactar la Tierra en 5 años. Gobiernos y expertos están coordinando planes de emergencia.",
-        correctLevel: 3,
-        explanation: "IMPACT WARNING MODE (Rojo): Planificación SMPAG por >20m, >10% prob, <20 años. Fuente: Naciones Unidas."
-    },
-    {
-        scenario: "El asteroide ha impactado causando daños. Equipos de rescate están en la zona evaluando la situación.",
-        correctLevel: 4,
-        explanation: "AFTER IMPACT (Verde): Recuperación. Evaluación de tamaño y densidad reales. Fuente: USGS."
-    }
-];
 
 // Referencias a elementos del DOM
 let infoPanelElement = null;
@@ -119,9 +91,7 @@ let alertCloseBtn = null;
 let alertPrevBtn = null;
 let alertNextBtn = null;
 let alertTabs = null;
-let quizNextBtn = null;
 let currentStageIndex = 0;
-let currentScenarioIndex = 0;
 let currentTab = 'guide';
 
 /**
@@ -150,7 +120,6 @@ function initializeUIController() {
     alertPrevBtn = document.getElementById('alert-prev');
     alertNextBtn = document.getElementById('alert-next');
     alertTabs = document.querySelectorAll('.alert-tab');
-    quizNextBtn = document.getElementById('quiz-next');
 
     // Event listeners
     if (closePanelBtn) {
@@ -207,14 +176,6 @@ function initializeUIController() {
             tab.addEventListener('click', switchTab);
         });
     }
-
-    // Event listeners para quiz
-    if (quizNextBtn) {
-        quizNextBtn.addEventListener('click', goToNextScenario);
-    }
-
-    // Event listeners para opciones de nivel
-    document.addEventListener('click', handleLevelSelection);
 
     console.log('✓ Controladores de UI inicializados');
 }
@@ -561,11 +522,9 @@ function displaySimulatorResults(results) {
 function showAlertModal() {
     if (alertBackdrop && alertModal) {
         currentStageIndex = 0;
-        currentScenarioIndex = 0;
         currentTab = 'guide';
         switchTabTo('guide');
         displayCurrentStage();
-        displayCurrentScenario();
         alertBackdrop.classList.add('active');
         alertModal.classList.add('active');
         console.log('Modal de alerta mostrado');
@@ -617,33 +576,6 @@ function displayCurrentStage() {
     alertNextBtn.textContent = currentStageIndex === ALERT_STAGES.length - 1 ? 'Reiniciar' : 'Siguiente';
 }
 
-/**
- * Maneja el clic en una opción de pregunta
- */
-function handleOptionClick(event) {
-    const btn = event.target;
-    const isCorrect = btn.dataset.correct === 'true';
-    const stage = ALERT_STAGES[currentStageIndex];
-
-    // Marcar botones
-    const options = document.querySelectorAll('.option-btn');
-    options.forEach(option => {
-        option.disabled = true;
-        if (option.dataset.correct === 'true') {
-            option.classList.add('correct');
-        } else {
-            option.classList.add('incorrect');
-        }
-    });
-
-    // Mostrar feedback
-    const feedbackText = document.getElementById('feedback-text');
-    feedbackText.textContent = isCorrect ? stage.feedback.correct : stage.feedback.incorrect;
-    document.getElementById('stage-feedback').style.display = 'block';
-
-    // Habilitar siguiente después de respuesta
-    alertNextBtn.disabled = false;
-}
 
 /**
  * Va a la etapa anterior
@@ -703,67 +635,3 @@ function switchTabTo(tabName) {
     });
 }
 
-/**
- * Muestra el escenario actual
- */
-function displayCurrentScenario() {
-    const scenario = ALERT_SCENARIOS[currentScenarioIndex];
-
-    document.getElementById('scenario-text').textContent = scenario.scenario;
-    document.getElementById('scenario-feedback').style.display = 'none';
-
-    // Resetear botones
-    document.querySelectorAll('.level-btn').forEach(btn => {
-        btn.classList.remove('correct', 'incorrect');
-        btn.disabled = false;
-    });
-
-    // Actualizar indicador
-    document.getElementById('current-scenario').textContent = currentScenarioIndex + 1;
-    document.getElementById('total-scenarios').textContent = ALERT_SCENARIOS.length;
-}
-
-/**
- * Maneja la selección de nivel de alerta
- */
-function handleLevelSelection(event) {
-    if (!event.target.classList.contains('level-btn')) return;
-    if (currentTab !== 'quiz') return;
-
-    const selectedLevel = parseInt(event.target.dataset.level);
-    const scenario = ALERT_SCENARIOS[currentScenarioIndex];
-    const isCorrect = selectedLevel === scenario.correctLevel;
-
-    // Marcar botones
-    document.querySelectorAll('.level-btn').forEach(btn => {
-        const level = parseInt(btn.dataset.level);
-        btn.disabled = true;
-        if (level === scenario.correctLevel) {
-            btn.classList.add('correct');
-        } else if (level === selectedLevel) {
-            btn.classList.add('incorrect');
-        }
-    });
-
-    // Mostrar feedback
-    const feedbackResult = document.getElementById('feedback-result');
-    const feedbackExplanation = document.getElementById('feedback-explanation');
-
-    feedbackResult.textContent = isCorrect ? '✅ ¡Correcto!' : '❌ Incorrecto';
-    feedbackResult.className = 'feedback-result ' + (isCorrect ? 'correct' : 'incorrect');
-    feedbackExplanation.textContent = scenario.explanation;
-
-    document.getElementById('scenario-feedback').style.display = 'block';
-}
-
-/**
- * Va al siguiente escenario
- */
-function goToNextScenario() {
-    if (currentScenarioIndex < ALERT_SCENARIOS.length - 1) {
-        currentScenarioIndex++;
-    } else {
-        currentScenarioIndex = 0;
-    }
-    displayCurrentScenario();
-}

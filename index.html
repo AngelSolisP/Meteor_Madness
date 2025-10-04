@@ -31,7 +31,7 @@
             <button class="sidebar-btn" id="btn-catalog">
                 📋 Ver Catálogo
             </button>
-            <button class="sidebar-btn" id="btn-simulator" disabled>
+            <button class="sidebar-btn" id="btn-simulator">
                 🎯 Simulador
             </button>
             <div class="filter-section">
@@ -106,6 +106,73 @@
                     <!-- Rows will be populated by JavaScript -->
                 </tbody>
             </table>
+        </div>
+    </div>
+
+    <!-- Simulator Modal -->
+    <div id="simulator-backdrop" class="simulator-backdrop"></div>
+    <div id="simulator-modal" class="simulator-modal" role="dialog" aria-modal="true" aria-labelledby="simulator-title">
+        <div class="simulator-header">
+            <h2 id="simulator-title">🎯 Simulador de Impactos</h2>
+            <button class="close-btn" id="simulator-close" aria-label="Cerrar simulador">&times;</button>
+        </div>
+        <div class="simulator-content">
+            <div class="simulator-inputs">
+                <h3>Parámetros del Asteroide</h3>
+                <div class="input-group">
+                    <label for="sim-diameter">Diámetro (metros):</label>
+                    <input type="number" id="sim-diameter" min="1" max="10000" step="0.1" value="100">
+                </div>
+                <div class="input-group">
+                    <label for="sim-velocity">Velocidad (km/s):</label>
+                    <input type="number" id="sim-velocity" min="1" max="100" step="0.1" value="20">
+                </div>
+                <div class="input-group">
+                    <label for="sim-density">Densidad (kg/m³):</label>
+                    <select id="sim-density">
+                        <option value="3000">Rocoso (3000 kg/m³)</option>
+                        <option value="7800">Metálico (7800 kg/m³)</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label for="sim-angle">Ángulo de Impacto (°):</label>
+                    <input type="number" id="sim-angle" min="0" max="90" step="1" value="45">
+                </div>
+                <button id="sim-calculate" class="calculate-btn">🚀 Calcular Impacto</button>
+            </div>
+            <div class="simulator-results" id="simulator-results" style="display: none;">
+                <h3>Resultados de la Simulación</h3>
+                <div class="results-grid">
+                    <div class="result-item">
+                        <span class="result-label">Masa:</span>
+                        <span id="sim-mass">-</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Energía Cinética:</span>
+                        <span id="sim-energy">-</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Equivalente TNT:</span>
+                        <span id="sim-tnt">-</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Diámetro del Cráter:</span>
+                        <span id="sim-crater">-</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Magnitud Sísmica:</span>
+                        <span id="sim-seismic">-</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Radio de Destrucción:</span>
+                        <span id="sim-destruction">-</span>
+                    </div>
+                </div>
+                <div class="comparison-result">
+                    <h4>Comparación:</h4>
+                    <p id="sim-comparison">-</p>
+                </div>
+            </div>
         </div>
     </div>
 

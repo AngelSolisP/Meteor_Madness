@@ -10,6 +10,12 @@ let toggleHazardousCheckbox = null;
 let asteroidCountElement = null;
 let loadingElement = null;
 
+// Referencias para simulador
+let simulatorBackdrop = null;
+let simulatorModal = null;
+let simulatorCloseBtn = null;
+let calculateBtn = null;
+
 /**
  * Inicializa los controladores de UI
  */
@@ -23,6 +29,12 @@ function initializeUIController() {
     asteroidCountElement = document.getElementById('asteroid-count');
     loadingElement = document.getElementById('loading');
 
+    // Referencias para simulador
+    simulatorBackdrop = document.getElementById('simulator-backdrop');
+    simulatorModal = document.getElementById('simulator-modal');
+    simulatorCloseBtn = document.getElementById('simulator-close');
+    calculateBtn = document.getElementById('sim-calculate');
+
     // Event listeners
     if (closePanelBtn) {
         closePanelBtn.addEventListener('click', hideAsteroidPanel);
@@ -32,13 +44,22 @@ function initializeUIController() {
         toggleHazardousCheckbox.addEventListener('change', handleHazardousToggle);
     }
 
-    // Botón de simulador (preparado para Fase 2)
+    // Event listeners para simulador
     const simulatorBtn = document.getElementById('btn-simulator');
-
     if (simulatorBtn) {
-        simulatorBtn.addEventListener('click', () => {
-            console.log('Función de simulador - preparado para Fase 2');
-        });
+        simulatorBtn.addEventListener('click', showSimulatorModal);
+    }
+
+    if (simulatorCloseBtn) {
+        simulatorCloseBtn.addEventListener('click', hideSimulatorModal);
+    }
+
+    if (simulatorBackdrop) {
+        simulatorBackdrop.addEventListener('click', hideSimulatorModal);
+    }
+
+    if (calculateBtn) {
+        calculateBtn.addEventListener('click', handleSimulatorCalculation);
     }
 
     console.log('✓ Controladores de UI inicializados');
@@ -284,4 +305,98 @@ function formatLargeNumber(num) {
     } else {
         return num.toFixed(2);
     }
+}
+
+/**
+ * Muestra el modal del simulador
+ */
+function showSimulatorModal() {
+    if (simulatorBackdrop && simulatorModal) {
+        simulatorBackdrop.classList.add('active');
+        simulatorModal.classList.add('active');
+        console.log('Modal del simulador mostrado');
+    }
+}
+
+/**
+ * Oculta el modal del simulador
+ */
+function hideSimulatorModal() {
+    if (simulatorBackdrop && simulatorModal) {
+        simulatorBackdrop.classList.remove('active');
+        simulatorModal.classList.remove('active');
+        console.log('Modal del simulador ocultado');
+    }
+}
+
+/**
+ * Maneja el cálculo del simulador
+ */
+function handleSimulatorCalculation() {
+    console.log('Iniciando cálculo del simulador...');
+
+    // Obtener valores de los inputs
+    const diameter = parseFloat(document.getElementById('sim-diameter').value);
+    const velocity = parseFloat(document.getElementById('sim-velocity').value);
+    const density = parseInt(document.getElementById('sim-density').value);
+    const angle = parseFloat(document.getElementById('sim-angle').value);
+
+    // Validar inputs
+    if (!diameter || !velocity || !density || angle === null) {
+        showError('Por favor, complete todos los campos con valores válidos.');
+        return;
+    }
+
+    if (diameter < 1 || diameter > 10000) {
+        showError('El diámetro debe estar entre 1 y 10,000 metros.');
+        return;
+    }
+
+    if (velocity < 1 || velocity > 100) {
+        showError('La velocidad debe estar entre 1 y 100 km/s.');
+        return;
+    }
+
+    if (angle < 0 || angle > 90) {
+        showError('El ángulo debe estar entre 0° y 90°.');
+        return;
+    }
+
+    try {
+        // Realizar cálculos usando las funciones del impactCalculator
+        const results = calculateImpactEffects(diameter, velocity * 1000, density, angle); // velocity en m/s
+
+        // Mostrar resultados
+        displaySimulatorResults(results);
+
+        console.log('Cálculo completado exitosamente:', results);
+    } catch (error) {
+        console.error('Error en el cálculo:', error);
+        showError('Error al realizar los cálculos. Por favor, revise los valores.');
+    }
+}
+
+/**
+ * Muestra los resultados del simulador
+ * @param {Object} results - Resultados del cálculo
+ */
+function displaySimulatorResults(results) {
+    const resultsContainer = document.getElementById('simulator-results');
+
+    // Mostrar contenedor de resultados
+    resultsContainer.style.display = 'block';
+
+    // Poblar resultados
+    document.getElementById('sim-mass').textContent = formatLargeNumber(results.mass_kg) + ' kg';
+    document.getElementById('sim-energy').textContent = formatLargeNumber(results.kinetic_energy_j) + ' J';
+    document.getElementById('sim-tnt').textContent = results.tnt_megatons.toLocaleString('es-ES', {
+        maximumFractionDigits: 2
+    }) + ' MT';
+    document.getElementById('sim-crater').textContent = results.crater_diameter_m.toFixed(2) + ' m';
+    document.getElementById('sim-seismic').textContent = results.seismic_magnitude.toFixed(2);
+    document.getElementById('sim-destruction').textContent = results.destruction_radius_km.toFixed(2) + ' km';
+    document.getElementById('sim-comparison').textContent = results.comparison;
+
+    // Scroll al área de resultados
+    resultsContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }

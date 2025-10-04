@@ -1,0 +1,55 @@
+:root { color-scheme: dark; }
+
+/* Layout base */
+html, body, #root { height: 100%; margin: 0; background: #06070b; color: #e5e7eb; font-family: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; }
+.layout { display: grid; grid-template-columns: 1.35fr 1fr; grid-template-rows: auto auto 1fr auto; height: 100%; }
+
+header { grid-column: 1 / -1; padding: 14px 16px; display:flex; align-items:center; justify-content:space-between; background: linear-gradient(180deg, #0d1020, #06070b); border-bottom: 1px solid #1f2437;}
+header h1 { margin: 0; font-weight: 700; letter-spacing: 0.3px; font-size: 16px; }
+
+nav { display:flex; gap:10px; }
+nav button { background:#12162a; color:#cbd5e1; border:1px solid #1f2437; padding:8px 10px; border-radius:8px; cursor:pointer;}
+nav button.active { outline:2px solid #334155; }
+
+.toolbar { grid-column: 1 / -1; padding: 8px 16px; border-bottom: 1px solid #1f2437; display:flex; gap:8px; flex-wrap:wrap; }
+
+/* Alturas controladas: header (~56) + toolbar (~48) + margen */
+:root { --chrome: 140px; }
+.left, .right { height: calc(100vh - var(--chrome)); }
+
+/* Columna izquierda (3D) */
+.left { position: relative; }
+.left canvas { height: 100% !important; width: 100% !important; display: block; }
+
+/* Columna derecha (panel con scroll) */
+.right { border-left: 1px solid #1f2437; overflow: auto; padding: 10px; }
+
+/* Mapa: contenedor con altura fija */
+.map-wrap {
+  position: relative;   /* ← clave para que 100% de DeckGL sea del contenedor, no del body */
+  height: 320px;
+  max-height: 38vh;
+  border-radius: 8px;
+  overflow: hidden;
+}
+/* Controles y tarjetas */
+.controls { display:grid; gap: 10px; }
+.control { display:grid; gap:6px; }
+.control label { font-size: 12px; color:#9aa4b2; }
+input[type=range] { width: 100%; }
+
+.cards { display:grid; grid-template-columns: repeat(3, 1fr); gap:10px; margin-top: 8px; }
+.card { background:#0d1020; border:1px solid #1f2437; border-radius:8px; padding:10px; min-height:64px;}
+.section-title { margin: 14px 0 6px; font-size:12px; color:#9aa4b2; text-transform:uppercase; letter-spacing: 0.8px;}
+
+footer { grid-column: 1 / -1; padding: 10px 16px; font-size: 12px; color:#9aa4b2; border-top:1px solid #1f2437; display:flex; justify-content:space-between; }
+
+/* Responsivo */
+@media (max-width: 1200px) {
+  .cards { grid-template-columns: repeat(2, minmax(0,1fr)); }
+}
+@media (max-width: 900px) {
+  .layout { grid-template-columns: 1fr; grid-template-rows: auto auto auto 1fr auto; }
+  .left, .right { height: auto; }
+  .map-wrap { height: 280px; }
+}

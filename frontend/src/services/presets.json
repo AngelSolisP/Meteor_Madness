@@ -1,0 +1,26 @@
+{
+  "chelyabinsk": {
+    "diameter_m": 20,
+    "density": 3300,
+    "v_kms": 19,
+    "angle_deg": 20,
+    "lat": 54.9,
+    "lng": 61.1
+  },
+  "tunguska": {
+    "diameter_m": 50,
+    "density": 500,
+    "v_kms": 15,
+    "angle_deg": 35,
+    "lat": 60.9,
+    "lng": 101.9
+  },
+  "chicxulub": {
+    "diameter_m": 10000,
+    "density": 3000,
+    "v_kms": 20,
+    "angle_deg": 45,
+    "lat": 21.4,
+    "lng": -89.4
+  }
+}

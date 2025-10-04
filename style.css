@@ -1,173 +1,177 @@
-/* --- Variables y Estilo Base --- */
-:root {
-    --bg-color: #0a192f; /* Azul marino oscuro */
-    --text-color: #ccd6f6;
-    --heading-color: #e6f1ff;
-    --accent-color: #64ffda; /* Un acento cian/verde sutil */
-    --border-color: #233554;
-    --card-bg-color: #112240;
-    --primary-font: 'Montserrat', sans-serif;
+/* ===========================
+   Variables y Reset Básico
+   =========================== */
+:root{
+  /* Paleta (oscura, sobria, alto contraste) */
+  --bg: #0e1420;
+  --surface: #141c2b;
+  --surface-2: #19253a;
+  --border: #27324a;
+  --text: #e6edff;
+  --muted: #a9b4d0;
+  --heading: #f8fbff;
+  --accent: #5cf0d2; /* acento cian suave */
+  --accent-2: #7ad2ff; /* acento secundario para hover/links */
+
+  /* Tipografías */
+  --font-sans: 'Inter','Montserrat',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+
+  /* Radios y sombras */
+  --radius: 14px;
+  --shadow: 0 16px 40px -22px rgba(2,12,27,.7);
 }
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  font-family:var(--font-sans);
+  color:var(--text);
+  background:
+    radial-gradient(1200px 800px at 10% -10%, #102037 0%, #0e1420 50%),
+    linear-gradient(180deg, #0c111b, #0e1420);
 }
 
-html {
-    scroll-behavior: smooth;
+/* Mejora legibilidad global */
+p, li, small{color:var(--text)}
+small, .small{color:var(--muted)}
+
+/* ===========================
+   Tipografía y Encabezados
+   =========================== */
+h1,h2,h3,h4,h5{
+  color:var(--heading);
+  letter-spacing:.15px;
+}
+h1{font-weight:800}
+h2,.h2{font-weight:700}
+h3,.h3,.h4{font-weight:700}
+
+/* Subtítulo bajo el H1 */
+header p{color:var(--accent); letter-spacing:.2px}
+
+/* Separadores bajo títulos de sección */
+.border-bottom{border-color:var(--border)!important}
+
+/* ===========================
+   Bordes, superficies y figuras
+   =========================== */
+.border{border:1px solid var(--border)!important}
+.rounded-3{border-radius: calc(var(--radius) - 4px)!important}
+.rounded-4{border-radius: var(--radius)!important}
+
+figure img{display:block}
+
+/* Caption uniforme */
+figcaption{
+  color:var(--muted);
+  text-align:center;
 }
 
-body {
-    font-family: var(--primary-font);
-    background-color: var(--bg-color);
-    color: var(--text-color);
-    font-size: 18px;
-    line-height: 1.6;
+/* ===========================
+   Utilidades visuales
+   =========================== */
+.object-fit-cover{object-fit:cover}
+
+/* Tarjetas de capacidades (los <article> con .border) */
+section#core-capabilities article{
+  background: linear-gradient(180deg, var(--surface) 0%, var(--surface-2) 100%);
+  box-shadow: var(--shadow);
+  border-left: 3px solid var(--accent)!important;
 }
 
-/* --- Contenedor Principal --- */
-.container {
-    max-width: 1000px;
-    width: 90%;
-    margin: 0 auto;
-    padding-top: 50px;
-    padding-bottom: 50px;
+/* Hero principal */
+section[aria-label="Imagen destacada"] .ratio{
+  box-shadow: var(--shadow);
+  background: #0a1220;
 }
 
-/* --- Tipografía --- */
-h1, h2, h3, h4 {
-    color: var(--heading-color);
-    font-weight: 600;
-    margin-bottom: 1rem;
+/* Galería propuesta (dos imágenes) */
+#proposed-solution .ratio{
+  background:#0a1220;
+  box-shadow: 0 10px 28px -18px rgba(2,12,27,.85);
 }
 
-h1 {
-    font-size: clamp(2rem, 5vw, 3rem); /* Tamaño de fuente responsivo */
-    line-height: 1.1;
+/* CTA */
+#cta-section{
+  background: linear-gradient(180deg, rgba(25,37,58,.92) 0%, rgba(25,37,58,.75) 100%);
+  box-shadow: var(--shadow);
 }
 
-h2 {
-    font-size: clamp(1.5rem, 4vw, 2rem);
-    border-bottom: 1px solid var(--border-color);
-    padding-bottom: 10px;
-    margin-top: 2.5rem;
+/* ===========================
+   Enlaces y botones
+   =========================== */
+a{color:var(--accent-2); text-decoration:none}
+a:hover{color:var(--accent)}
+a:focus-visible{
+  outline:2px solid var(--accent);
+  outline-offset:2px;
+  border-radius:8px;
 }
 
-h3 {
-    font-size: 1.4rem;
+/* Re-tematizamos el botón outline secundario de Bootstrap como "accent" */
+.btn-outline-secondary{
+  --bs-btn-color: var(--accent);
+  --bs-btn-border-color: var(--accent);
+  --bs-btn-hover-color: var(--accent);
+  --bs-btn-hover-bg: rgba(92,240,210,.12);
+  --bs-btn-hover-border-color: var(--accent);
+  --bs-btn-active-bg: rgba(92,240,210,.18);
+  --bs-btn-active-border-color: var(--accent);
+  --bs-btn-disabled-color: var(--muted);
+  --bs-btn-disabled-border-color: var(--border);
+  padding: .95rem 1.4rem;
+  border-width: 2px;
+  border-radius: 12px;
+  font-weight: 700;
 }
 
-h4 {
-    font-size: 1.2rem;
-    color: var(--accent-color);
+/* ===========================
+   Contenedores y espaciado
+   =========================== */
+.container-xxl{
+  /* fino “marco” lateral para que luzca más centrado */
+  max-width: 1120px;
 }
 
-p {
-    margin-bottom: 1rem;
+/* Header “respira” un poco más en pantallas amplias */
+@media (min-width: 992px){
+  header{margin-bottom: 3.25rem!important}
 }
 
-a {
-    color: var(--accent-color);
-    text-decoration: none;
+/* ===========================
+   Accesibilidad extra
+   =========================== */
+:focus-visible{
+  outline:2px solid var(--accent);
+  outline-offset:2px;
 }
 
-/* --- Cabecera --- */
-.main-header {
-    text-align: center;
-    margin-bottom: 3rem;
+/* Ajuste de contraste para monitores muy brillantes */
+@media (prefers-contrast: more){
+  :root{
+    --border:#324161;
+    --muted:#c4cee6;
+  }
 }
 
-.main-header .subtitle {
-    font-size: 1.2rem;
-    color: var(--accent-color);
-    font-weight: 300;
-}
-
-/* --- Secciones --- */
-section {
-    margin-bottom: 3rem;
-}
-
-/* --- Marcadores de Imagen --- */
-.image-placeholder {
-    width: 100%;
-    background-color: #000;
-    border: 1px solid var(--border-color);
-    border-radius: 4px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #8892b0;
-    font-size: 1rem;
-    margin: 2rem 0;
-}
-
-/* --- Capacidades --- */
-#core-capabilities .capability {
-    background-color: var(--card-bg-color);
-    border: 1px solid var(--border-color);
-    border-left: 4px solid var(--accent-color);
-    padding: 1.5rem;
-    margin-bottom: 1.5rem;
-    border-radius: 4px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-#core-capabilities .capability:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 30px -15px rgba(2,12,27,0.7);
-}
-
-/* --- Llamada a la Acción (CTA) --- */
-.call-to-action {
-    text-align: center;
-    background-color: var(--card-bg-color);
-    padding: 2rem;
-    border-radius: 5px;
-    border: 1px solid var(--border-color);
-}
-
-.cta-button {
-    display: inline-block;
-    color: var(--accent-color);
-    background-color: transparent;
-    border: 2px solid var(--accent-color);
-    padding: 1rem 2rem;
-    border-radius: 5px;
-    font-size: 1rem;
-    font-weight: 600;
-    margin-top: 1rem;
-    transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-.cta-button:hover {
-    background-color: rgba(100, 255, 218, 0.1);
-    color: var(--accent-color);
-}
-
-/* --- Pie de Página --- */
-footer {
-    text-align: center;
-    padding-top: 2rem;
-    border-top: 1px solid var(--border-color);
-    font-size: 0.9rem;
-    color: #8892b0;
-}
-
-footer h3 {
-    font-size: 1.2rem;
-}
-
-/* --- Responsividad --- */
-@media (max-width: 768px) {
-    body {
-        font-size: 16px;
-    }
-    
-    .container {
-        width: 95%;
-        padding-top: 25px;
-    }
+/* Modo claro opcional (por si algún día lo usas) */
+@media (prefers-color-scheme: light){
+  :root{
+    --bg:#f7fbff;
+    --surface:#ffffff;
+    --surface-2:#f3f6fb;
+    --border:#d7dfee;
+    --text:#0d1b2a;
+    --muted:#4b617f;
+    --heading:#0a1627;
+    --accent:#0fbfa2;
+    --accent-2:#0c8bd8;
+  }
+  body{
+    background: linear-gradient(180deg, #f7fbff 0%, #eef4ff 100%);
+  }
+  #cta-section, section#core-capabilities article, .ratio{
+    box-shadow: 0 12px 28px -18px rgba(0,0,0,.18);
+  }
 }

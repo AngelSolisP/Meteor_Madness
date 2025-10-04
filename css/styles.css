@@ -796,11 +796,11 @@ footer p {
     width: 100%;
     height: 100%;
     display: none;
-    animation: chartFadeIn 0.4s ease-out;
 }
 
 .chart-canvas.active {
     display: block;
+    animation: chartFadeIn 0.4s ease-out;
 }
 
 /* ============================================

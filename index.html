@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html class="no-js" lang="es">
+<head>
+
+    <meta charset="utf-8">
+    <title>Meteor Madness - Simulación de Riesgo Asteroidal</title>
+    <meta name="description" content="Herramienta interactiva de visualización y simulación para la gestión global del riesgo de asteroides, utilizando datos de la NASA y USGS.">
+    <meta name="author" content="">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/vendor.css">
+    <link rel="stylesheet" href="css/main.css">
+
+    <script src="js/modernizr.js"></script>
+    <script src="js/pace.min.js"></script>
+
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+
+</head>
+
+<body id="top">
+
+    <header class="s-header">
+
+        <div class="header-logo">
+            <a class="site-logo" href="index.html">
+                <img src="images/logo.png" alt="Homepage">
+            </a>
+        </div>
+
+        <nav class="header-nav">
+
+            <a href="#0" class="header-nav__close" title="close"><span>Close</span></a>
+
+            <div class="header-nav__content">
+                <h3>Navegación</h3>
+                
+                <ul class="header-nav__list">
+                    <li class="current"><a class="smoothscroll"  href="#home" title="home">Inicio</a></li>
+                    <li><a class="smoothscroll"  href="#about" title="about">Sobre el Proyecto</a></li>
+                    <li><a class="smoothscroll"  href="#features" title="features">Características</a></li>
+                </ul>
+    
+                <p>Navegación principal del simulador de defensa planetaria "Meteor Madness".</p>
+    
+            </div> </nav>  <a class="header-menu-toggle" href="#0">
+            <span class="header-menu-text">Menu</span>
+            <span class="header-menu-icon"></span>
+        </a>
+
+    </header> <section id="home" class="s-home target-section" data-parallax="scroll" data-image-src="images/hero-bg.jpg" data-natural-width=3000 data-natural-height=2000 data-position-y=center>
+
+        <div class="overlay"></div>
+        <div class="shadow-overlay"></div>
+
+        <div class="home-content">
+
+            <div class="row home-content__main">
+
+                <h3>Meteor Madness: Simulación Interactiva de Riesgos de Impacto Asteroidal</h3>
+
+                <h1>
+                    Transformando Datos de NASA y USGS en Inteligencia de Defensa Planetaria.
+                </h1>
+
+                <div class="home-content__buttons">
+                    <a href="[LINK_A_LA_VISUALIZACION_PRINCIPAL]" class="btn btn--primary">
+                        Lanzar la Simulación Interactiva
+                    </a>
+                    <a href="#about" class="smoothscroll btn btn--stroke">
+                        Conocer Más
+                    </a>
+                </div>
+
+            </div>
+
+            <div class="home-content__scroll">
+                <a href="#about" class="scroll-link smoothscroll">
+                    <span>Explorar Proyecto</span>
+                </a>
+            </div>
+
+            <div class="home-content__line"></div>
+
+        </div> </section> <section id='about' class="s-about">
+
+        <div class="row section-header has-bottom-sep" data-aos="fade-up">
+            <div class="col-full">
+                <h3 class="subhead subhead--dark">El Desafío</h3>
+                <h1 class="display-1 display-1--light">Integrando Datos para la Supervivencia Planetaria</h1>
+            </div>
+        </div> <div class="row about-desc" data-aos="fade-up">
+            <div class="col-full">
+                <p>
+                El descubrimiento de objetos cercanos a la Tierra (NEOs), como el hipotético "Impactor-2025," subraya el riesgo de colisiones celestes con nuestro planeta, las cuales pueden causar devastación, incluyendo tsunamis y eventos sísmicos. Nuestra herramienta rompe el aislamiento de datos al integrar los parámetros orbitales de asteroides (tamaño, velocidad, órbita) de la API NEO de la NASA con conjuntos de datos geológicos y ambientales del USGS (como la topografía y la actividad sísmica).
+                </p>
+            </div>
+        </div> <div class="about__line"></div>
+
+    </section> <section id='features' class="s-services">
+
+        <div class="row section-header has-bottom-sep" data-aos="fade-up">
+            <div class="col-full">
+                <h3 class="subhead">Funcionalidades Clave</h3>
+                <h1 class="display-2">Una plataforma integral para el análisis, predicción y mitigación de amenazas NEO.</h1>
+            </div>
+        </div> <div class="row services-list block-1-2 block-tab-full">
+
+            <div class="col-block service-item" data-aos="fade-up">
+                <div class="service-icon">
+                    <i class="icon-cube"></i>
+                </div>
+                <div class="service-text">
+                    <h3 class="h2">Simulación 3D de Trayectorias</h3>
+                    <p>Modelado de la órbita del asteroide utilizando elementos Keplerianos (ej., semieje mayor y excentricidad) y cálculos de posición orbital para una visualización precisa y dinámica.
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-block service-item" data-aos="fade-up">
+                <div class="service-icon">
+                    <i class="icon-graph"></i>
+                </div>
+                <div class="service-text">
+                    <h3 class="h2">Predicción de Consecuencias</h3>
+                    <p>Cálculo de la energía cinética del impacto y estimación de variables críticas como el tamaño del cráter o la magnitud sísmica equivalente para evaluar el nivel de amenaza.
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-block service-item" data-aos="fade-up">
+                <div class="service-icon">
+                    <i class="icon-earth"></i>
+                </div>  
+                <div class="service-text">
+                    <h3 class="h2">Visualización de Riesgos Ambientales</h3>
+                    <p>Mapeo de efectos secundarios, como la inundación por tsunamis, empleando datos de elevación del USGS (DEMs) para modelar el impacto en ecosistemas y poblaciones.
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-block service-item" data-aos="fade-up">
+                <div class="service-icon">
+                    <i class="icon-shield"></i>
+                </div>
+                <div class="service-text">
+                    <h3 class="h2">Evaluación de Mitigación</h3>
+                    <p>Permite a los usuarios explorar y visualizar los resultados de estrategias proactivas de desviación, como ajustar los parámetros de un impactador cinético y observar los cambios en la trayectoria.
+                    </p>
+                </div>
+            </div>
+
+        </div> </section> <footer>
+
+        <div class="row footer-main">
+
+            <div class="col-six tab-full left footer-desc">
+
+                <div class="footer-logo"></div>
+                "Meteor Madness" es una plataforma conceptual de simulación desarrollada para demostrar la viabilidad de integrar múltiples fuentes de datos para la gestión del riesgo de asteroides. Este proyecto busca transformar la información bruta en una herramienta educativa y de apoyo a la decisión.
+
+            </div>
+
+            <div class="col-six tab-full right footer-subscribe">
+
+                <h4>Fuentes de Datos</h4>
+                <p>Este proyecto utiliza datos en tiempo real de:</p>
+                <ul>
+                    <li>NASA Near-Earth Object (NEO) Web Service API</li>
+                    <li>USGS National Earthquake Information Center (NEIC) Earthquake Catalog (ComCat)</li>
+                    <li>USGS National Map Elevation Data</li>
+                </ul>
+
+            </div>
+
+        </div> <div class="row footer-bottom">
+
+            <div class="col-twelve">
+                <div class="copyright">
+                    <span>Proyecto para el Desafío de Hackathon</span> 
+                    <span>Plantilla de sitio por <a href="https://www.colorlib.com/">Colorlib</a></span>	
+                </div>
+
+                <div class="go-top">
+                    <a class="smoothscroll" title="Back to Top" href="#top"><i class="icon-arrow-up" aria-hidden="true"></i></a>
+                </div>
+            </div>
+
+        </div> </footer> <div aria-hidden="true" class="pswp" role="dialog" tabindex="-1">
+
+        <div class="pswp__bg"></div>
+        <div class="pswp__scroll-wrap">
+
+            <div class="pswp__container">
+                <div class="pswp__item"></div>
+                <div class="pswp__item"></div>
+                <div class="pswp__item"></div>
+            </div>
+
+            <div class="pswp__ui pswp__ui--hidden">
+                <div class="pswp__top-bar">
+                    <div class="pswp__counter"></div><button class="pswp__button pswp__button--close" title="Close (Esc)"></button> <button class="pswp__button pswp__button--share" title=
+                    "Share"></button> <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button> <button class="pswp__button pswp__button--zoom" title=
+                    "Zoom in/out"></button>
+                    <div class="pswp__preloader">
+                        <div class="pswp__preloader__icn">
+                            <div class="pswp__preloader__cut">
+                                <div class="pswp__preloader__donut"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                    <div class="pswp__share-tooltip"></div>
+                </div><button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)"></button> <button class="pswp__button pswp__button--arrow--right" title=
+                "Next (arrow right)"></button>
+                <div class="pswp__caption">
+                    <div class="pswp__caption__center"></div>
+                </div>
+            </div>
+
+        </div>
+
+    </div> <div id="preloader">
+        <div id="loader">
+            <div class="line-scale-pulse-out">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <script src="js/plugins.js"></script>
+    <script src="js/main.js"></script>
+
+</body>
+
+</html>

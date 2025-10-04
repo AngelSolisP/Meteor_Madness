@@ -1,1 +1,0 @@
-export async function fetchNEO() { const r = await fetch('/api/neo'); return r.json(); }

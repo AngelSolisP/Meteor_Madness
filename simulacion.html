@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meteor Madness: Simulación de Impacto</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* Estilos personalizados para la aplicación */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0a0a1a;
+            color: #e0e0e0;
+            overflow: hidden; /* Evita el scroll de la página principal */
+        }
+        #simulation-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+        .control-panel {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 380px;
+            height: 100vh;
+            background-color: rgba(10, 10, 26, 0.85);
+            backdrop-filter: blur(10px);
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            z-index: 10;
+            overflow-y: auto;
+            transition: transform 0.3s ease;
+        }
+        .control-panel h2 {
+            font-weight: 700;
+            color: #ffffff;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .control-panel label {
+            color: #a0a0b0;
+        }
+        .control-panel input[type="range"] {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 2px;
+            outline: none;
+        }
+        .control-panel input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 16px;
+            height: 16px;
+            background: #4a90e2;
+            cursor: pointer;
+            border-radius: 50%;
+            border: 2px solid #0a0a1a;
+        }
+        .control-panel input[type="range"]::-moz-range-thumb {
+            width: 16px;
+            height: 16px;
+            background: #4a90e2;
+            cursor: pointer;
+            border-radius: 50%;
+            border: 2px solid #0a0a1a;
+        }
+        .output-value {
+            color: #4a90e2;
+            font-weight: 600;
+        }
+        .tooltip {
+            position: relative;
+            display: inline-block;
+        }
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 220px;
+            background-color: #1a1a3a;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 8px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -110px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 0.8rem;
+            font-weight: normal;
+        }
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+        @media (max-width: 768px) {
+            .control-panel {
+                width: 100%;
+                height: 50vh;
+                bottom: 0;
+                top: auto;
+                border-right: none;
+                border-top: 1px solid rgba(255, 255, 255, 0.1);
+                transform: translateY(calc(50vh - 48px)); /* Start collapsed */
+            }
+            .panel-toggle {
+                display: block !important;
+            }
+            .control-panel.open {
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Canvas para la simulación 3D -->
+    <canvas id="simulation-canvas"></canvas>
+
+    <!-- Panel de Control -->
+    <div id="control-panel" class="control-panel p-6 space-y-6">
+        
+        <!-- Encabezado -->
+        <div>
+            <h1 class="text-3xl font-bold text-white">Meteor Madness</h1>
+            <p class="text-sm text-gray-400">Simulador de Defensa Planetaria</p>
+        </div>
+
+        <!-- Parámetros del Asteroide -->
+        <div class="p-4 bg-gray-900/50 rounded-lg">
+            <h2 class="text-xl mb-4 pb-2">Impactor-2025: Parámetros</h2>
+            <div class="space-y-4">
+                <div>
+                    <div class="flex justify-between items-center">
+                        <label for="asteroid-size" class="text-sm font-medium">Tamaño (Diámetro)</label>
+                        <span id="size-value" class="output-value">500 m</span>
+                    </div>
+                    <input type="range" id="asteroid-size" min="10" max="1000" value="500" class="w-full mt-1">
+                </div>
+                <div>
+                    <div class="flex justify-between items-center">
+                        <label for="asteroid-velocity" class="text-sm font-medium">Velocidad Relativa</label>
+                        <span id="velocity-value" class="output-value">20 km/s</span>
+                    </div>
+                    <input type="range" id="asteroid-velocity" min="10" max="70" value="20" class="w-full mt-1">
+                </div>
+                <div>
+                    <label class="text-sm font-medium">Densidad (constante)</label>
+                    <span class="output-value float-right">3000 kg/m³</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Consecuencias del Impacto -->
+        <div class="p-4 bg-gray-900/50 rounded-lg">
+            <h2 class="text-xl mb-4 pb-2">Consecuencias del Impacto</h2>
+            <div class="space-y-3">
+                <div class="flex justify-between items-center">
+                    <span class="text-gray-400">Energía Cinética
+                        <div class="tooltip inline-block">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline text-gray-500" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" /></svg>
+                            <span class="tooltiptext">Energía liberada en el impacto, equivalente a millones de toneladas de TNT.</span>
+                        </div>
+                    </span>
+                    <span id="impact-energy" class="text-lg font-bold text-red-400"></span>
+                </div>
+                <div class="flex justify-between items-center">
+                    <span class="text-gray-400">Tamaño del Cráter (est.)
+                        <div class="tooltip inline-block">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline text-gray-500" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" /></svg>
+                            <span class="tooltiptext">Diámetro estimado del cráter de impacto en tierra firme.</span>
+                        </div>
+                    </span>
+                    <span id="crater-size" class="text-lg font-bold text-yellow-400"></span>
+                </div>
+                <div class="flex justify-between items-center">
+                    <span class="text-gray-400">Magnitud Sísmica (eq.)
+                        <div class="tooltip inline-block">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline text-gray-500" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" /></svg>
+                            <span class="tooltiptext">Magnitud en la escala de Richter equivalente a las ondas sísmicas generadas.</span>
+                        </div>
+                    </span>
+                    <span id="seismic-magnitude" class="text-lg font-bold text-orange-400"></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Estrategias de Mitigación -->
+        <div class="p-4 bg-gray-900/50 rounded-lg">
+            <h2 class="text-xl mb-4 pb-2">Estrategias de Mitigación</h2>
+            <p class="text-sm text-gray-400 mb-4">Simula una misión de desviación para alterar la órbita del asteroide.</p>
+            <button id="mitigate-button" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg transition-colors duration-300">
+                Activar Impactador Cinético
+            </button>
+             <div id="mitigation-status" class="text-center mt-2 text-sm text-green-400 opacity-0 transition-opacity"></div>
+        </div>
+
+        <!-- Controles de Simulación -->
+        <div class="p-4 bg-gray-900/50 rounded-lg">
+             <button id="reset-button" class="w-full bg-gray-600 hover:bg-gray-700 text-white font-bold py-3 px-4 rounded-lg transition-colors duration-300">
+                Reiniciar Simulación
+            </button>
+        </div>
+
+    </div>
+
+    <!-- Botón para expandir/colapsar panel en móvil -->
+    <button id="panel-toggle" class="panel-toggle hidden fixed bottom-0 left-1/2 -translate-x-1/2 w-full h-12 bg-gray-800 text-white z-20 md:hidden">
+        <span id="toggle-text">Mostrar Controles</span>
+    </button>
+    
+
+    <!-- Scripts de la Simulación -->
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+                "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+            }
+        }
+    </script>
+    <script type="module">
+        import * as THREE from 'three';
+        import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+        // --- VARIABLES GLOBALES Y CONFIGURACIÓN ---
+        let scene, camera, renderer, controls;
+        let sun, earth, asteroid, earthOrbit, asteroidOrbit, asteroidFuturePath, asteroidMitigatedPath;
+        let clock = new THREE.Clock();
+        
+        // Parámetros orbitales (simplificados para visualización)
+        const EARTH_ORBIT_RADIUS = 200;
+        const ASTEROID_SEMI_MAJOR_AXIS = 250;
+        const ASTEROID_ECCENTRICITY = 0.4;
+        let asteroidVelocityFactor = 1.0; // Factor para simular mitigación
+        
+        const DENSITY = 3000; // kg/m^3
+
+        // --- ELEMENTOS DE LA UI ---
+        const sizeSlider = document.getElementById('asteroid-size');
+        const velocitySlider = document.getElementById('asteroid-velocity');
+        const sizeValue = document.getElementById('size-value');
+        const velocityValue = document.getElementById('velocity-value');
+        const impactEnergyEl = document.getElementById('impact-energy');
+        const craterSizeEl = document.getElementById('crater-size');
+        const seismicMagEl = document.getElementById('seismic-magnitude');
+        const mitigateBtn = document.getElementById('mitigate-button');
+        const resetBtn = document.getElementById('reset-button');
+        const mitigationStatusEl = document.getElementById('mitigation-status');
+
+        // --- INICIALIZACIÓN ---
+        init();
+        animate();
+        updateCalculations();
+
+        // --- CONFIGURACIÓN DE LA ESCENA 3D ---
+        function init() {
+            // Escena
+            scene = new THREE.Scene();
+            scene.background = new THREE.Color(0x000000);
+
+            // Cámara
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 2000);
+            camera.position.set(0, 250, 350);
+
+            // Renderer
+            const canvas = document.getElementById('simulation-canvas');
+            renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+
+            // Controles
+            controls = new OrbitControls(camera, renderer.domElement);
+            controls.enableDamping = true;
+            controls.dampingFactor = 0.05;
+            controls.minDistance = 50;
+            controls.maxDistance = 1000;
+
+            // Iluminación
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.2);
+            scene.add(ambientLight);
+            const pointLight = new THREE.PointLight(0xffffff, 1.5, 2000);
+            scene.add(pointLight);
+
+            // --- CREACIÓN DE OBJETOS CELESTES ---
+            // Sol
+            const sunGeometry = new THREE.SphereGeometry(15, 32, 32);
+            const sunMaterial = new THREE.MeshBasicMaterial({ color: 0xffdd00, emissive: 0xffdd00 });
+            sun = new THREE.Mesh(sunGeometry, sunMaterial);
+            scene.add(sun);
+
+            // Tierra
+            const earthGeometry = new THREE.SphereGeometry(5, 32, 32);
+            const earthMaterial = new THREE.MeshStandardMaterial({ color: 0x4a90e2 });
+            earth = new THREE.Mesh(earthGeometry, earthMaterial);
+            scene.add(earth);
+
+            // Órbita de la Tierra
+            const earthOrbitGeometry = new THREE.RingGeometry(EARTH_ORBIT_RADIUS - 0.5, EARTH_ORBIT_RADIUS + 0.5, 128);
+            const earthOrbitMaterial = new THREE.MeshBasicMaterial({ color: 0x4a90e2, side: THREE.DoubleSide, transparent: true, opacity: 0.3 });
+            earthOrbit = new THREE.Mesh(earthOrbitGeometry, earthOrbitMaterial);
+            earthOrbit.rotation.x = -Math.PI / 2;
+            scene.add(earthOrbit);
+
+            // Asteroide
+            const asteroidGeometry = new THREE.DodecahedronGeometry(2, 0);
+            const asteroidMaterial = new THREE.MeshStandardMaterial({ color: 0x888888 });
+            asteroid = new THREE.Mesh(asteroidGeometry, asteroidMaterial);
+            scene.add(asteroid);
+            
+            // Órbita y trayectoria del asteroide
+            asteroidOrbit = createOrbitPath(ASTEROID_SEMI_MAJOR_AXIS, ASTEROID_ECCENTRICITY, 0x999999, 0.2);
+            asteroidFuturePath = createOrbitPath(ASTEROID_SEMI_MAJOR_AXIS, ASTEROID_ECCENTRICITY, 0xff0000, 0.7);
+            asteroidMitigatedPath = createOrbitPath(ASTEROID_SEMI_MAJOR_AXIS * 1.05, ASTEROID_ECCENTRICITY, 0x00ff00, 0.7, true);
+            scene.add(asteroidOrbit, asteroidFuturePath, asteroidMitigatedPath);
+
+            // Event Listeners
+            window.addEventListener('resize', onWindowResize, false);
+            sizeSlider.addEventListener('input', updateCalculations);
+            velocitySlider.addEventListener('input', updateCalculations);
+            mitigateBtn.addEventListener('click', onMitigate);
+            resetBtn.addEventListener('click', onReset);
+
+            // Control del panel en móvil
+            const panelToggle = document.getElementById('panel-toggle');
+            const controlPanel = document.getElementById('control-panel');
+            const toggleText = document.getElementById('toggle-text');
+            panelToggle.addEventListener('click', () => {
+                controlPanel.classList.toggle('open');
+                if (controlPanel.classList.contains('open')) {
+                    toggleText.textContent = 'Ocultar Controles';
+                } else {
+                    toggleText.textContent = 'Mostrar Controles';
+                }
+            });
+        }
+
+        function createOrbitPath(semiMajorAxis, eccentricity, color, opacity, hidden = false) {
+            const points = [];
+            const b = semiMajorAxis * Math.sqrt(1 - eccentricity * eccentricity); // Semi-minor axis
+            for (let i = 0; i <= 360; i++) {
+                const angle = (i * Math.PI) / 180;
+                const x = semiMajorAxis * Math.cos(angle) + semiMajorAxis * eccentricity;
+                const z = b * Math.sin(angle);
+                points.push(new THREE.Vector3(x, 0, z));
+            }
+            const geometry = new THREE.BufferGeometry().setFromPoints(points);
+            const material = new THREE.LineBasicMaterial({ color, transparent: true, opacity });
+            const line = new THREE.Line(geometry, material);
+            line.rotation.y = THREE.MathUtils.degToRad(20); // Inclinación
+            line.visible = !hidden;
+            return line;
+        }
+
+        // --- LÓGICA DE ANIMACIÓN Y ACTUALIZACIÓN ---
+        function animate() {
+            requestAnimationFrame(animate);
+
+            const elapsedTime = clock.getElapsedTime();
+
+            // Mover Tierra en órbita circular
+            earth.position.x = Math.cos(elapsedTime * 0.5) * EARTH_ORBIT_RADIUS;
+            earth.position.z = Math.sin(elapsedTime * 0.5) * EARTH_ORBIT_RADIUS;
+
+            // Mover Asteroide en órbita elíptica
+            const semiMajorAxis = ASTEROID_SEMI_MAJOR_AXIS * (1 + (asteroidVelocityFactor-1)*0.05);
+            const semiMinorAxis = semiMajorAxis * Math.sqrt(1 - ASTEROID_ECCENTRICITY * ASTEROID_ECCENTRICITY);
+            const focusOffset = semiMajorAxis * ASTEROID_ECCENTRICITY;
+            
+            const asteroidAngle = elapsedTime * 0.4 * asteroidVelocityFactor;
+            const asteroidX = semiMajorAxis * Math.cos(asteroidAngle) + focusOffset;
+            const asteroidZ = semiMinorAxis * Math.sin(asteroidAngle);
+            
+            // Aplicar rotación de la órbita
+            const incline = THREE.MathUtils.degToRad(20);
+            asteroid.position.x = asteroidX * Math.cos(incline) - asteroidZ * Math.sin(incline);
+            asteroid.position.z = asteroidX * Math.sin(incline) + asteroidZ * Math.cos(incline);
+
+            controls.update();
+            renderer.render(scene, camera);
+        }
+
+        function onWindowResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        // --- CÁLCULOS DE IMPACTO ---
+        function updateCalculations() {
+            const size = parseFloat(sizeSlider.value); // en metros
+            const velocity = parseFloat(velocitySlider.value) * 1000; // en m/s
+
+            sizeValue.textContent = `${size.toFixed(0)} m`;
+            velocityValue.textContent = `${(velocity/1000).toFixed(0)} km/s`;
+
+            const volume = (4/3) * Math.PI * Math.pow(size / 2, 3);
+            const mass = volume * DENSITY;
+
+            // 1. Energía Cinética (E = 0.5 * m * v^2)
+            const kineticEnergy = 0.5 * mass * Math.pow(velocity, 2); // Joules
+            const tntEquivalent = kineticEnergy / 4.184e9; // Kilotones de TNT
+            impactEnergyEl.textContent = `${(tntEquivalent/1e3).toPrecision(3)} MT`; // Megatones
+
+            // 2. Tamaño del Cráter (Relación de escalado simple)
+            const craterDiameter = 0.07 * Math.pow(kineticEnergy, 1/3.4) / 1000; // en km
+            craterSizeEl.textContent = `${craterDiameter.toPrecision(2)} km`;
+
+            // 3. Magnitud Sísmica (Relación de escalado simple)
+            const seismicMagnitude = 0.67 * (Math.log10(kineticEnergy)) - 5.87;
+            seismicMagEl.textContent = `${seismicMagnitude.toPrecision(2)} Richter`;
+        }
+        
+        // --- LÓGICA DE MITIGACIÓN ---
+        function onMitigate() {
+            asteroidVelocityFactor = 1.01; // Aumentar ligeramente la velocidad para cambiar órbita
+            
+            asteroidFuturePath.visible = false;
+            asteroidMitigatedPath.visible = true;
+
+            mitigationStatusEl.textContent = "¡Trayectoria alterada! Impacto evitado.";
+            mitigationStatusEl.classList.remove('opacity-0');
+            
+            mitigateBtn.disabled = true;
+            mitigateBtn.classList.add('bg-gray-500', 'cursor-not-allowed');
+        }
+
+        function onReset() {
+            asteroidVelocityFactor = 1.0;
+            
+            asteroidFuturePath.visible = true;
+            asteroidMitigatedPath.visible = false;
+            
+            mitigationStatusEl.classList.add('opacity-0');
+            mitigateBtn.disabled = false;
+            mitigateBtn.classList.remove('bg-gray-500', 'cursor-not-allowed');
+
+            sizeSlider.value = 500;
+            velocitySlider.value = 20;
+            updateCalculations();
+            
+            // Resetear el tiempo para reiniciar posiciones
+            clock = new THREE.Clock();
+        }
+
+    </script>
+</body>
+</html>

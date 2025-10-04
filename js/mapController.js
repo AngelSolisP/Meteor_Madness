@@ -1,4 +1,4 @@
-/**
+git /**
  * Map Controller Module
  * Maneja la inicialización y control del mapa Leaflet
  */

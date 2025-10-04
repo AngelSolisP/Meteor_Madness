@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plataforma Interactiva para Simulación y Análisis de Riesgos NEO</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div class="container">
+
+        <header class="main-header">
+            <h1>Plataforma Interactiva para la Simulación y Análisis de Riesgos de Impacto de Objetos Cercanos a la Tierra (NEO)</h1>
+            <p class="subtitle">Un Enfoque Integrado para la Inteligencia de Defensa Planetaria</p>
+        </header>
+
+        <main>
+            <div class="image-placeholder" style="height: 400px;">
+                
+            </div>
+
+            <section id="executive-summary">
+                <h2>Resumen Ejecutivo</h2>
+                <p>
+                    Este proyecto presenta una <strong>plataforma interactiva de alta fidelidad</strong> diseñada para el análisis y la visualización de escenarios de impacto de Objetos Cercanos a la Tierra (NEO). Nuestra solución aborda la vulnerabilidad crítica generada por los silos de información existentes entre los datos astronómicos orbitales y los datos geofísicos terrestres. Al integrar en tiempo real los servicios web de la API NEO de la NASA con los catálogos de datos del Servicio Geológico de Estados Unidos (USGS), la plataforma ofrece una herramienta unificada para la evaluación de amenazas, el análisis de consecuencias y la simulación de estrategias de mitigación.
+                </p>
+            </section>
+
+            <section id="problem-statement">
+                <h2>Planteamiento del Problema: La Brecha en el Análisis de Amenazas</h2>
+                <p>
+                    La detección y seguimiento de NEOs ha alcanzado una madurez notable. Sin embargo, una vez que se identifica una trayectoria de impacto potencial, el análisis de sus consecuencias terrestres se convierte en un proceso fragmentado. Los datos sobre los <strong>parámetros orbitales del objeto</strong> (proporcionados por el JPL de la NASA) y los <strong>datos sobre la vulnerabilidad geofísica del punto de impacto</strong> (topografía, actividad sísmica) residen en dominios separados, impidiendo un análisis holístico y rápido de la cadena completa de eventos.
+                </p>
+            </section>
+
+            <section id="proposed-solution">
+                <h2>Solución Propuesta: Una Plataforma de Simulación Unificada</h2>
+                <p>
+                    Nuestra herramienta es una plataforma de visualización que unifica estos conjuntos de datos dispares en una única interfaz interactiva, permitiendo a los analistas y responsables de la toma de decisiones ejecutar un flujo de trabajo completo desde la amenaza hasta el impacto y la mitigación.
+                </p>
+                <div class="image-placeholder" style="height: 350px;">
+                   
+                </div>
+            </section>
+
+            <section id="core-capabilities">
+                <h2>Capacidades Fundamentales</h2>
+                <div class="capability">
+                    <h4>Modelado de Trayectorias Orbitales de Alta Fidelidad</h4>
+                    <p>Se realiza un modelado preciso de la órbita del NEO utilizando sus <strong>elementos orbitales Keplerianos</strong> (ej. semieje mayor, excentricidad, inclinación) para calcular y visualizar su posición y velocidad a lo largo del tiempo.</p>
+                </div>
+                <div class="capability">
+                    <h4>Análisis de Consecuencias de Impacto</h4>
+                    <p>Tras la simulación, la herramienta calcula la <strong>energía cinética</strong> liberada ($E_k = \frac{1}{2}mv^2$) y la utiliza para estimar parámetros primarios como el diámetro del cráter o la <strong>magnitud sísmica equivalente ($M_w$)</strong>.</p>
+                </div>
+                <div class="capability">
+                    <h4>Visualización Geoespacial de Riesgos</h4>
+                    <p>Integrando los <strong>Modelos Digitales de Elevación (DEMs)</strong> del USGS, la plataforma modela y visualiza efectos secundarios como la inundación por tsunamis en zonas costeras.</p>
+                     <div class="image-placeholder" style="height: 300px; margin-top: 15px;">
+                        
+                    </div>
+                </div>
+                <div class="capability">
+                    <h4>Simulación de Estrategias de Mitigación</h4>
+                    <p>La plataforma permite a los usuarios explorar escenarios "qué pasaría si", como simular los efectos de una misión de <strong>impactador cinético</strong> ajustando los parámetros orbitales del NEO para visualizar la desviación de su trayectoria.</p>
+                </div>
+            </section>
+            
+            <section id="cta-section" class="call-to-action">
+                <h2>Acceso a la Herramienta</h2>
+                <p>Para iniciar el análisis y explorar los escenarios de simulación, acceda a la plataforma.</p>
+                <a href="#" class="cta-button">▶️ Acceder a la Plataforma de Simulación</a>
+            </section>
+
+        </main>
+
+        <footer>
+            <h3>Fuentes de Datos y Metodología</h3>
+            <p>
+                Este proyecto se fundamenta en datos autorizados y en tiempo real, obtenidos mediante APIs del <strong>NASA Jet Propulsion Laboratory (JPL)</strong> (Near-Earth Object Web Service) y el <strong>U.S. Geological Survey (USGS)</strong> (National Earthquake Information Center y servicios de datos de elevación).
+            </p>
+        </footer>
+
+    </div>
+</body>
+</html>

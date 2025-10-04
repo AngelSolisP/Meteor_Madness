@@ -6,67 +6,67 @@
 // Datos de las etapas de alerta de meteorito
 const ALERT_STAGES = [
     {
-        title: "STAGE 1 — MONITOR MODE",
-        level: "🟢 Alert Level: GREEN — No danger detected.",
-        description: "\"The sky is being watched!\"",
-        what: "Scientists around the world (IAWN) are scanning space for any object that might come close to Earth.",
+        title: "ETAPA 1 — MODO MONITOREO",
+        level: "🟢 Nivel de Alerta: VERDE — No se detecta peligro.",
+        description: "\"¡El cielo está siendo vigilado!\"",
+        what: "Científicos de todo el mundo (IAWN) escanean el espacio en busca de cualquier objeto que pueda acercarse a la Tierra.",
         actions: [
-            "Stay calm — meteors are common, but dangerous ones are rare.",
-            "Follow trusted science pages (NASA, UN-SPIDER, local space agency).",
-            "Don't believe viral rumors about \"end of the world\" stories online."
+            "Mantén la calma — los meteoros son comunes, pero los peligrosos son raros.",
+            "Sigue páginas científicas confiables (NASA, UN-SPIDER, agencia espacial local).",
+            "No creas rumores virales sobre \"fin del mundo\" en línea."
         ],
-        criteria: "Esta etapa se activa cuando no hay objetos peligrosos detectados cerca de la Tierra. Los asteroides monitoreados están a una distancia segura y no representan amenaza alguna."
+        criteria: "Esta etapa se activa cuando no hay objetos que cumplan con los criterios de alerta establecidos por la IAWN. Los asteroides detectados están por debajo de los umbrales de tamaño (>10 metros de diámetro), probabilidad de impacto (>1%) o tiempo de aproximación. La densidad típica de los asteroides (rocosa ~3000 kg/m³ o metálica ~7800 kg/m³) se considera en las estimaciones de energía, pero los criterios se basan principalmente en el diámetro observado para evitar sesgos por variaciones en densidad."
     },
     {
-        title: "STAGE 2 — WATCH MODE",
-        level: "🟡 Alert Level: YELLOW — Object under observation.",
-        description: "\"Scientists found a rock — it's being checked!\"",
-        what: "IAWN has spotted an asteroid passing near Earth. They're calculating its orbit to see if it might hit.",
+        title: "ETAPA 2 — MODO VIGILANCIA",
+        level: "🟡 Nivel de Alerta: AMARILLO — Objeto bajo observación.",
+        description: "\"¡Los científicos encontraron una roca — la están revisando!\"",
+        what: "La IAWN ha detectado un asteroide pasando cerca de la Tierra. Están calculando su órbita para ver si podría impactar.",
         actions: [
-            "Follow official updates — not social media panic.",
-            "Listen for IAWN or government alerts.",
-            "Schools, local leaders, and emergency agencies may start briefings."
+            "Sigue actualizaciones oficiales — no el pánico en redes sociales.",
+            "Escucha alertas de IAWN o gobiernos.",
+            "Escuelas, líderes locales y agencias de emergencia pueden iniciar sesiones informativas."
         ],
-        criteria: "Se activa cuando se detecta un asteroide que pasa cerca de la Tierra, pero aún no se confirma si impactará. La distancia es menor a la de la Etapa Verde, pero el riesgo de impacto es bajo (menos del 1%)."
+        criteria: "Se activa cuando se detecta un asteroide que podría acercarse peligrosamente, pero aún no cumple con los umbrales de alerta. Los objetos monitoreados pueden tener tamaños variables, pero la densidad influye en la masa y energía potencial: asteroides más densos (metálicos) generan más energía cinética que los rocosos del mismo tamaño. Esta etapa permite refinar las órbitas antes de escalar a alertas superiores."
     },
     {
-        title: "STAGE 3 — ALERT MODE",
-        level: "🟠 Alert Level: ORANGE — Prepare and stay alert.",
-        description: "\"It might come close — we're preparing just in case.\"",
-        what: "Impact probability is about 1–10%. Space experts (IAWN + SMPAG) and governments start emergency coordination.",
+        title: "ETAPA 3 — MODO ALERTA",
+        level: "🟠 Nivel de Alerta: NARANJA — Prepárate y mantente alerta.",
+        description: "\"Podría acercarse — nos estamos preparando por si acaso.\"",
+        what: "La probabilidad de impacto es de aproximadamente 1-10%. Expertos espaciales (IAWN + SMPAG) y gobiernos inician coordinación de emergencia.",
         actions: [
-            "Stay tuned to official radio or online emergency channels.",
-            "Learn your local shelter locations.",
-            "Keep an emergency kit: water, flashlight, battery radio, first aid, important documents.",
-            "Avoid spreading unverified information."
+            "Mantente atento a canales oficiales de radio o emergencia en línea.",
+            "Aprende las ubicaciones de refugios locales.",
+            "Mantén un kit de emergencia: agua, linterna, radio a batería, primeros auxilios, documentos importantes.",
+            "Evita difundir información no verificada."
         ],
-        criteria: "Probabilidad de impacto entre 1-10%. El asteroide está en trayectoria que podría golpear la Tierra. Se inicia coordinación internacional de emergencia y preparación civil."
+        criteria: "Se activa según los criterios de la IAWN para alertas de impacto: probabilidad >1% para objetos >10 metros (o magnitud absoluta 28), o para preparación terrestre: probabilidad >10%, tiempo <20 años, tamaño >20 metros (magnitud 27). La dimensión es crítica porque determina la energía de impacto (mayor diámetro = mayor masa, independientemente de la densidad exacta), y objetos más grandes pueden causar efectos globales como ondas de choque que llegan a la superficie."
     },
     {
-        title: "STAGE 4 — IMPACT WARNING MODE",
-        level: "🔴 Alert Level: RED — Take action immediately!",
-        description: "\"Impact expected — follow safety instructions now!\"",
-        what: "Scientists confirm the asteroid could strike Earth within days or weeks. Civil defense is active.",
+        title: "ETAPA 4 — MODO ADVERTENCIA DE IMPACTO",
+        level: "🔴 Nivel de Alerta: ROJO — ¡Toma acción inmediatamente!",
+        description: "\"¡Impacto esperado — sigue las instrucciones de seguridad ahora!\"",
+        what: "Los científicos confirman que el asteroide podría golpear la Tierra en días o semanas. La defensa civil está activa.",
         actions: [
-            "Listen to official alerts only (TV, radio, phone notifications).",
-            "If told to evacuate, do so calmly and quickly.",
-            "If you cannot evacuate: Stay indoors, away from windows. Go to a basement or interior room. Lie flat and protect your head during the shockwave.",
-            "Keep water and food for at least 72 hours."
+            "Escucha solo alertas oficiales (TV, radio, notificaciones telefónicas).",
+            "Si te indican evacuar, hazlo con calma y rapidez.",
+            "Si no puedes evacuar: Quédate indoors, lejos de ventanas. Ve a un sótano o habitación interior. Acuéstate plano y protege tu cabeza durante la onda de choque.",
+            "Mantén agua y comida para al menos 72 horas."
         ],
-        criteria: "Impacto confirmado con alta probabilidad (>10%) y tiempo estimado de días a semanas. Defensa civil activada, evacuaciones obligatorias en zonas de riesgo."
+        criteria: "Impacto inminente con alta probabilidad (>10%) y tiempo estimado de días a semanas. Basado en criterios de IAWN donde la probabilidad supera el 1% para objetos >10 metros. La densidad afecta la masa (rocosa: ~3000 kg/m³ produce menos energía que metálica: ~7800 kg/m³), pero el diámetro es el indicador principal para clasificar la severidad, ya que asteroides más grandes generan cráteres mayores y efectos sísmicos más intensos."
     },
     {
-        title: "STAGE 5 — AFTER IMPACT",
-        level: "🟢 Alert Level: GREEN — Recovery and support phase.",
-        description: "\"The danger has passed — now we rebuild.\"",
-        what: "The impact (if it occurs) may cause shockwaves, fires, or power outages. Rescue teams will move in.",
+        title: "ETAPA 5 — DESPUÉS DEL IMPACTO",
+        level: "🟢 Nivel de Alerta: VERDE — Fase de recuperación y apoyo.",
+        description: "\"El peligro ha pasado — ahora reconstruimos.\"",
+        what: "El impacto (si ocurre) puede causar ondas de choque, incendios o cortes de energía. Los equipos de rescate intervendrán.",
         actions: [
-            "Wait for official \"all clear\" messages before leaving shelter.",
-            "Help others safely; avoid damaged buildings or unknown debris.",
-            "Follow instructions from emergency and health officials.",
-            "Do not touch or go near meteor fragments — they can be hot or toxic."
+            "Espera mensajes oficiales de \"todo despejado\" antes de salir del refugio.",
+            "Ayuda a otros de manera segura; evita edificios dañados o escombros desconocidos.",
+            "Sigue instrucciones de oficiales de emergencia y salud.",
+            "No toques ni te acerques a fragmentos de meteorito — pueden estar calientes o tóxicos."
         ],
-        criteria: "Después del impacto (si ocurrió) o cuando el peligro ha pasado. Fase de recuperación con equipos de rescate activos. Se mantiene hasta que las autoridades declaren zona segura."
+        criteria: "Después del impacto (si ocurrió) o cuando el peligro ha pasado. Los criterios previos ya no aplican, pero la evaluación post-impacto considera el tamaño real del objeto (diámetro y densidad) para entender los efectos observados, como el evento de Chelyabinsk (2013) con un asteroide de ~18 metros que causó daños significativos debido a su composición rocosa y velocidad."
     }
 ];
 
@@ -75,27 +75,27 @@ const ALERT_SCENARIOS = [
     {
         scenario: "Los científicos de IAWN reportan que un asteroide de 500 metros pasará a 10 millones de kilómetros de la Tierra en 6 meses. No hay riesgo de impacto.",
         correctLevel: 0, // Index in ALERT_STAGES
-        explanation: "Este es MONITOR MODE (Verde) porque el asteroide está a una distancia segura y no representa peligro alguno."
+        explanation: "Este es MONITOR MODE (Verde) porque el asteroide está a una distancia segura y no representa peligro alguno. Su gran tamaño (>50m) normalmente activaría planificación SMPAG, pero la distancia elimina el riesgo."
     },
     {
         scenario: "Se detecta un asteroide de 100 metros que pasará a 500,000 kilómetros de la Tierra. Los científicos están calculando su órbita con más precisión.",
         correctLevel: 1,
-        explanation: "Este es WATCH MODE (Amarillo) porque el objeto está bajo observación, pero el riesgo de impacto es muy bajo."
+        explanation: "Este es WATCH MODE (Amarillo) porque el objeto está bajo observación. Aunque mide 100m (por encima del umbral de 50m para SMPAG), la distancia y baja probabilidad lo mantienen en vigilancia."
     },
     {
         scenario: "Un asteroide de 200 metros tiene un 5% de probabilidad de impactar la Tierra en 3 meses. Gobiernos y expertos están coordinando planes de emergencia.",
         correctLevel: 2,
-        explanation: "Este es ALERT MODE (Naranja) porque la probabilidad de impacto es baja (1-10%) pero requiere preparación preventiva."
+        explanation: "Este es ALERT MODE (Naranja) porque cumple criterios de preparación terrestre: >20m, >10% prob en <20 años. La densidad del asteroide (rocosa o metálica) amplifica su energía destructiva."
     },
     {
         scenario: "Confirmado: asteroide impactará en 2 semanas con 80% de probabilidad. Defensa civil activada, evacuaciones en marcha.",
         correctLevel: 3,
-        explanation: "Este es IMPACT WARNING MODE (Rojo) porque el impacto es inminente y requiere acción inmediata."
+        explanation: "Este es IMPACT WARNING MODE (Rojo) porque supera el umbral IAWN de >1% prob para objetos >10m. El tamaño y densidad determinan la severidad del impacto esperado."
     },
     {
         scenario: "El asteroide ha impactado causando daños. Equipos de rescate están en la zona evaluando la situación.",
         correctLevel: 4,
-        explanation: "Este es AFTER IMPACT (Verde de recuperación) porque el peligro inmediato ha pasado y comienza la fase de rescate."
+        explanation: "Este es AFTER IMPACT (Verde de recuperación) porque el peligro inmediato ha pasado. La evaluación post-impacto revela cómo el diámetro y densidad reales afectaron los daños observados."
     }
 ];
 

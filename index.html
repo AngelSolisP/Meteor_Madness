@@ -187,41 +187,70 @@
             <button class="close-btn" id="alert-close" aria-label="Cerrar alerta">&times;</button>
         </div>
         <div class="alert-content">
-            <div class="alert-stage" id="alert-stage">
-                <div class="stage-header">
-                    <h3 id="stage-title">STAGE 1 — MONITOR MODE</h3>
-                    <div class="alert-level" id="alert-level">🟢 Alert Level: GREEN</div>
-                </div>
-                <div class="stage-description">
-                    <p id="stage-description">"The sky is being watched!"</p>
-                    <p id="stage-what">"Scientists around the world (IAWN) are scanning space for any object that might come close to Earth."</p>
-                    <div class="stage-actions">
-                        <h4>What you can do:</h4>
-                        <ul id="stage-actions-list">
-                            <li>Stay calm — meteors are common, but dangerous ones are rare.</li>
-                            <li>Follow trusted science pages (NASA, UN-SPIDER, local space agency).</li>
-                            <li>Don't believe viral rumors about "end of the world" stories online.</li>
-                        </ul>
+            <div class="alert-tabs">
+                <button class="alert-tab active" data-tab="guide">📖 Guía de Etapas</button>
+                <button class="alert-tab" data-tab="quiz">🎯 Prueba tu Conocimiento</button>
+            </div>
+
+            <div class="alert-section active" id="guide-section">
+                <div class="alert-stage" id="alert-stage">
+                    <div class="stage-header">
+                        <h3 id="stage-title">STAGE 1 — MONITOR MODE</h3>
+                        <div class="alert-level" id="alert-level">🟢 Alert Level: GREEN</div>
+                    </div>
+                    <div class="stage-description">
+                        <p id="stage-description">"The sky is being watched!"</p>
+                        <p id="stage-what">"Scientists around the world (IAWN) are scanning space for any object that might come close to Earth."</p>
+                        <div class="stage-criteria">
+                            <h4>📋 Criterios para esta etapa:</h4>
+                            <p id="stage-criteria">Esta etapa se activa cuando no hay objetos peligrosos detectados cerca de la Tierra. Los asteroides monitoreados están a una distancia segura y no representan amenaza alguna.</p>
+                        </div>
+                        <div class="stage-actions">
+                            <h4>💡 What you can do:</h4>
+                            <ul id="stage-actions-list">
+                                <li>Stay calm — meteors are common, but dangerous ones are rare.</li>
+                                <li>Follow trusted science pages (NASA, UN-SPIDER, local space agency).</li>
+                                <li>Don't believe viral rumors about "end of the world" stories online.</li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
-                <div class="stage-question" id="stage-question" style="display: none;">
-                    <h4>What should you do if you see a rumor online?</h4>
-                    <div class="question-options">
-                        <button class="option-btn" data-correct="false">Share it with friends to warn them</button>
-                        <button class="option-btn" data-correct="true">Check official sources first</button>
-                        <button class="option-btn" data-correct="false">Panic and tell everyone</button>
+                <div class="alert-navigation">
+                    <button id="alert-prev" class="nav-btn" disabled>Anterior</button>
+                    <div class="stage-indicator">
+                        <span id="current-stage">1</span> / <span id="total-stages">5</span>
                     </div>
-                </div>
-                <div class="stage-feedback" id="stage-feedback" style="display: none;">
-                    <p id="feedback-text"></p>
+                    <button id="alert-next" class="nav-btn">Siguiente</button>
                 </div>
             </div>
-            <div class="alert-navigation">
-                <button id="alert-prev" class="nav-btn" disabled>Anterior</button>
-                <div class="stage-indicator">
-                    <span id="current-stage">1</span> / <span id="total-stages">5</span>
+
+            <div class="alert-section" id="quiz-section">
+                <div class="quiz-content">
+                    <h3>Escenario de Alerta</h3>
+                    <div class="scenario-text" id="scenario-text">
+                        Los científicos de IAWN reportan que un asteroide de 500 metros pasará a 10 millones de kilómetros de la Tierra en 6 meses. No hay riesgo de impacto.
+                    </div>
+                    <div class="scenario-question">
+                        <h4>¿Qué nivel de alerta corresponde a este escenario?</h4>
+                        <div class="alert-level-options">
+                            <button class="level-btn" data-level="0">🟢 VERDE - Monitor</button>
+                            <button class="level-btn" data-level="1">🟡 AMARILLO - Watch</button>
+                            <button class="level-btn" data-level="2">🟠 NARANJA - Alert</button>
+                            <button class="level-btn" data-level="3">🔴 ROJO - Impact Warning</button>
+                            <button class="level-btn" data-level="4">🟢 VERDE - After Impact</button>
+                        </div>
+                    </div>
+                    <div class="scenario-feedback" id="scenario-feedback" style="display: none;">
+                        <div class="feedback-result" id="feedback-result"></div>
+                        <p id="feedback-explanation"></p>
+                    </div>
                 </div>
-                <button id="alert-next" class="nav-btn">Siguiente</button>
+                <div class="quiz-navigation">
+                    <button id="quiz-next" class="nav-btn">Siguiente Escenario</button>
+                    <div class="scenario-indicator">
+                        <span id="current-scenario">1</span> / <span id="total-scenarios">5</span>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

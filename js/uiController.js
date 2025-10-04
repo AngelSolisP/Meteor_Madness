@@ -15,16 +15,7 @@ const ALERT_STAGES = [
             "Follow trusted science pages (NASA, UN-SPIDER, local space agency).",
             "Don't believe viral rumors about \"end of the world\" stories online."
         ],
-        question: "What should you do if you see a rumor online?",
-        options: [
-            { text: "Share it with friends to warn them", correct: false },
-            { text: "Check official sources first", correct: true },
-            { text: "Panic and tell everyone", correct: false }
-        ],
-        feedback: {
-            correct: "Good job! Checking official sources helps prevent unnecessary panic.",
-            incorrect: "Wrong! Always verify information with official sources before spreading it."
-        }
+        criteria: "Esta etapa se activa cuando no hay objetos peligrosos detectados cerca de la Tierra. Los asteroides monitoreados están a una distancia segura y no representan amenaza alguna."
     },
     {
         title: "STAGE 2 — WATCH MODE",
@@ -36,16 +27,7 @@ const ALERT_STAGES = [
             "Listen for IAWN or government alerts.",
             "Schools, local leaders, and emergency agencies may start briefings."
         ],
-        question: "Where should you get your information from?",
-        options: [
-            { text: "Social media posts", correct: false },
-            { text: "Official government or scientific sources", correct: true },
-            { text: "Random websites", correct: false }
-        ],
-        feedback: {
-            correct: "Excellent! Official sources provide accurate and timely information.",
-            incorrect: "Incorrect! Social media can spread misinformation quickly."
-        }
+        criteria: "Se activa cuando se detecta un asteroide que pasa cerca de la Tierra, pero aún no se confirma si impactará. La distancia es menor a la de la Etapa Verde, pero el riesgo de impacto es bajo (menos del 1%)."
     },
     {
         title: "STAGE 3 — ALERT MODE",
@@ -58,16 +40,7 @@ const ALERT_STAGES = [
             "Keep an emergency kit: water, flashlight, battery radio, first aid, important documents.",
             "Avoid spreading unverified information."
         ],
-        question: "What should you prepare?",
-        options: [
-            { text: "Emergency supplies and know shelter locations", correct: true },
-            { text: "Buy extra food and water", correct: false },
-            { text: "Stockpile weapons", correct: false }
-        ],
-        feedback: {
-            correct: "Perfect! Having emergency supplies ready is crucial for safety.",
-            incorrect: "Not quite! Focus on practical emergency preparedness, not panic buying."
-        }
+        criteria: "Probabilidad de impacto entre 1-10%. El asteroide está en trayectoria que podría golpear la Tierra. Se inicia coordinación internacional de emergencia y preparación civil."
     },
     {
         title: "STAGE 4 — IMPACT WARNING MODE",
@@ -80,16 +53,7 @@ const ALERT_STAGES = [
             "If you cannot evacuate: Stay indoors, away from windows. Go to a basement or interior room. Lie flat and protect your head during the shockwave.",
             "Keep water and food for at least 72 hours."
         ],
-        question: "What should you do if impact is imminent?",
-        options: [
-            { text: "Run outside to see it", correct: false },
-            { text: "Follow official evacuation orders", correct: true },
-            { text: "Hide in a closet or basement", correct: false }
-        ],
-        feedback: {
-            correct: "Correct! Following official instructions saves lives.",
-            incorrect: "Wrong! Never go outside during impact, and always follow evacuation orders."
-        }
+        criteria: "Impacto confirmado con alta probabilidad (>10%) y tiempo estimado de días a semanas. Defensa civil activada, evacuaciones obligatorias en zonas de riesgo."
     },
     {
         title: "STAGE 5 — AFTER IMPACT",
@@ -102,16 +66,36 @@ const ALERT_STAGES = [
             "Follow instructions from emergency and health officials.",
             "Do not touch or go near meteor fragments — they can be hot or toxic."
         ],
-        question: "What should you do after the impact?",
-        options: [
-            { text: "Immediately go outside to check damage", correct: false },
-            { text: "Wait for official all-clear signals", correct: true },
-            { text: "Touch any interesting rocks you find", correct: false }
-        ],
-        feedback: {
-            correct: "Great! Waiting for official confirmation ensures safety.",
-            incorrect: "Dangerous! Always wait for authorities and avoid unknown debris."
-        }
+        criteria: "Después del impacto (si ocurrió) o cuando el peligro ha pasado. Fase de recuperación con equipos de rescate activos. Se mantiene hasta que las autoridades declaren zona segura."
+    }
+];
+
+// Escenarios para elegir nivel de alerta
+const ALERT_SCENARIOS = [
+    {
+        scenario: "Los científicos de IAWN reportan que un asteroide de 500 metros pasará a 10 millones de kilómetros de la Tierra en 6 meses. No hay riesgo de impacto.",
+        correctLevel: 0, // Index in ALERT_STAGES
+        explanation: "Este es MONITOR MODE (Verde) porque el asteroide está a una distancia segura y no representa peligro alguno."
+    },
+    {
+        scenario: "Se detecta un asteroide de 100 metros que pasará a 500,000 kilómetros de la Tierra. Los científicos están calculando su órbita con más precisión.",
+        correctLevel: 1,
+        explanation: "Este es WATCH MODE (Amarillo) porque el objeto está bajo observación, pero el riesgo de impacto es muy bajo."
+    },
+    {
+        scenario: "Un asteroide de 200 metros tiene un 5% de probabilidad de impactar la Tierra en 3 meses. Gobiernos y expertos están coordinando planes de emergencia.",
+        correctLevel: 2,
+        explanation: "Este es ALERT MODE (Naranja) porque la probabilidad de impacto es baja (1-10%) pero requiere preparación preventiva."
+    },
+    {
+        scenario: "Confirmado: asteroide impactará en 2 semanas con 80% de probabilidad. Defensa civil activada, evacuaciones en marcha.",
+        correctLevel: 3,
+        explanation: "Este es IMPACT WARNING MODE (Rojo) porque el impacto es inminente y requiere acción inmediata."
+    },
+    {
+        scenario: "El asteroide ha impactado causando daños. Equipos de rescate están en la zona evaluando la situación.",
+        correctLevel: 4,
+        explanation: "Este es AFTER IMPACT (Verde de recuperación) porque el peligro inmediato ha pasado y comienza la fase de rescate."
     }
 ];
 
@@ -134,7 +118,11 @@ let alertModal = null;
 let alertCloseBtn = null;
 let alertPrevBtn = null;
 let alertNextBtn = null;
+let alertTabs = null;
+let quizNextBtn = null;
 let currentStageIndex = 0;
+let currentScenarioIndex = 0;
+let currentTab = 'guide';
 
 /**
  * Inicializa los controladores de UI
@@ -161,6 +149,8 @@ function initializeUIController() {
     alertCloseBtn = document.getElementById('alert-close');
     alertPrevBtn = document.getElementById('alert-prev');
     alertNextBtn = document.getElementById('alert-next');
+    alertTabs = document.querySelectorAll('.alert-tab');
+    quizNextBtn = document.getElementById('quiz-next');
 
     // Event listeners
     if (closePanelBtn) {
@@ -210,6 +200,21 @@ function initializeUIController() {
     if (alertNextBtn) {
         alertNextBtn.addEventListener('click', goToNextStage);
     }
+
+    // Event listeners para tabs
+    if (alertTabs) {
+        alertTabs.forEach(tab => {
+            tab.addEventListener('click', switchTab);
+        });
+    }
+
+    // Event listeners para quiz
+    if (quizNextBtn) {
+        quizNextBtn.addEventListener('click', goToNextScenario);
+    }
+
+    // Event listeners para opciones de nivel
+    document.addEventListener('click', handleLevelSelection);
 
     console.log('✓ Controladores de UI inicializados');
 }
@@ -556,7 +561,11 @@ function displaySimulatorResults(results) {
 function showAlertModal() {
     if (alertBackdrop && alertModal) {
         currentStageIndex = 0;
+        currentScenarioIndex = 0;
+        currentTab = 'guide';
+        switchTabTo('guide');
         displayCurrentStage();
+        displayCurrentScenario();
         alertBackdrop.classList.add('active');
         alertModal.classList.add('active');
         console.log('Modal de alerta mostrado');
@@ -588,6 +597,9 @@ function displayCurrentStage() {
     document.getElementById('stage-description').textContent = stage.description;
     document.getElementById('stage-what').textContent = stage.what;
 
+    // Actualizar criterios
+    document.getElementById('stage-criteria').textContent = stage.criteria;
+
     // Actualizar acciones
     const actionsList = document.getElementById('stage-actions-list');
     actionsList.innerHTML = '';
@@ -596,23 +608,6 @@ function displayCurrentStage() {
         li.textContent = action;
         actionsList.appendChild(li);
     });
-
-    // Actualizar pregunta
-    document.getElementById('stage-question').querySelector('h4').textContent = stage.question;
-    const optionsContainer = document.querySelector('.question-options');
-    optionsContainer.innerHTML = '';
-    stage.options.forEach((option, index) => {
-        const btn = document.createElement('button');
-        btn.className = 'option-btn';
-        btn.textContent = option.text;
-        btn.dataset.correct = option.correct;
-        btn.addEventListener('click', handleOptionClick);
-        optionsContainer.appendChild(btn);
-    });
-
-    // Ocultar feedback inicialmente
-    document.getElementById('stage-feedback').style.display = 'none';
-    document.getElementById('stage-question').style.display = 'block';
 
     // Actualizar navegación
     document.getElementById('current-stage').textContent = currentStageIndex + 1;
@@ -672,4 +667,103 @@ function goToNextStage() {
         currentStageIndex = 0;
         displayCurrentStage();
     }
+}
+
+/**
+ * Cambia entre tabs
+ */
+function switchTab(event) {
+    const tab = event.target;
+    const tabName = tab.dataset.tab;
+    switchTabTo(tabName);
+}
+
+/**
+ * Cambia a un tab específico
+ */
+function switchTabTo(tabName) {
+    currentTab = tabName;
+
+    // Actualizar tabs
+    alertTabs.forEach(t => {
+        if (t.dataset.tab === tabName) {
+            t.classList.add('active');
+        } else {
+            t.classList.remove('active');
+        }
+    });
+
+    // Mostrar sección correspondiente
+    document.querySelectorAll('.alert-section').forEach(section => {
+        if (section.id === `${tabName}-section`) {
+            section.classList.add('active');
+        } else {
+            section.classList.remove('active');
+        }
+    });
+}
+
+/**
+ * Muestra el escenario actual
+ */
+function displayCurrentScenario() {
+    const scenario = ALERT_SCENARIOS[currentScenarioIndex];
+
+    document.getElementById('scenario-text').textContent = scenario.scenario;
+    document.getElementById('scenario-feedback').style.display = 'none';
+
+    // Resetear botones
+    document.querySelectorAll('.level-btn').forEach(btn => {
+        btn.classList.remove('correct', 'incorrect');
+        btn.disabled = false;
+    });
+
+    // Actualizar indicador
+    document.getElementById('current-scenario').textContent = currentScenarioIndex + 1;
+    document.getElementById('total-scenarios').textContent = ALERT_SCENARIOS.length;
+}
+
+/**
+ * Maneja la selección de nivel de alerta
+ */
+function handleLevelSelection(event) {
+    if (!event.target.classList.contains('level-btn')) return;
+    if (currentTab !== 'quiz') return;
+
+    const selectedLevel = parseInt(event.target.dataset.level);
+    const scenario = ALERT_SCENARIOS[currentScenarioIndex];
+    const isCorrect = selectedLevel === scenario.correctLevel;
+
+    // Marcar botones
+    document.querySelectorAll('.level-btn').forEach(btn => {
+        const level = parseInt(btn.dataset.level);
+        btn.disabled = true;
+        if (level === scenario.correctLevel) {
+            btn.classList.add('correct');
+        } else if (level === selectedLevel) {
+            btn.classList.add('incorrect');
+        }
+    });
+
+    // Mostrar feedback
+    const feedbackResult = document.getElementById('feedback-result');
+    const feedbackExplanation = document.getElementById('feedback-explanation');
+
+    feedbackResult.textContent = isCorrect ? '✅ ¡Correcto!' : '❌ Incorrecto';
+    feedbackResult.className = 'feedback-result ' + (isCorrect ? 'correct' : 'incorrect');
+    feedbackExplanation.textContent = scenario.explanation;
+
+    document.getElementById('scenario-feedback').style.display = 'block';
+}
+
+/**
+ * Va al siguiente escenario
+ */
+function goToNextScenario() {
+    if (currentScenarioIndex < ALERT_SCENARIOS.length - 1) {
+        currentScenarioIndex++;
+    } else {
+        currentScenarioIndex = 0;
+    }
+    displayCurrentScenario();
 }

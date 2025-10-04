@@ -40,7 +40,7 @@ const ALERT_STAGES = [
             "Mantén un kit de emergencia: agua, linterna, radio a batería, primeros auxilios, documentos importantes.",
             "Evita difundir información no verificada."
         ],
-        criteria: "Se activa según los criterios de la IAWN para alertas de impacto: probabilidad >1% para objetos >10 metros (o magnitud absoluta 28), o para preparación terrestre: probabilidad >10%, tiempo <20 años, tamaño >20 metros (magnitud 27). La dimensión es crítica porque determina la energía de impacto (mayor diámetro = mayor masa, independientemente de la densidad exacta), y objetos más grandes pueden causar efectos globales como ondas de choque que llegan a la superficie."
+        criteria: "Se activa cuando la IAWN emite una advertencia de impactos predichos con probabilidad >1% para objetos >10 metros de tamaño (o magnitud absoluta 28 si solo se disponen datos de brillo). La mayoría de objetos >10m tendrán efectos (explosión aérea y fragmentos) que pueden llegar a la superficie terrestre. La IAWN está obligada a alertar a las poblaciones si los cuerpos tendrán efectos que alcancen el suelo."
     },
     {
         title: "ETAPA 4 — MODO ADVERTENCIA DE IMPACTO",
@@ -53,7 +53,7 @@ const ALERT_STAGES = [
             "Si no puedes evacuar: Quédate indoors, lejos de ventanas. Ve a un sótano o habitación interior. Acuéstate plano y protege tu cabeza durante la onda de choque.",
             "Mantén agua y comida para al menos 72 horas."
         ],
-        criteria: "Impacto inminente con alta probabilidad (>10%) y tiempo estimado de días a semanas. Basado en criterios de IAWN donde la probabilidad supera el 1% para objetos >10 metros. La densidad afecta la masa (rocosa: ~3000 kg/m³ produce menos energía que metálica: ~7800 kg/m³), pero el diámetro es el indicador principal para clasificar la severidad, ya que asteroides más grandes generan cráteres mayores y efectos sísmicos más intensos."
+        criteria: "Se recomienda iniciar la planificación de preparación terrestre cuando se advierte de un posible impacto: predicho dentro de 20 años, probabilidad de impacto >10%, y objeto >20 metros de tamaño (o magnitud absoluta 27 si solo datos de brillo). Esto proporciona información a poblaciones y centros poblacionales para comenzar preparaciones de emergencia si es necesario. Los sorprendentes efectos del evento de Chelyabinsk en 2013 de un objeto ~18m llevaron al establecimiento de este límite inferior."
     },
     {
         title: "ETAPA 5 — DESPUÉS DEL IMPACTO",
@@ -83,14 +83,14 @@ const ALERT_SCENARIOS = [
         explanation: "Este es WATCH MODE (Amarillo) porque el objeto está bajo observación. Aunque mide 100m (por encima del umbral de 50m para SMPAG), la distancia y baja probabilidad lo mantienen en vigilancia."
     },
     {
-        scenario: "Un asteroide de 200 metros tiene un 5% de probabilidad de impactar la Tierra en 3 meses. Gobiernos y expertos están coordinando planes de emergencia.",
+        scenario: "Un asteroide de 50 metros tiene un 2% de probabilidad de impactar la Tierra en 10 años. La IAWN emite una advertencia oficial.",
         correctLevel: 2,
-        explanation: "Este es ALERT MODE (Naranja) porque cumple criterios de preparación terrestre: >20m, >10% prob en <20 años. La densidad del asteroide (rocosa o metálica) amplifica su energía destructiva."
+        explanation: "Este es ALERT MODE (Naranja) porque cumple criterios de advertencia IAWN: >1% prob para objetos >10m. La IAWN está obligada a alertar a las poblaciones si los cuerpos tendrán efectos que alcancen el suelo."
     },
     {
-        scenario: "Confirmado: asteroide impactará en 2 semanas con 80% de probabilidad. Defensa civil activada, evacuaciones en marcha.",
+        scenario: "Un asteroide de 200 metros tiene un 15% de probabilidad de impactar la Tierra en 5 años. Gobiernos y expertos están coordinando planes de emergencia.",
         correctLevel: 3,
-        explanation: "Este es IMPACT WARNING MODE (Rojo) porque supera el umbral IAWN de >1% prob para objetos >10m. El tamaño y densidad determinan la severidad del impacto esperado."
+        explanation: "Este es IMPACT WARNING MODE (Rojo) porque cumple criterios de preparación terrestre: >20m, >10% prob en <20 años. Se inicia planificación de preparación terrestre para poblaciones y centros poblacionales."
     },
     {
         scenario: "El asteroide ha impactado causando daños. Equipos de rescate están en la zona evaluando la situación.",

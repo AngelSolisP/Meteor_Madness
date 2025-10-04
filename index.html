@@ -39,7 +39,8 @@
                     <input type="checkbox" id="toggle-hazardous">
                     <span class="toggle-label">Mostrar Solo Peligrosos</span>
                 </label>
-                <div class="asteroid-counter">
+                <!-- aria-live="polite" will make screen readers announce changes to the count -->
+                <div class="asteroid-counter" aria-live="polite">
                     <span id="asteroid-count">0</span> asteroides visibles
                 </div>
             </div>
@@ -49,10 +50,10 @@
     <!-- Main Content -->
     <main>
         <!-- Map Container -->
-        <div id="map"></div>
+        <div id="map" role="application" aria-label="Mapa interactivo de asteroides"></div>
 
         <!-- Loading Indicator -->
-        <div id="loading" class="loading">
+        <div id="loading" class="loading" role="status" aria-live="polite">
             <div class="spinner"></div>
             <p>Cargando datos de asteroides...</p>
         </div>
@@ -60,13 +61,14 @@
 
     <!-- Catalog Modal -->
     <div id="catalog-backdrop" class="catalog-backdrop"></div>
-    <div id="catalog-modal" class="catalog-modal">
+    <div id="catalog-modal" class="catalog-modal" role="dialog" aria-modal="true" aria-labelledby="catalog-title">
         <div class="catalog-header">
-            <h2>🌠 Catálogo de Asteroides</h2>
-            <button class="close-btn" id="catalog-close">&times;</button>
+            <h2 id="catalog-title">🌠 Catálogo de Asteroides</h2>
+            <button class="close-btn" id="catalog-close" aria-label="Cerrar catálogo">&times;</button>
         </div>
         <div class="catalog-filters">
             <div class="filter-group">
+                <label for="catalog-search" class="sr-only">Buscar por nombre o ID</label>
                 <input type="text" id="catalog-search" class="search-input" placeholder="🔍 Buscar por nombre o ID...">
             </div>
             <div class="filter-group">
@@ -92,12 +94,12 @@
             <table class="catalog-table">
                 <thead>
                     <tr>
-                        <th>#</th>
-                        <th>Nombre</th>
-                        <th>Diámetro</th>
-                        <th>Velocidad</th>
-                        <th>Energía</th>
-                        <th>Estado</th>
+                        <th scope="col">#</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Diámetro</th>
+                        <th scope="col">Velocidad</th>
+                        <th scope="col">Energía</th>
+                        <th scope="col">Estado</th>
                     </tr>
                 </thead>
                 <tbody id="catalog-table-body">
@@ -108,8 +110,8 @@
     </div>
 
     <!-- Asteroid Info Panel -->
-    <div id="info-panel" class="info-panel">
-        <button class="close-btn" id="close-panel">&times;</button>
+    <div id="info-panel" class="info-panel" role="region" aria-labelledby="panel-name">
+        <button class="close-btn" id="close-panel" aria-label="Cerrar panel de información">&times;</button>
         <div class="panel-content">
             <h2 id="panel-name">Nombre del Asteroide</h2>
 
@@ -117,31 +119,31 @@
                 <h3>Parámetros Físicos</h3>
                 <div class="info-grid">
                     <div class="info-item">
-                        <span class="info-label">
+                        <div class="info-label">
                             Diámetro:
-                            <span class="info-icon" data-tooltip="diameter">ℹ️</span>
-                        </span>
+                            <button class="info-icon" data-tooltip="diameter" aria-label="Más información sobre diámetro">ℹ️</button>
+                        </div>
                         <span id="panel-diameter">-</span>
                     </div>
                     <div class="info-item">
-                        <span class="info-label">
+                        <div class="info-label">
                             Velocidad:
-                            <span class="info-icon" data-tooltip="velocity">ℹ️</span>
-                        </span>
+                            <button class="info-icon" data-tooltip="velocity" aria-label="Más información sobre velocidad">ℹ️</button>
+                        </div>
                         <span id="panel-velocity">-</span>
                     </div>
                     <div class="info-item">
-                        <span class="info-label">
+                        <div class="info-label">
                             Masa:
-                            <span class="info-icon" data-tooltip="mass">ℹ️</span>
-                        </span>
+                            <button class="info-icon" data-tooltip="mass" aria-label="Más información sobre masa">ℹ️</button>
+                        </div>
                         <span id="panel-mass">-</span>
                     </div>
                     <div class="info-item">
-                        <span class="info-label">
+                        <div class="info-label">
                             Estado:
-                            <span class="info-icon" data-tooltip="hazardous">ℹ️</span>
-                        </span>
+                            <button class="info-icon" data-tooltip="hazardous" aria-label="Más información sobre estado de peligrosidad">ℹ️</button>
+                        </div>
                         <span id="panel-hazard" class="hazard-badge">-</span>
                     </div>
                 </div>
@@ -149,15 +151,15 @@
 
             <div class="info-section">
                 <h3>
-                    Energía de Impacto
-                    <span class="info-icon" data-tooltip="energy">ℹ️</span>
+                    Energía de Impacto 
+                    <button class="info-icon" data-tooltip="energy" aria-label="Más información sobre energía de impacto">ℹ️</button>
                 </h3>
                 <div class="energy-display">
                     <div class="energy-value">
                         <span id="panel-energy">-</span>
                         <span class="energy-unit">
-                            Megatones TNT
-                            <span class="info-icon" data-tooltip="megatons">ℹ️</span>
+                            Megatones TNT 
+                            <button class="info-icon" data-tooltip="megatons" aria-label="Más información sobre megatones">ℹ️</button>
                         </span>
                     </div>
                     <div class="comparison">
@@ -169,9 +171,9 @@
             <div class="info-section">
                 <h3>Análisis Visual</h3>
                 <div class="charts-tabs">
-                    <button class="chart-tab active" data-chart="comparison">Comparación</button>
-                    <button class="chart-tab" data-chart="distribution">Distribución</button>
-                    <button class="chart-tab" data-chart="scatter">Energía-Tamaño</button>
+                    <button class="chart-tab active" data-chart="comparison" role="tab" aria-selected="true">Comparación</button>
+                    <button class="chart-tab" data-chart="distribution" role="tab" aria-selected="false">Distribución</button>
+                    <button class="chart-tab" data-chart="scatter" role="tab" aria-selected="false">Energía-Tamaño</button>
                 </div>
                 <div class="charts-container">
                     <canvas id="chart-comparison" class="chart-canvas active"></canvas>
@@ -192,17 +194,17 @@
                         <span id="panel-surface">-</span>
                     </div>
                     <div class="info-item">
-                        <span class="info-label">
+                        <div class="info-label">
                             Magnitud Sísmica:
-                            <span class="info-icon" data-tooltip="seismic">ℹ️</span>
-                        </span>
+                            <button class="info-icon" data-tooltip="seismic" aria-label="Más información sobre magnitud sísmica">ℹ️</button>
+                        </div>
                         <span id="panel-seismic">-</span>
                     </div>
                     <div class="info-item">
-                        <span class="info-label">
+                        <div class="info-label">
                             Diámetro del Cráter:
-                            <span class="info-icon" data-tooltip="crater">ℹ️</span>
-                        </span>
+                            <button class="info-icon" data-tooltip="crater" aria-label="Más información sobre diámetro del cráter">ℹ️</button>
+                        </div>
                         <span id="panel-crater">-</span>
                     </div>
                 </div>

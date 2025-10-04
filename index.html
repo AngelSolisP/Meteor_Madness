@@ -34,6 +34,9 @@
             <button class="sidebar-btn" id="btn-simulator">
                 🎯 Simulador
             </button>
+            <button class="sidebar-btn" id="btn-alert">
+                ☄️ Alerta de Meteorito
+            </button>
             <div class="filter-section">
                 <label class="toggle-container">
                     <input type="checkbox" id="toggle-hazardous">
@@ -172,6 +175,53 @@
                     <h4>Comparación:</h4>
                     <p id="sim-comparison">-</p>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Alert Modal -->
+    <div id="alert-backdrop" class="alert-backdrop"></div>
+    <div id="alert-modal" class="alert-modal" role="dialog" aria-modal="true" aria-labelledby="alert-title">
+        <div class="alert-header">
+            <h2 id="alert-title">☄️ Alerta de Meteorito</h2>
+            <button class="close-btn" id="alert-close" aria-label="Cerrar alerta">&times;</button>
+        </div>
+        <div class="alert-content">
+            <div class="alert-stage" id="alert-stage">
+                <div class="stage-header">
+                    <h3 id="stage-title">STAGE 1 — MONITOR MODE</h3>
+                    <div class="alert-level" id="alert-level">🟢 Alert Level: GREEN</div>
+                </div>
+                <div class="stage-description">
+                    <p id="stage-description">"The sky is being watched!"</p>
+                    <p id="stage-what">"Scientists around the world (IAWN) are scanning space for any object that might come close to Earth."</p>
+                    <div class="stage-actions">
+                        <h4>What you can do:</h4>
+                        <ul id="stage-actions-list">
+                            <li>Stay calm — meteors are common, but dangerous ones are rare.</li>
+                            <li>Follow trusted science pages (NASA, UN-SPIDER, local space agency).</li>
+                            <li>Don't believe viral rumors about "end of the world" stories online.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="stage-question" id="stage-question" style="display: none;">
+                    <h4>What should you do if you see a rumor online?</h4>
+                    <div class="question-options">
+                        <button class="option-btn" data-correct="false">Share it with friends to warn them</button>
+                        <button class="option-btn" data-correct="true">Check official sources first</button>
+                        <button class="option-btn" data-correct="false">Panic and tell everyone</button>
+                    </div>
+                </div>
+                <div class="stage-feedback" id="stage-feedback" style="display: none;">
+                    <p id="feedback-text"></p>
+                </div>
+            </div>
+            <div class="alert-navigation">
+                <button id="alert-prev" class="nav-btn" disabled>Anterior</button>
+                <div class="stage-indicator">
+                    <span id="current-stage">1</span> / <span id="total-stages">5</span>
+                </div>
+                <button id="alert-next" class="nav-btn">Siguiente</button>
             </div>
         </div>
     </div>

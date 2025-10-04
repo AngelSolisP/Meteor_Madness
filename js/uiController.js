@@ -3,6 +3,118 @@
  * Maneja la interfaz de usuario y eventos
  */
 
+// Datos de las etapas de alerta de meteorito
+const ALERT_STAGES = [
+    {
+        title: "STAGE 1 — MONITOR MODE",
+        level: "🟢 Alert Level: GREEN — No danger detected.",
+        description: "\"The sky is being watched!\"",
+        what: "Scientists around the world (IAWN) are scanning space for any object that might come close to Earth.",
+        actions: [
+            "Stay calm — meteors are common, but dangerous ones are rare.",
+            "Follow trusted science pages (NASA, UN-SPIDER, local space agency).",
+            "Don't believe viral rumors about \"end of the world\" stories online."
+        ],
+        question: "What should you do if you see a rumor online?",
+        options: [
+            { text: "Share it with friends to warn them", correct: false },
+            { text: "Check official sources first", correct: true },
+            { text: "Panic and tell everyone", correct: false }
+        ],
+        feedback: {
+            correct: "Good job! Checking official sources helps prevent unnecessary panic.",
+            incorrect: "Wrong! Always verify information with official sources before spreading it."
+        }
+    },
+    {
+        title: "STAGE 2 — WATCH MODE",
+        level: "🟡 Alert Level: YELLOW — Object under observation.",
+        description: "\"Scientists found a rock — it's being checked!\"",
+        what: "IAWN has spotted an asteroid passing near Earth. They're calculating its orbit to see if it might hit.",
+        actions: [
+            "Follow official updates — not social media panic.",
+            "Listen for IAWN or government alerts.",
+            "Schools, local leaders, and emergency agencies may start briefings."
+        ],
+        question: "Where should you get your information from?",
+        options: [
+            { text: "Social media posts", correct: false },
+            { text: "Official government or scientific sources", correct: true },
+            { text: "Random websites", correct: false }
+        ],
+        feedback: {
+            correct: "Excellent! Official sources provide accurate and timely information.",
+            incorrect: "Incorrect! Social media can spread misinformation quickly."
+        }
+    },
+    {
+        title: "STAGE 3 — ALERT MODE",
+        level: "🟠 Alert Level: ORANGE — Prepare and stay alert.",
+        description: "\"It might come close — we're preparing just in case.\"",
+        what: "Impact probability is about 1–10%. Space experts (IAWN + SMPAG) and governments start emergency coordination.",
+        actions: [
+            "Stay tuned to official radio or online emergency channels.",
+            "Learn your local shelter locations.",
+            "Keep an emergency kit: water, flashlight, battery radio, first aid, important documents.",
+            "Avoid spreading unverified information."
+        ],
+        question: "What should you prepare?",
+        options: [
+            { text: "Emergency supplies and know shelter locations", correct: true },
+            { text: "Buy extra food and water", correct: false },
+            { text: "Stockpile weapons", correct: false }
+        ],
+        feedback: {
+            correct: "Perfect! Having emergency supplies ready is crucial for safety.",
+            incorrect: "Not quite! Focus on practical emergency preparedness, not panic buying."
+        }
+    },
+    {
+        title: "STAGE 4 — IMPACT WARNING MODE",
+        level: "🔴 Alert Level: RED — Take action immediately!",
+        description: "\"Impact expected — follow safety instructions now!\"",
+        what: "Scientists confirm the asteroid could strike Earth within days or weeks. Civil defense is active.",
+        actions: [
+            "Listen to official alerts only (TV, radio, phone notifications).",
+            "If told to evacuate, do so calmly and quickly.",
+            "If you cannot evacuate: Stay indoors, away from windows. Go to a basement or interior room. Lie flat and protect your head during the shockwave.",
+            "Keep water and food for at least 72 hours."
+        ],
+        question: "What should you do if impact is imminent?",
+        options: [
+            { text: "Run outside to see it", correct: false },
+            { text: "Follow official evacuation orders", correct: true },
+            { text: "Hide in a closet or basement", correct: false }
+        ],
+        feedback: {
+            correct: "Correct! Following official instructions saves lives.",
+            incorrect: "Wrong! Never go outside during impact, and always follow evacuation orders."
+        }
+    },
+    {
+        title: "STAGE 5 — AFTER IMPACT",
+        level: "🟢 Alert Level: GREEN — Recovery and support phase.",
+        description: "\"The danger has passed — now we rebuild.\"",
+        what: "The impact (if it occurs) may cause shockwaves, fires, or power outages. Rescue teams will move in.",
+        actions: [
+            "Wait for official \"all clear\" messages before leaving shelter.",
+            "Help others safely; avoid damaged buildings or unknown debris.",
+            "Follow instructions from emergency and health officials.",
+            "Do not touch or go near meteor fragments — they can be hot or toxic."
+        ],
+        question: "What should you do after the impact?",
+        options: [
+            { text: "Immediately go outside to check damage", correct: false },
+            { text: "Wait for official all-clear signals", correct: true },
+            { text: "Touch any interesting rocks you find", correct: false }
+        ],
+        feedback: {
+            correct: "Great! Waiting for official confirmation ensures safety.",
+            incorrect: "Dangerous! Always wait for authorities and avoid unknown debris."
+        }
+    }
+];
+
 // Referencias a elementos del DOM
 let infoPanelElement = null;
 let closePanelBtn = null;
@@ -15,6 +127,14 @@ let simulatorBackdrop = null;
 let simulatorModal = null;
 let simulatorCloseBtn = null;
 let calculateBtn = null;
+
+// Referencias para alerta
+let alertBackdrop = null;
+let alertModal = null;
+let alertCloseBtn = null;
+let alertPrevBtn = null;
+let alertNextBtn = null;
+let currentStageIndex = 0;
 
 /**
  * Inicializa los controladores de UI
@@ -34,6 +154,13 @@ function initializeUIController() {
     simulatorModal = document.getElementById('simulator-modal');
     simulatorCloseBtn = document.getElementById('simulator-close');
     calculateBtn = document.getElementById('sim-calculate');
+
+    // Referencias para alerta
+    alertBackdrop = document.getElementById('alert-backdrop');
+    alertModal = document.getElementById('alert-modal');
+    alertCloseBtn = document.getElementById('alert-close');
+    alertPrevBtn = document.getElementById('alert-prev');
+    alertNextBtn = document.getElementById('alert-next');
 
     // Event listeners
     if (closePanelBtn) {
@@ -60,6 +187,28 @@ function initializeUIController() {
 
     if (calculateBtn) {
         calculateBtn.addEventListener('click', handleSimulatorCalculation);
+    }
+
+    // Event listeners para alerta
+    const alertBtn = document.getElementById('btn-alert');
+    if (alertBtn) {
+        alertBtn.addEventListener('click', showAlertModal);
+    }
+
+    if (alertCloseBtn) {
+        alertCloseBtn.addEventListener('click', hideAlertModal);
+    }
+
+    if (alertBackdrop) {
+        alertBackdrop.addEventListener('click', hideAlertModal);
+    }
+
+    if (alertPrevBtn) {
+        alertPrevBtn.addEventListener('click', goToPreviousStage);
+    }
+
+    if (alertNextBtn) {
+        alertNextBtn.addEventListener('click', goToNextStage);
     }
 
     console.log('✓ Controladores de UI inicializados');
@@ -399,4 +548,128 @@ function displaySimulatorResults(results) {
 
     // Scroll al área de resultados
     resultsContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+/**
+ * Muestra el modal de alerta
+ */
+function showAlertModal() {
+    if (alertBackdrop && alertModal) {
+        currentStageIndex = 0;
+        displayCurrentStage();
+        alertBackdrop.classList.add('active');
+        alertModal.classList.add('active');
+        console.log('Modal de alerta mostrado');
+    }
+}
+
+/**
+ * Oculta el modal de alerta
+ */
+function hideAlertModal() {
+    if (alertBackdrop && alertModal) {
+        alertBackdrop.classList.remove('active');
+        alertModal.classList.remove('active');
+        console.log('Modal de alerta ocultado');
+    }
+}
+
+/**
+ * Muestra la etapa actual
+ */
+function displayCurrentStage() {
+    const stage = ALERT_STAGES[currentStageIndex];
+
+    // Actualizar título y nivel
+    document.getElementById('stage-title').textContent = stage.title;
+    document.getElementById('alert-level').textContent = stage.level;
+
+    // Actualizar descripción
+    document.getElementById('stage-description').textContent = stage.description;
+    document.getElementById('stage-what').textContent = stage.what;
+
+    // Actualizar acciones
+    const actionsList = document.getElementById('stage-actions-list');
+    actionsList.innerHTML = '';
+    stage.actions.forEach(action => {
+        const li = document.createElement('li');
+        li.textContent = action;
+        actionsList.appendChild(li);
+    });
+
+    // Actualizar pregunta
+    document.getElementById('stage-question').querySelector('h4').textContent = stage.question;
+    const optionsContainer = document.querySelector('.question-options');
+    optionsContainer.innerHTML = '';
+    stage.options.forEach((option, index) => {
+        const btn = document.createElement('button');
+        btn.className = 'option-btn';
+        btn.textContent = option.text;
+        btn.dataset.correct = option.correct;
+        btn.addEventListener('click', handleOptionClick);
+        optionsContainer.appendChild(btn);
+    });
+
+    // Ocultar feedback inicialmente
+    document.getElementById('stage-feedback').style.display = 'none';
+    document.getElementById('stage-question').style.display = 'block';
+
+    // Actualizar navegación
+    document.getElementById('current-stage').textContent = currentStageIndex + 1;
+    document.getElementById('total-stages').textContent = ALERT_STAGES.length;
+
+    alertPrevBtn.disabled = currentStageIndex === 0;
+    alertNextBtn.textContent = currentStageIndex === ALERT_STAGES.length - 1 ? 'Reiniciar' : 'Siguiente';
+}
+
+/**
+ * Maneja el clic en una opción de pregunta
+ */
+function handleOptionClick(event) {
+    const btn = event.target;
+    const isCorrect = btn.dataset.correct === 'true';
+    const stage = ALERT_STAGES[currentStageIndex];
+
+    // Marcar botones
+    const options = document.querySelectorAll('.option-btn');
+    options.forEach(option => {
+        option.disabled = true;
+        if (option.dataset.correct === 'true') {
+            option.classList.add('correct');
+        } else {
+            option.classList.add('incorrect');
+        }
+    });
+
+    // Mostrar feedback
+    const feedbackText = document.getElementById('feedback-text');
+    feedbackText.textContent = isCorrect ? stage.feedback.correct : stage.feedback.incorrect;
+    document.getElementById('stage-feedback').style.display = 'block';
+
+    // Habilitar siguiente después de respuesta
+    alertNextBtn.disabled = false;
+}
+
+/**
+ * Va a la etapa anterior
+ */
+function goToPreviousStage() {
+    if (currentStageIndex > 0) {
+        currentStageIndex--;
+        displayCurrentStage();
+    }
+}
+
+/**
+ * Va a la siguiente etapa
+ */
+function goToNextStage() {
+    if (currentStageIndex < ALERT_STAGES.length - 1) {
+        currentStageIndex++;
+        displayCurrentStage();
+    } else {
+        // Reiniciar al final
+        currentStageIndex = 0;
+        displayCurrentStage();
+    }
 }

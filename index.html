@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meteor Madness - Simulador de Impactos de Asteroides</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+          integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+          crossorigin=""/>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-content">
+            <h1>🌠 Meteor Madness</h1>
+            <p class="subtitle">Visualización Interactiva de Impactos de Asteroides</p>
+        </div>
+    </header>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-content">
+            <button class="sidebar-btn" id="btn-catalog">
+                📋 Ver Catálogo
+            </button>
+            <button class="sidebar-btn" id="btn-simulator" disabled>
+                🎯 Simulador
+            </button>
+            <div class="filter-section">
+                <label class="toggle-container">
+                    <input type="checkbox" id="toggle-hazardous">
+                    <span class="toggle-label">Mostrar Solo Peligrosos</span>
+                </label>
+                <div class="asteroid-counter">
+                    <span id="asteroid-count">0</span> asteroides visibles
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Map Container -->
+        <div id="map"></div>
+
+        <!-- Loading Indicator -->
+        <div id="loading" class="loading">
+            <div class="spinner"></div>
+            <p>Cargando datos de asteroides...</p>
+        </div>
+    </main>
+
+    <!-- Catalog Modal -->
+    <div id="catalog-backdrop" class="catalog-backdrop"></div>
+    <div id="catalog-modal" class="catalog-modal">
+        <div class="catalog-header">
+            <h2>🌠 Catálogo de Asteroides</h2>
+            <button class="close-btn" id="catalog-close">&times;</button>
+        </div>
+        <div class="catalog-filters">
+            <div class="filter-group">
+                <input type="text" id="catalog-search" class="search-input" placeholder="🔍 Buscar por nombre o ID...">
+            </div>
+            <div class="filter-group">
+                <label class="checkbox-label">
+                    <input type="checkbox" id="catalog-filter-hazardous">
+                    <span>Solo Peligrosos</span>
+                </label>
+            </div>
+            <div class="filter-group">
+                <label for="catalog-sort">Ordenar por:</label>
+                <select id="catalog-sort" class="sort-select">
+                    <option value="energy">Energía (Mayor a menor)</option>
+                    <option value="diameter">Diámetro (Mayor a menor)</option>
+                    <option value="velocity">Velocidad (Mayor a menor)</option>
+                    <option value="name">Nombre (A-Z)</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <span id="catalog-count" class="catalog-count">0 asteroides</span>
+            </div>
+        </div>
+        <div class="catalog-table-container">
+            <table class="catalog-table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Nombre</th>
+                        <th>Diámetro</th>
+                        <th>Velocidad</th>
+                        <th>Energía</th>
+                        <th>Estado</th>
+                    </tr>
+                </thead>
+                <tbody id="catalog-table-body">
+                    <!-- Rows will be populated by JavaScript -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Asteroid Info Panel -->
+    <div id="info-panel" class="info-panel">
+        <button class="close-btn" id="close-panel">&times;</button>
+        <div class="panel-content">
+            <h2 id="panel-name">Nombre del Asteroide</h2>
+
+            <div class="info-section">
+                <h3>Parámetros Físicos</h3>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <span class="info-label">
+                            Diámetro:
+                            <span class="info-icon" data-tooltip="diameter">ℹ️</span>
+                        </span>
+                        <span id="panel-diameter">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">
+                            Velocidad:
+                            <span class="info-icon" data-tooltip="velocity">ℹ️</span>
+                        </span>
+                        <span id="panel-velocity">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">
+                            Masa:
+                            <span class="info-icon" data-tooltip="mass">ℹ️</span>
+                        </span>
+                        <span id="panel-mass">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">
+                            Estado:
+                            <span class="info-icon" data-tooltip="hazardous">ℹ️</span>
+                        </span>
+                        <span id="panel-hazard" class="hazard-badge">-</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-section">
+                <h3>
+                    Energía de Impacto
+                    <span class="info-icon" data-tooltip="energy">ℹ️</span>
+                </h3>
+                <div class="energy-display">
+                    <div class="energy-value">
+                        <span id="panel-energy">-</span>
+                        <span class="energy-unit">
+                            Megatones TNT
+                            <span class="info-icon" data-tooltip="megatons">ℹ️</span>
+                        </span>
+                    </div>
+                    <div class="comparison">
+                        <p id="panel-comparison">-</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-section">
+                <h3>Análisis Visual</h3>
+                <div class="charts-tabs">
+                    <button class="chart-tab active" data-chart="comparison">Comparación</button>
+                    <button class="chart-tab" data-chart="distribution">Distribución</button>
+                    <button class="chart-tab" data-chart="scatter">Energía-Tamaño</button>
+                </div>
+                <div class="charts-container">
+                    <canvas id="chart-comparison" class="chart-canvas active"></canvas>
+                    <canvas id="chart-distribution" class="chart-canvas"></canvas>
+                    <canvas id="chart-scatter" class="chart-canvas"></canvas>
+                </div>
+            </div>
+
+            <div class="info-section">
+                <h3>Efectos del Impacto</h3>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <span class="info-label">Ubicación:</span>
+                        <span id="panel-location">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Tipo de Superficie:</span>
+                        <span id="panel-surface">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">
+                            Magnitud Sísmica:
+                            <span class="info-icon" data-tooltip="seismic">ℹ️</span>
+                        </span>
+                        <span id="panel-seismic">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">
+                            Diámetro del Cráter:
+                            <span class="info-icon" data-tooltip="crater">ℹ️</span>
+                        </span>
+                        <span id="panel-crater">-</span>
+                    </div>
+                </div>
+                <div id="tsunami-info" class="tsunami-warning" style="display: none;">
+                    <h4>⚠️ Alerta de Tsunami</h4>
+                    <p id="tsunami-details">-</p>
+                </div>
+            </div>
+
+            <div class="info-section">
+                <h3>Datos Orbitales</h3>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <span class="info-label">Fecha de Aproximación:</span>
+                        <span id="panel-approach">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Clase Orbital:</span>
+                        <span id="panel-orbit-class">-</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tooltip Container -->
+    <div id="tooltip-container" class="tooltip-container" style="display: none;">
+        <div class="tooltip-content"></div>
+        <div class="tooltip-arrow"></div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>Datos: NASA NEO API + USGS | Meteor Madness &copy; 2025</p>
+    </footer>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+            integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+            crossorigin=""></script>
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
+
+    <!-- Custom Scripts -->
+    <script src="js/dataLoader.js"></script>
+    <script src="js/impactCalculator.js"></script>
+    <script src="js/mapController.js"></script>
+    <script src="js/catalogController.js"></script>
+    <script src="js/chartController.js"></script>
+    <script src="js/tooltipController.js"></script>
+    <script src="js/uiController.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

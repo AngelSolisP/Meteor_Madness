@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meteor Impact Parameter Interface</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <header>
+        <h1>Unexpected Meteor Impact Simulator</h1>
+        <p>Define the impact scenario using the inputs below. Static (Earth) parameters are assumed based on a hypothetical impact site.</p>
+    </header>
+
+    <div class="container">
+
+        <section class="asteroid-params">
+            <h2>1. Asteroid Parameters (Inputs)</h2>
+            <p class="section-note">Adjust the sliders below to define the properties of the impacting object.</p>
+
+            <div class="input-group-slider">
+                <label for="size">Initial Diameter (D):</label>
+                <input type="range" id="sizeInput" value="150" min="10" max="1000" step="10" oninput="sizeOutput.value=this.value">
+                <output id="sizeOutput" for="sizeInput">150</output>
+                <span>meters (m)</span>
+            </div>
+
+            <div class="input-group-slider">
+                <label for="density">Mass & Density ($\rho$):</label>
+                <input type="range" id="density" value="3000" min="1500" max="8000" step="100" oninput="densityOutput.value=density.value">
+                <output id="densityOutput">3000</output>
+                <span>kg/m³</span>
+            </div>
+
+            <div class="input-group-slider">
+                <label for="velocity">Entry Velocity (V):</label>
+                <input type="range" id="velocity" value="20" min="11" max="70" step="1" oninput="velocityOutput.value=velocity.value">
+                <output id="velocityOutput">20</output>
+                <span>km/s</span>
+            </div>
+
+            <div class="input-group-slider">
+                <label for="angle">Entry Angle ($\theta$):</label>
+                <input type="range" id="angle" value="45" min="10" max="90" step="1" oninput="angleOutput.value=angle.value">
+                <output id="angleOutput">45</output>
+                <span>degrees (°)</span>
+            </div>
+
+            <div class="input-group">
+                <label for="composition">Composition/Strength:</label>
+                <select id="composition">
+                    <option value="stony">Stony (Medium Strength)</option>
+                    <option value="iron">Iron (High Strength)</option>
+                    <option value="rubble">Rubble Pile (Low Strength)</option>
+                </select>
+            </div>
+
+            <button onclick="calculateImpact()">Calculate Impact Effects</button>
+        </section>
+        
+        <section class="earth-params">
+            <h2>2. Earth Parameters (Static Context)</h2>
+            <p class="section-note">These values are fixed based on a hypothetical impact location (e.g., near an unpopulated coast).</p>
+
+            <div class="static-param">
+                <strong>Impact Site Location:</strong>
+                <span>40.7° N, 74.0° W (Hypothetical)</span>
+            </div>
+            
+            <div class="static-param">
+                <strong>Topography/Relief:</strong>
+                <span>Coastal Plain (Elevation: 10m)</span>
+            </div>
+            
+            <div class="static-param">
+                <strong>Geology:</strong>
+                <span>Sedimentary Rock (Target Density $\rho_t \approx 2,500\text{ kg/m}^3$)</span>
+            </div>
+            
+            <div class="static-param">
+                <strong>Atmosphere:</strong>
+                <span>Standard Atmospheric Model (Fixed)</span>
+            </div>
+            
+            <div class="static-param">
+                <strong>Gravity:</strong>
+                <span>$g \approx 9.81\text{ m/s}^2$ (Fixed)</span>
+            </div>
+        </section>
+
+        <section class="results">
+            <h2>3. Impact Results (Dynamic Output)</h2>
+            <div id="results-output">
+                <p>Click "Calculate Impact Effects" to see the results here.</p>
+                <hr>
+                <p><strong>Kinetic Energy (E$_K$):</strong> --</p>
+                <p><strong>TNT Equivalent:</strong> --</p>
+                <p><strong>Impact Fate:</strong> --</p>
+                <p><strong>Crater Diameter:</strong> --</p>
+            </div>
+        </section>
+
+    </div>
+
+    <script>
+        function calculateImpact() {
+            // Get values from the slider outputs (which match the input range values)
+            const D = parseFloat(document.getElementById('sizeInput').value || 150);
+            const rho = parseFloat(document.getElementById('densityOutput').value || 3000);
+            const V_km_s = parseFloat(document.getElementById('velocityOutput').value || 20);
+            
+            // Convert to base units for calculation: Radius (m) and Velocity (m/s)
+            const R = D / 2;
+            const V_m_s = V_km_s * 1000;
+
+            // 1. Calculate Mass
+            const mass = (4 / 3) * Math.PI * Math.pow(R, 3) * rho;
+
+            // 2. Calculate Kinetic Energy (E_K = 1/2 * m * V^2)
+            const Ek = 0.5 * mass * Math.pow(V_m_s, 2);
+
+            // 3. Convert to TNT Equivalent (1 Megaton TNT = 4.184 x 10^15 Joules)
+            const tntEquiv_MT = Ek / 4.184e15; 
+            
+            document.getElementById('results-output').innerHTML = `
+                <p><strong>Kinetic Energy (E$_K$):</strong> ${Ek.toExponential(2)} J</p>
+                <p><strong>TNT Equivalent:</strong> ${tntEquiv_MT.toFixed(2)} Megatons (MT)</p>
+                <p><strong>Impact Fate:</strong> Modeling in progress (Airburst vs. Ground Impact)...</p>
+                <p><strong>Crater Diameter:</strong> Modeling in progress...</p>
+            `;
+        }
+    </script>
+    
+</body>
+</html>

@@ -1,32 +1,39 @@
-# Proyecto: Meteor Madness - Análisis de Datos NASA + USGS
+# Project: Meteor Madness – NASA + USGS Data Analysis
 
-## Contexto del Proyecto
+## Project Context
 
-Basado en la información proporcionada por NASA API y USGS, se creó una herramienta de visualización y simulación de impactos de asteroides. La herramienta utiliza los datos del meteorito con la trayectoria, la velocidad y el tamaño.
+Based on information provided by the NASA API and USGS, a visualization and simulation tool for asteroid impacts was created. The tool uses meteorite data such as trajectory, velocity, and size.
 
-Este documento detalla el análisis de los conjuntos de datos proporcionados para el proyecto "Meteor Madness", una herramienta de visualización y simulación de impactos de asteroides desarrollada en el contexto de un hackathon. El objetivo principal es integrar datos de la NASA sobre asteroides con datos geológicos del USGS (terremotos, elevación y zonas de tsunami) para simular y visualizar las consecuencias de un impacto.
+This document details the analysis of the datasets provided for the "Meteor Madness" project, a visualization and asteroid impact simulation tool developed in the context of a hackathon. The main goal is to integrate NASA asteroid data with USGS geological data (earthquakes, elevation, and tsunami zones) to simulate and visualize the consequences of an impact.
 
-## Cómo usar el Visualizador de Meteoritos
+## How to Use the Meteorite Visualizer
 
-El visualizador te permite personalizar el diámetro del asteroide/meteorito, densidad, velocidad, ángulo, latitud y longitud. Una vez modificado cada uno de estos parámetros, te aparecerán en pantallas las coordenadas para poder visualizarlo en el mapa.
+The visualizer allows you to customize the asteroid/meteorite diameter, density, velocity, angle, latitude, and longitude. Once you modify these parameters, the coordinates will appear on the screen so you can visualize the impact on the map.
 
-Como características de esta visualización, dependiendo del impacto aparecerá en 3 rangos de colores, por ejemplo: amarillo (impacto medio), naranja (impacto alto), rojo (impacto catastrófico). La forma en que se medirá el impacto será por rango de profundidad.
+As part of the visualization features, depending on the impact, three color ranges will appear:  
+- **Yellow** → medium impact  
+- **Orange** → high impact  
+- **Red** → catastrophic impact  
 
-## Herramientas
+The impact level is measured based on depth range.
 
-*   Visual Studio Code
-*   GitHub
-*   Python
-*   JavaScript/CSS/HTML
-*   Claude/ChatGPT/Gemini
+## Tools
 
-## Actividades
+- Visual Studio Code  
+- GitHub  
+- Python  
+- JavaScript/CSS/HTML  
+- Claude / ChatGPT / Gemini  
 
-*   **Crear la página web**
-    *   Conectarlo al backend y frontend (conectado a las APIs y a los cálculos)
-    *   Revisar funcionamiento: Interactivo (características de los meteoritos y/o de ubicación)
-    *   Característica: Dashboard, modelado, Visualización
-*   **Análisis de datos**
-    *   Recopilar la Información
-*   **Cálculos**
-    *   Probabilidad, cálculo de riesgos
+## Activities
+
+- **Create the Website**
+  - Connect backend and frontend (integrated with APIs and calculations)  
+  - Review functionality: Interactive (meteorite and/or location features)  
+  - Features: Dashboard, modeling, visualization  
+
+- **Data Analysis**
+  - Collect the information  
+
+- **Calculations**
+  - Probability, risk assessment  

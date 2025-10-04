@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Meteor Madness — Visualización y simulación web de impactos de asteroides con datos de NASA y USGS." />
+  <title>Meteor Madness — Asteroid Impact Simulator</title>
+
+  <!-- CSS principal -->
+  <link rel="stylesheet" href="styles.css" />
+
+  <!-- Ajustes finos para evitar desbordes de texto -->
+  <style>
+    .card, label, small, p, h1, h2, h3, button, input, select, details, summary {
+      overflow-wrap: anywhere;
+      word-wrap: break-word;
+      hyphens: auto;
+    }
+    .grid label > input, .grid label > select { min-width: 0; width: 100%; }
+    #orbit3dCanvas { width: 100%; height: 380px; min-height: 360px; border-radius: 12px; background: #0f1024; }
+  </style>
+
+  <!-- Leaflet -->
+  <link rel="preconnect" href="https://unpkg.com" crossorigin>
+  <link rel="preconnect" href="https://tile.openstreetmap.org" crossorigin>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+  <!-- Three.js (una sola vez) -->
+  <script src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
+  <script src="https://unpkg.com/three@0.160.0/examples/js/controls/OrbitControls.js"></script>
+  <!-- Chart.js para gráficas de resultados -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+
+</head>
+<body>
+  <header>
+    <h1>🚀 Meteor Madness</h1>
+    <p>Plataforma de simulación y análisis de riesgo de impacto de asteroides (NASA + USGS).</p>
+  </header>
+
+  <main class="layout">
+    <!-- Panel Dataset (IDs ÚNICOS) -->
+    <section class="panel card" aria-labelledby="dataset-title">
+      <h2 id="dataset-title">NEOs del dataset (carga rápida)</h2>
+      <div class="grid">
+        <label>Selecciona NEO
+          <select id="neoSelect" aria-label="Seleccionar NEO del dataset"></select>
+        </label>
+        <label>Info
+          <div id="neoInfo" style="min-height:2.5em" aria-live="polite"></div>
+        </label>
+      </div>
+      <button id="loadNeo" aria-label="Cargar NEO en simulador">Cargar NEO en simulador</button>
+      <small>Precarga parámetros orbitales, físicos y un escenario de impacto sugerido.</small>
+    </section>
+
+    <!-- Controles físicos y ubicación -->
+    <section class="controls card" aria-labelledby="params-title">
+      <h2 id="params-title">Parámetros del asteroide</h2>
+      <div class="grid">
+        <label>Diámetro (m)
+          <input id="diameter" type="range" min="1" max="2000" value="100" step="1" aria-label="Diámetro del asteroide en metros">
+          <span id="diameter-val" aria-live="polite">100</span>
+        </label>
+        <label>Densidad (kg/m³)
+          <input id="density" type="range" min="500" max="8000" value="3000" step="10" aria-label="Densidad del asteroide">
+          <span id="density-val" aria-live="polite">3000</span>
+        </label>
+        <label>Velocidad (km/s)
+          <input id="velocity" type="range" min="5" max="72" value="17" step="0.1" aria-label="Velocidad de entrada">
+          <span id="velocity-val" aria-live="polite">17.0</span>
+        </label>
+        <label>Ángulo de entrada (°)
+          <input id="angle" type="range" min="5" max="90" value="45" step="1" aria-label="Ángulo de entrada">
+          <span id="angle-val" aria-live="polite">45</span>
+        </label>
+        <label>Objetivo
+          <select id="target" aria-label="Superficie objetivo">
+            <option value="land">Tierra</option>
+            <option value="water">Agua</option>
+          </select>
+        </label>
+      </div>
+
+      <h3>Ubicación de impacto</h3>
+      <p>Haz clic en el mapa para seleccionar <strong>lat/lon</strong>.</p>
+      <div class="grid">
+        <label>Latitud <input id="lat" type="number" step="0.0001" value="20.9671" aria-label="Latitud del impacto"></label>
+        <label>Longitud <input id="lon" type="number" step="0.0001" value="-89.5926" aria-label="Longitud del impacto"></label>
+      </div>
+
+      <button id="simulate" class="button-primary" aria-label="Simular impacto">Simular impacto</button>
+
+      <details class="edu">
+        <summary>Overlays educativos</summary>
+        <ul>
+          <li><b>Excentricidad</b>: cuán estirada es la órbita (0=círculo).</li>
+          <li><b>Energía de impacto</b>: proporcional a masa × velocidad².</li>
+          <li><b>Magnitud sísmica</b>: estimación Mw desde energía liberada.</li>
+        </ul>
+      </details>
+    </section>
+
+    <!-- Mapa -->
+    <section class="map card" aria-labelledby="map-title">
+      <h2 id="map-title" class="sr-only">Mapa</h2>
+      <div id="map" role="img" aria-label="Mapa base con círculos de daño potencial"></div>
+      <div class="legend card" aria-hidden="true">
+        <span class="pill pill-yellow"></span> Medio
+        <span class="pill pill-orange"></span> Alto
+        <span class="pill pill-red"></span> Catastrófico
+      </div>
+    </section>
+
+    <!-- Resultados + Órbita 2D -->
+    <section class="panel card" aria-labelledby="results-title">
+      <h2 id="results-title">Resultados</h2>
+      <div id="results" class="info-box monospace"></div>
+
+      <h2>Órbita (demo 2D)</h2>
+      <canvas id="orbitCanvas" aria-label="Representación 2D de la órbita"></canvas>
+      <div class="grid">
+        <label>a (UA) <input id="a" type="number" step="0.01" value="1.2" aria-label="Semieje mayor (UA)"></label>
+        <label>e <input id="e" type="number" step="0.001" value="0.2" aria-label="Excentricidad"></label>
+        <label>i (°) <input id="i" type="number" step="0.1" value="5" aria-label="Inclinación"></label>
+        <label>Ω (°) <input id="Omega" type="number" step="0.1" value="80" aria-label="Longitud del nodo ascendente"></label>
+        <label>ω (°) <input id="omega" type="number" step="0.1" value="45" aria-label="Argumento del perihelio"></label>
+        <label>M (°) <input id="M" type="number" step="0.1" value="30" aria-label="Anomalía media"></label>
+      </div>
+      <button id="drawOrbit" aria-label="Dibujar órbita 2D">Dibujar órbita</button>
+      <h3 class="sub-header">Visualizaciones</h3>
+<div class="grid">
+  <div class="card" style="gap:8px;">
+    <div class="card-header">Energía y TNT</div>
+    <canvas id="chartEnergyTNT" height="140"></canvas>
+  </div>
+  <div class="card" style="gap:8px;">
+    <div class="card-header">Radios de Efecto (km)</div>
+    <canvas id="chartRadii" height="140"></canvas>
+  </div>
+</div>
+<div class="grid">
+  <div class="card" style="gap:8px;">
+    <div class="card-header">Magnitud Sísmica (Mw)</div>
+    <canvas id="chartSeismic" height="140"></canvas>
+  </div>
+</div>
+
+    </section>
+
+    <!-- Órbita 3D + Mitigación (Δv) -->
+    <section class="panel card" aria-labelledby="orbit3d-title">
+      <h2 id="orbit3d-title">Órbita 3D + Mitigación (Δv)</h2>
+      <div class="grid">
+        <label>Δv (m/s) <input id="dv_mag" type="number" value="50" step="1" aria-label="Magnitud del impulso"></label>
+        <label>Dirección Δv
+          <select id="dv_dir" aria-label="Dirección del impulso">
+            <option value="tangential">Tangencial (prograde/retro)</option>
+            <option value="radial">Radial (hacia/desde el Sol)</option>
+            <option value="normal">Normal al plano</option>
+          </select>
+        </label>
+        <label>ν (°) aplicación <input id="dv_nu" type="number" value="0" step="1" aria-label="Anomalía verdadera de aplicación"></label>
+      </div>
+      <button id="applyDv" aria-label="Aplicar Δv y dibujar órbitas">Aplicar Δv y dibujar</button>
+      <div id="orbit3dCanvas"></div>
+      <small class="disclaimer">Nota: modelo two-body con impulso instantáneo para uso educativo.</small>
+    </section>
+
+    <!-- Buscar por ID/Nombre -->
+    <section class="panel card" aria-labelledby="search-title">
+      <h2 id="search-title">Buscar NEO por ID / Nombre (SBDB/NeoWs)</h2>
+      <div class="grid">
+        <label>ID/Nombre
+          <input id="searchId" type="text" placeholder="Apophis, 99942, 433 Eros..." aria-label="ID o nombre del NEO">
+        </label>
+        <label>Fuente
+          <select id="searchSource" aria-label="Fuente de datos del NEO">
+            <option value="sbdb">SBDB (JPL)</option>
+            <option value="neows">NeoWs (NASA)</option>
+          </select>
+        </label>
+      </div>
+      <button id="btnSearch" aria-label="Buscar y cargar NEO">Buscar y cargar</button>
+      <div id="searchResult" style="margin-top:8px;min-height:2.5em" aria-live="polite"></div>
+    </section>
+
+    <!-- Exportación -->
+    <section class="panel card" aria-labelledby="export-title">
+      <h2 id="export-title">Guardar escenario</h2>
+      <div class="grid">
+        <label>Nombre del escenario
+          <input id="scenarioName" type="text" placeholder="Impactor-2025 (custom)" aria-label="Nombre del escenario">
+        </label>
+      </div>
+      <div class="grid" style="grid-template-columns: 1fr 1fr;">
+        <button id="btnExportJSON" aria-label="Exportar escenario como JSON">Exportar JSON</button>
+        <button id="btnExportGeoJSON" aria-label="Exportar resultado como GeoJSON">Exportar GeoJSON</button>
+      </div>
+      <small>Descarga parámetros actuales y geometrías (impacto y zonas).</small>
+    </section>
+  </main>
+
+  <footer>
+    <small>Meteor Madness • Herramienta educativa • Datos: NASA NeoWs / USGS</small>
+  </footer>
+
+  <!-- Scripts finales -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>

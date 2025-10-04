@@ -1,0 +1,1014 @@
+[
+  {
+    "id": "2350523",
+    "name": "350523 (2000 EA14)",
+    "physical_params": {
+      "diameter_min_m": 155.7955241278,
+      "diameter_max_m": 348.36938254,
+      "diameter_avg_m": 252.0824533339,
+      "velocity_kms": 4.427725204,
+      "velocity_ms": 4427.725203999999,
+      "mass_kg": 25162148876.15036,
+      "density_kgm3": 3000
+    },
+    "impact_calculations": {
+      "kinetic_energy_j": 2.466488251556538e+17,
+      "tnt_megatons": 58950.48402381783,
+      "crater_diameter_m": 1999.3331880327335,
+      "seismic_magnitude": 5.7826929642771185
+    },
+    "orbital_data": {
+      "semi_major_axis_au": 1.117522045947572,
+      "eccentricity": 0.2026315699816583,
+      "inclination_deg": 3.562852708965461,
+      "ascending_node_longitude_deg": 203.6802926885743,
+      "perihelion_argument_deg": 206.0077998863617,
+      "mean_anomaly_deg": 13.6182688987241,
+      "orbital_period_days": 431.501764563336,
+      "perihelion_distance_au": 0.8910767992881009,
+      "aphelion_distance_au": 1.343967292607044
+    },
+    "orbit_class": "APO",
+    "is_hazardous": true,
+    "approach_date": "2025-09-25",
+    "impact_scenario": {
+      "latitude": 28.98606,
+      "longitude": -153.061896,
+      "region": "Pacific",
+      "elevation_m": 0.0
+    },
+    "impact_effects": {
+      "surface_type": "ocean",
+      "elevation_m": -3208.7361978786716,
+      "tsunami": {
+        "risk": "high",
+        "estimated_wave_height_m": 69.5,
+        "ocean_depth_m": 3208.7361978786716,
+        "coastal_threat_radius_km": 3475.0
+      },
+      "crater": null
+    }
+  },
+  {
+    "id": "3014110",
+    "name": "(1998 SU4)",
+    "physical_params": {
+      "diameter_min_m": 138.2149358786,
+      "diameter_max_m": 309.0579921303,
+      "diameter_avg_m": 223.63646400445,
+      "velocity_kms": 31.4377271034,
+      "velocity_ms": 31437.7271034,
+      "mass_kg": 17569027701.54261,
+      "density_kgm3": 3000
+    },
+    "impact_calculations": {
+      "kinetic_energy_j": 8.682004595283254e+18,
+      "tnt_megatons": 2075048.8994462844,
+      "crater_diameter_m": 4314.040186768362,
+      "seismic_magnitude": 6.818875407617713
+    },
+    "orbital_data": {
+      "semi_major_axis_au": 1.147907020299369,
+      "eccentricity": 0.5804590529792781,
+      "inclination_deg": 23.1440554330684,
+      "ascending_node_longitude_deg": 350.5550464168115,
+      "perihelion_argument_deg": 241.8817564307976,
+      "mean_anomaly_deg": 85.75293458778305,
+      "orbital_period_days": 449.2193910119565,
+      "perihelion_distance_au": 0.4815939983881324,
+      "aphelion_distance_au": 1.814220042210606
+    },
+    "orbit_class": "APO",
+    "is_hazardous": true,
+    "approach_date": "2025-09-25",
+    "impact_scenario": {
+      "latitude": 21.203938,
+      "longitude": -81.860248,
+      "region": "Pacific",
+      "elevation_m": 0.0
+    },
+    "impact_effects": {
+      "surface_type": "ocean",
+      "elevation_m": -2170.904820518913,
+      "tsunami": {
+        "risk": "high",
+        "estimated_wave_height_m": 100,
+        "ocean_depth_m": 2170.904820518913,
+        "coastal_threat_radius_km": 5000
+      },
+      "crater": null
+    }
+  },
+  {
+    "id": "3295789",
+    "name": "(2005 UQ)",
+    "physical_params": {
+      "diameter_min_m": 39.496169372,
+      "diameter_max_m": 88.3161195666,
+      "diameter_avg_m": 63.906144469299996,
+      "velocity_kms": 8.2841135138,
+      "velocity_ms": 8284.113513799999,
+      "mass_kg": 409965893.3661671,
+      "density_kgm3": 3000
+    },
+    "impact_calculations": {
+      "kinetic_energy_j": 1.4067269715372988e+16,
+      "tnt_megatons": 3362.158153769835,
+      "crater_diameter_m": 903.0544624787984,
+      "seismic_magnitude": 4.949300575633203
+    },
+    "orbital_data": {
+      "semi_major_axis_au": 2.228895943148897,
+      "eccentricity": 0.5411722158270573,
+      "inclination_deg": 8.69052995516167,
+      "ascending_node_longitude_deg": 25.41849733764085,
+      "perihelion_argument_deg": 337.2346988613988,
+      "mean_anomaly_deg": 17.23875151547543,
+      "orbital_period_days": 1215.438860014807,
+      "perihelion_distance_au": 1.02267938674707,
+      "aphelion_distance_au": 3.435112499550724
+    },
+    "orbit_class": "AMO",
+    "is_hazardous": false,
+    "approach_date": "2025-09-25",
+    "impact_scenario": {
+      "latitude": -55.868252,
+      "longitude": -70.630476,
+      "region": "Atlantic",
+      "elevation_m": 0.0
+    },
+    "impact_effects": {
+      "surface_type": "ocean",
+      "elevation_m": -1541.1481474126012,
+      "tsunami": {
+        "risk": "high",
+        "estimated_wave_height_m": 36.55,
+        "ocean_depth_m": 1541.1481474126012,
+        "coastal_threat_radius_km": 1827.0
+      },
+      "crater": null
+    }
+  },
+  {
+    "id": "3559599",
+    "name": "(2011 EO40)",
+    "physical_params": {
+      "diameter_min_m": 112.3453176718,
+      "diameter_max_m": 251.2117672679,
+      "diameter_avg_m": 181.77854246985,
+      "velocity_kms": 12.167041344,
+      "velocity_ms": 12167.041344,
+      "mass_kg": 9435126507.03799,
+      "density_kgm3": 3000
+    },
+    "impact_calculations": {
+      "kinetic_energy_j": 6.983734163312646e+17,
+      "tnt_megatons": 166915.25246923152,
+      "crater_diameter_m": 2417.0580326840045,
+      "seismic_magnitude": 6.085538758691835
+    },
+    "orbital_data": {
+      "semi_major_axis_au": 1.654159122462582,
+      "eccentricity": 0.5404297069445362,
+      "inclination_deg": 3.361528101045369,
+      "ascending_node_longitude_deg": 50.1719025251795,
+      "perihelion_argument_deg": 17.23019280750546,
+      "mean_anomaly_deg": 5.637278477015058,
+      "orbital_period_days": 777.0775341603425,
+      "perihelion_distance_au": 0.7602023926704977,
+      "aphelion_distance_au": 2.548115852254667
+    },
+    "orbit_class": "APO",
+    "is_hazardous": true,
+    "approach_date": "2025-09-25",
+    "impact_scenario": {
+      "latitude": -57.611763,
+      "longitude": 39.883765,
+      "region": "Indian",
+      "elevation_m": 0.0
+    },
+    "impact_effects": {
+      "surface_type": "ocean",
+      "elevation_m": -1735.1198335019476,
+      "tsunami": {
+        "risk": "high",
+        "estimated_wave_height_m": 95.87,
+        "ocean_depth_m": 1735.1198335019476,
+        "coastal_threat_radius_km": 4794.0
+      },
+      "crater": null
+    }
+  },
+  {
+    "id": "54541542",
+    "name": "(2025 QA4)",
+    "physical_params": {
+      "diameter_min_m": 109.2835958696,
+      "diameter_max_m": 244.36554919,
+      "diameter_avg_m": 176.8245725298,
+      "velocity_kms": 11.0339941799,
+      "velocity_ms": 11033.9941799,
+      "mass_kg": 8684558152.844574,
+      "density_kgm3": 3000
+    },
+    "impact_calculations": {
+      "kinetic_energy_j": 5.286682549575242e+17,
+      "tnt_megatons": 126354.74544873906,
+      "crater_diameter_m": 2265.9383783409835,
+      "seismic_magnitude": 6.004532766126968
+    },
+    "orbital_data": {
+      "semi_major_axis_au": 1.454584545075136,
+      "eccentricity": 0.3870709623847626,
+      "inclination_deg": 5.144140673923504,
+      "ascending_node_longitude_deg": 17.68416646674062,
+      "perihelion_argument_deg": 44.59932997143151,
+      "mean_anomaly_deg": 6.876060143753023,
+      "orbital_period_days": 640.7769489278313,
+      "perihelion_distance_au": 0.891557105342901,
+      "aphelion_distance_au": 2.017611984807371
+    },
+    "orbit_class": "APO",
+    "is_hazardous": true,
+    "approach_date": "2025-09-25",
+    "impact_scenario": {
+      "latitude": -22.243216,
+      "longitude": 64.920905,
+      "region": "Indian",
+      "elevation_m": 0.0
+    },
+    "impact_effects": {
+      "surface_type": "ocean",
+      "elevation_m": -3506.744984612033,
+      "tsunami": {
+        "risk": "high",
+        "estimated_wave_height_m": 83.35,
+        "ocean_depth_m": 3506.744984612033,
+        "coastal_threat_radius_km": 4168.0
+      },
+      "crater": null
+    }
+  },
+  {
+    "id": "54546123",
+    "name": "(2025 RX6)",
+    "physical_params": {
+      "diameter_min_m": 24.1743595188,
+      "diameter_max_m": 54.0555111966,
+      "diameter_avg_m": 39.1149353577,
+      "velocity_kms": 4.5647237764,
+      "velocity_ms": 4564.7237764,
+      "mass_kg": 94004301.68685873,
+      "density_kgm3": 3000
+    },
+    "impact_calculations": {
+      "kinetic_energy_j": 979369864763149.8,
+      "tnt_megatons": 234.07501547876427,
+      "crater_diameter_m": 473.73128462900985,
+      "seismic_magnitude": 4.173934313545451
+    },
+    "orbital_data": {
+      "semi_major_axis_au": 2.111117630358332,
+      "eccentricity": 0.466822557341132,
+      "inclination_deg": 1.455106812162089,
+      "ascending_node_longitude_deg": 295.7199580160012,
+      "perihelion_argument_deg": 72.94175400860628,
+      "mean_anomaly_deg": 355.7186706855709,
+      "orbital_period_days": 1120.384458470284,
+      "perihelion_distance_au": 1.125600299306505,
+      "aphelion_distance_au": 3.09663496141016
+    },
+    "orbit_class": "AMO",
+    "is_hazardous": false,
+    "approach_date": "2025-09-25",
+    "impact_scenario": {
+      "latitude": 31.056884,
+      "longitude": -162.437475,
+      "region": "Pacific",
+      "elevation_m": 0.0
+    },
+    "impact_effects": {
+      "surface_type": "ocean",
+      "elevation_m": -2877.263731673698,
+      "tsunami": {
+        "risk": "high",
+        "estimated_wave_height_m": 17.64,
+        "ocean_depth_m": 2877.263731673698,
+        "coastal_threat_radius_km": 882.0
+      },
+      "crater": null
+    }
+  },
+  {
+    "id": "3581669",
+    "name": "(2011 TX8)",
+    "physical_params": {
+      "diameter_min_m": 105.8168859331,
+      "diameter_max_m": 236.6137501138,
+      "diameter_avg_m": 171.21531802344998,
+      "velocity_kms": 37.8763092063,
+      "velocity_ms": 37876.3092063,
+      "mass_kg": 7884020186.676362,
+      "density_kgm3": 3000
+    },
+    "impact_calculations": {
+      "kinetic_energy_j": 5.655266018070019e+18,
+      "tnt_megatons": 1351641.0177031595,
+      "crater_diameter_m": 3801.9592031088273,
+      "seismic_magnitude": 6.694143535809073
+    },
+    "orbital_data": {
+      "semi_major_axis_au": 0.9095886714075567,
+      "eccentricity": 0.7084131587598547,
+      "inclination_deg": 5.978377347730597,
+      "ascending_node_longitude_deg": 207.8299504926607,
+      "perihelion_argument_deg": 313.3610008876663,
+      "mean_anomaly_deg": 21.58360415847928,
+      "orbital_period_days": 316.8589589408776,
+      "perihelion_distance_au": 0.26522408752355,
+      "aphelion_distance_au": 1.553953255291564
+    },
+    "orbit_class": "ATE",
+    "is_hazardous": true,
+    "approach_date": "2025-09-24",
+    "impact_scenario": {
+      "latitude": -39.787665,
+      "longitude": 15.721307,
+      "region": "Atlantic",
+      "elevation_m": 0.0
+    },
+    "impact_effects": {
+      "surface_type": "ocean",
+      "elevation_m": -3474.5167829541297,
+      "tsunami": {
+        "risk": "high",
+        "estimated_wave_height_m": 100,
+        "ocean_depth_m": 3474.5167829541297,
+        "coastal_threat_radius_km": 5000
+      },
+      "crater": null
+    }
+  },
+  {
+    "id": "54543087",
+    "name": "(2025 QS13)",
+    "physical_params": {
+      "diameter_min_m": 58.6887658036,
+      "diameter_max_m": 131.2320698525,
+      "diameter_avg_m": 94.96041782805,
+      "velocity_kms": 7.4067083687,
+      "velocity_ms": 7406.7083687,
+      "mass_kg": 1345078799.5024574,
+      "density_kgm3": 3000
+    },
+    "impact_calculations": {
+      "kinetic_energy_j": 3.689506010156736e+16,
+      "tnt_megatons": 8818.130999418585,
+      "crater_diameter_m": 1170.7948212406193,
+      "seismic_magnitude": 5.229868708834835
+    },
+    "orbital_data": {
+      "semi_major_axis_au": 1.407507382490893,
+      "eccentricity": 0.2442093472384763,
+      "inclination_deg": 9.39202619012116,
+      "ascending_node_longitude_deg": 342.2227865202127,
+      "perihelion_argument_deg": 51.80944466284956,
+      "mean_anomaly_deg": 18.02310677969631,
+      "orbital_period_days": 609.9222110907091,
+      "perihelion_distance_au": 1.063780923379456,
+      "aphelion_distance_au": 1.751233841602331
+    },
+    "orbit_class": "AMO",
+    "is_hazardous": false,
+    "approach_date": "2025-09-24",
+    "impact_scenario": {
+      "latitude": -14.408724,
+      "longitude": -140.512268,
+      "region": "Pacific",
+      "elevation_m": 0.0
+    },
+    "impact_effects": {
+      "surface_type": "ocean",
+      "elevation_m": -2830.8280195529187,
+      "tsunami": {
+        "risk": "high",
+        "estimated_wave_height_m": 43.77,
+        "ocean_depth_m": 2830.8280195529187,
+        "coastal_threat_radius_km": 2188.0
+      },
+      "crater": null
+    }
+  },
+  {
+    "id": "54544090",
+    "name": "(2025 RC1)",
+    "physical_params": {
+      "diameter_min_m": 34.7180222065,
+      "diameter_max_m": 77.6318576982,
+      "diameter_avg_m": 56.17493995235,
+      "velocity_kms": 3.398097788,
+      "velocity_ms": 3398.097788,
+      "mass_kg": 278450324.02326894,
+      "density_kgm3": 3000
+    },
+    "impact_calculations": {
+      "kinetic_energy_j": 1607642493365894.5,
+      "tnt_megatons": 384.23577757311057,
+      "crater_diameter_m": 551.7590545680173,
+      "seismic_magnitude": 4.318146949580988
+    },
+    "orbital_data": {
+      "semi_major_axis_au": 2.009696043664866,
+      "eccentricity": 0.4252589581604593,
+      "inclination_deg": 1.287722156002472,
+      "ascending_node_longitude_deg": 244.8453583244702,
+      "perihelion_argument_deg": 119.6544419719289,
+      "mean_anomaly_deg": 18.99667269901342,
+      "orbital_period_days": 1040.624372234883,
+      "perihelion_distance_au": 1.155054797916748,
+      "aphelion_distance_au": 2.864337289412984
+    },
+    "orbit_class": "AMO",
+    "is_hazardous": false,
+    "approach_date": "2025-09-24",
+    "impact_scenario": {
+      "latitude": 44.926676,
+      "longitude": -7.026821,
+      "region": "Atlantic",
+      "elevation_m": 0.0
+    },
+    "impact_effects": {
+      "surface_type": "ocean",
+      "elevation_m": -1102.1771163975232,
+      "tsunami": {
+        "risk": "high",
+        "estimated_wave_height_m": 21.97,
+        "ocean_depth_m": 1102.1771163975232,
+        "coastal_threat_radius_km": 1099.0
+      },
+      "crater": null
+    }
+  },
+  {
+    "id": "54546914",
+    "name": "(2025 SU4)",
+    "physical_params": {
+      "diameter_min_m": 1.1490924644,
+      "diameter_max_m": 2.5694488628,
+      "diameter_avg_m": 1.8592706635999998,
+      "velocity_kms": 9.1808375627,
+      "velocity_ms": 9180.8375627,
+      "mass_kg": 10095.962472637237,
+      "density_kgm3": 3000
+    },
+    "impact_calculations": {
+      "kinetic_energy_j": 425483123575.3279,
+      "tnt_megatons": 0.1016929071642753,
+      "crater_diameter_m": 59.857406860975075,
+      "seismic_magnitude": 1.9213511670245085
+    },
+    "orbital_data": {
+      "semi_major_axis_au": 0.9704939942148405,
+      "eccentricity": 0.2509567436486103,
+      "inclination_deg": 1.640423047539106,
+      "ascending_node_longitude_deg": 1.433456997244806,
+      "perihelion_argument_deg": 111.5758055584704,
+      "mean_anomaly_deg": 336.04412586185,
+      "orbital_period_days": 349.2108309473076,
+      "perihelion_distance_au": 0.7269419816961509,
+      "aphelion_distance_au": 1.21404600673353
+    },
+    "orbit_class": "ATE",
+    "is_hazardous": false,
+    "approach_date": "2025-09-24",
+    "impact_scenario": {
+      "latitude": -49.755974,
+      "longitude": -50.682172,
+      "region": "Atlantic",
+      "elevation_m": 0.0
+    },
+    "impact_effects": {
+      "surface_type": "ocean",
+      "elevation_m": -1600.5994948596026,
+      "tsunami": {
+        "risk": "moderate",
+        "estimated_wave_height_m": 2.7,
+        "ocean_depth_m": 1600.5994948596026,
+        "coastal_threat_radius_km": 135.0
+      },
+      "crater": null
+    }
+  },
+  {
+    "id": "2152664",
+    "name": "152664 (1998 FW4)",
+    "physical_params": {
+      "diameter_min_m": 308.003021266,
+      "diameter_max_m": 688.7156928262,
+      "diameter_avg_m": 498.3593570461,
+      "velocity_kms": 18.6064298817,
+      "velocity_ms": 18606.429881699998,
+      "mass_kg": 194423039158.96613,
+      "density_kgm3": 3000
+    },
+    "impact_calculations": {
+      "kinetic_energy_j": 3.365455351160339e+19,
+      "tnt_megatons": 8043631.336425284,
+      "crater_diameter_m": 6398.783661197455,
+      "seismic_magnitude": 7.2131193682646435
+    },
+    "orbital_data": {
+      "semi_major_axis_au": 2.520166363944322,
+      "eccentricity": 0.7139855063885557,
+      "inclination_deg": 3.413357573769166,
+      "ascending_node_longitude_deg": 353.5342079974625,
+      "perihelion_argument_deg": 85.60699941052418,
+      "mean_anomaly_deg": 2.254377671563375,
+      "orbital_period_days": 1461.309619384152,
+      "perihelion_distance_au": 0.72080410640013,
+      "aphelion_distance_au": 4.319528621488513
+    },
+    "orbit_class": "APO",
+    "is_hazardous": true,
+    "approach_date": "2025-09-29",
+    "impact_scenario": {
+      "latitude": 15.055779,
+      "longitude": -9.542816,
+      "region": "Atlantic",
+      "elevation_m": 279.0
+    },
+    "impact_effects": {
+      "surface_type": "land",
+      "elevation_m": 279.0,
+      "crater": {
+        "diameter_m": 6398.78,
+        "depth_m": 1279.76,
+        "destruction_radius_km": 19.2
+      },
+      "seismic": {
+        "magnitude": 7.21,
+        "felt_radius_km": 4042.0
+      },
+      "tsunami": null
+    }
+  },
+  {
+    "id": "54545420",
+    "name": "(2025 RH4)",
+    "physical_params": {
+      "diameter_min_m": 38.9004814699,
+      "diameter_max_m": 86.9841209242,
+      "diameter_avg_m": 62.94230119705,
+      "velocity_kms": 17.2410914392,
+      "velocity_ms": 17241.0914392,
+      "mass_kg": 391694729.2471281,
+      "density_kgm3": 3000
+    },
+    "impact_calculations": {
+      "kinetic_energy_j": 5.821665420237028e+16,
+      "tnt_megatons": 13914.114293109531,
+      "crater_diameter_m": 1232.0438840208506,
+      "seismic_magnitude": 5.3625816523213965
+    },
+    "orbital_data": {
+      "semi_major_axis_au": 2.469229579806886,
+      "eccentricity": 0.6918192469075779,
+      "inclination_deg": 14.44620462618749,
+      "ascending_node_longitude_deg": 180.1017502445257,
+      "perihelion_argument_deg": 249.182979613671,
+      "mean_anomaly_deg": 346.3967888005789,
+      "orbital_period_days": 1417.230966889671,
+      "perihelion_distance_au": 0.7609690314629711,
+      "aphelion_distance_au": 4.177490128150801
+    },
+    "orbit_class": "APO",
+    "is_hazardous": false,
+    "approach_date": "2025-09-29",
+    "impact_scenario": {
+      "latitude": 32.768201,
+      "longitude": -71.625633,
+      "region": "Pacific",
+      "elevation_m": 0.0
+    },
+    "impact_effects": {
+      "surface_type": "ocean",
+      "elevation_m": -3561.358481685433,
+      "tsunami": {
+        "risk": "high",
+        "estimated_wave_height_m": 47.94,
+        "ocean_depth_m": 3561.358481685433,
+        "coastal_threat_radius_km": 2397.0
+      },
+      "crater": null
+    }
+  },
+  {
+    "id": "3557843",
+    "name": "(2011 DV)",
+    "physical_params": {
+      "diameter_min_m": 184.7374636151,
+      "diameter_max_m": 413.0855266343,
+      "diameter_avg_m": 298.91149512469997,
+      "velocity_kms": 6.1112915121,
+      "velocity_ms": 6111.291512100001,
+      "mass_kg": 41951522575.57962,
+      "density_kgm3": 3000
+    },
+    "impact_calculations": {
+      "kinetic_energy_j": 7.834002982525523e+17,
+      "tnt_megatons": 187237.1649743194,
+      "crater_diameter_m": 2631.3838509021766,
+      "seismic_magnitude": 6.118969100811499
+    },
+    "orbital_data": {
+      "semi_major_axis_au": 0.9573162586152562,
+      "eccentricity": 0.04934977708826462,
+      "inclination_deg": 10.59364059330429,
+      "ascending_node_longitude_deg": 35.04435912371488,
+      "perihelion_argument_deg": 350.5246751943026,
+      "mean_anomaly_deg": 42.55969348393162,
+      "orbital_period_days": 342.1224544824761,
+      "perihelion_distance_au": 0.9100729146496218,
+      "aphelion_distance_au": 1.004559602580891
+    },
+    "orbit_class": "ATE",
+    "is_hazardous": true,
+    "approach_date": "2025-09-28",
+    "impact_scenario": {
+      "latitude": 42.10568,
+      "longitude": -115.590764,
+      "region": "North America",
+      "elevation_m": 1731.0
+    },
+    "impact_effects": {
+      "surface_type": "land",
+      "elevation_m": 1731.0,
+      "crater": {
+        "diameter_m": 2631.38,
+        "depth_m": 526.28,
+        "destruction_radius_km": 7.89
+      },
+      "seismic": {
+        "magnitude": 6.12,
+        "felt_radius_km": 1147.0
+      },
+      "tsunami": null
+    }
+  },
+  {
+    "id": "3648537",
+    "name": "(2013 ST19)",
+    "physical_params": {
+      "diameter_min_m": 79.1689666942,
+      "diameter_max_m": 177.0271912367,
+      "diameter_avg_m": 128.09807896545,
+      "velocity_kms": 11.9697248861,
+      "velocity_ms": 11969.7248861,
+      "mass_kg": 3301776921.4388223,
+      "density_kgm3": 3000
+    },
+    "impact_calculations": {
+      "kinetic_energy_j": 2.3652991145067613e+17,
+      "tnt_megatons": 56532.00560484611,
+      "crater_diameter_m": 1826.428683980982,
+      "seismic_magnitude": 5.770503666366046
+    },
+    "orbital_data": {
+      "semi_major_axis_au": 1.432925303864311,
+      "eccentricity": 0.3453723280764552,
+      "inclination_deg": 21.04751663074201,
+      "ascending_node_longitude_deg": 176.0852175847825,
+      "perihelion_argument_deg": 244.035265072001,
+      "mean_anomaly_deg": 0.5531477087041833,
+      "orbital_period_days": 626.5182911727096,
+      "perihelion_distance_au": 0.9380325557090315,
+      "aphelion_distance_au": 1.927818052019589
+    },
+    "orbit_class": "APO",
+    "is_hazardous": false,
+    "approach_date": "2025-09-28",
+    "impact_scenario": {
+      "latitude": -30.197875,
+      "longitude": -70.572184,
+      "region": "South America",
+      "elevation_m": 3335.0
+    },
+    "impact_effects": {
+      "surface_type": "land",
+      "elevation_m": 3335.0,
+      "crater": {
+        "diameter_m": 1826.43,
+        "depth_m": 365.29,
+        "destruction_radius_km": 5.48
+      },
+      "seismic": {
+        "magnitude": 5.77,
+        "felt_radius_km": 768.0
+      },
+      "tsunami": null
+    }
+  },
+  {
+    "id": "3346460",
+    "name": "(2006 SS134)",
+    "physical_params": {
+      "diameter_min_m": 134.4481951604,
+      "diameter_max_m": 300.6353038309,
+      "diameter_avg_m": 217.54174949564998,
+      "velocity_kms": 18.9653044315,
+      "velocity_ms": 18965.3044315,
+      "mass_kg": 16171404024.009863,
+      "density_kgm3": 3000
+    },
+    "impact_calculations": {
+      "kinetic_energy_j": 2.908287714695081e+18,
+      "tnt_megatons": 695097.446150832,
+      "crater_diameter_m": 3380.243645286382,
+      "seismic_magnitude": 6.500637037052889
+    },
+    "orbital_data": {
+      "semi_major_axis_au": 1.171640492234779,
+      "eccentricity": 0.4421241706563107,
+      "inclination_deg": 19.53384221663039,
+      "ascending_node_longitude_deg": 8.987533082435228,
+      "perihelion_argument_deg": 256.174689651037,
+      "mean_anomaly_deg": 86.83611608273382,
+      "orbital_period_days": 463.2228622966487,
+      "perihelion_distance_au": 0.6536299112981256,
+      "aphelion_distance_au": 1.689651073171432
+    },
+    "orbit_class": "APO",
+    "is_hazardous": true,
+    "approach_date": "2025-10-01",
+    "impact_scenario": {
+      "latitude": -1.676815,
+      "longitude": 80.913101,
+      "region": "Indian",
+      "elevation_m": 0.0
+    },
+    "impact_effects": {
+      "surface_type": "ocean",
+      "elevation_m": -2004.9247870097795,
+      "tsunami": {
+        "risk": "high",
+        "estimated_wave_height_m": 100,
+        "ocean_depth_m": 2004.9247870097795,
+        "coastal_threat_radius_km": 5000
+      },
+      "crater": null
+    }
+  },
+  {
+    "id": "2358471",
+    "name": "358471 (2007 NS4)",
+    "physical_params": {
+      "diameter_min_m": 384.1978910643,
+      "diameter_max_m": 859.0926012318,
+      "diameter_avg_m": 621.64524614805,
+      "velocity_kms": 12.2958946343,
+      "velocity_ms": 12295.894634299999,
+      "mass_kg": 377352930982.3636,
+      "density_kgm3": 3000
+    },
+    "impact_calculations": {
+      "kinetic_energy_j": 2.8525810831229546e+19,
+      "tnt_megatons": 6817832.416641861,
+      "crater_diameter_m": 6336.072579160796,
+      "seismic_magnitude": 7.165009458565424
+    },
+    "orbital_data": {
+      "semi_major_axis_au": 1.875129939582584,
+      "eccentricity": 0.597200407604011,
+      "inclination_deg": 5.78229827409742,
+      "ascending_node_longitude_deg": 10.93754110478961,
+      "perihelion_argument_deg": 47.59574665425802,
+      "mean_anomaly_deg": 6.805357258938868,
+      "orbital_period_days": 937.8761220509051,
+      "perihelion_distance_au": 0.7553015753533804,
+      "aphelion_distance_au": 2.994958303811788
+    },
+    "orbit_class": "APO",
+    "is_hazardous": true,
+    "approach_date": "2025-09-26",
+    "impact_scenario": {
+      "latitude": -37.967017,
+      "longitude": 66.226021,
+      "region": "Indian",
+      "elevation_m": 0.0
+    },
+    "impact_effects": {
+      "surface_type": "ocean",
+      "elevation_m": -2980.947412647071,
+      "tsunami": {
+        "risk": "high",
+        "estimated_wave_height_m": 100,
+        "ocean_depth_m": 2980.947412647071,
+        "coastal_threat_radius_km": 5000
+      },
+      "crater": null
+    }
+  },
+  {
+    "id": "3771018",
+    "name": "(2017 EZ2)",
+    "physical_params": {
+      "diameter_min_m": 25.3837029364,
+      "diameter_max_m": 56.7596852866,
+      "diameter_avg_m": 41.0716941115,
+      "velocity_kms": 10.3783417796,
+      "velocity_ms": 10378.3417796,
+      "mass_kg": 108829774.07496138,
+      "density_kgm3": 3000
+    },
+    "impact_calculations": {
+      "kinetic_energy_j": 5861026290804916.0,
+      "tnt_megatons": 1400.8189031560507,
+      "crater_diameter_m": 706.3533206566013,
+      "seismic_magnitude": 4.694542358565465
+    },
+    "orbital_data": {
+      "semi_major_axis_au": 1.085076477827605,
+      "eccentricity": 0.07315455759729483,
+      "inclination_deg": 19.72786527078562,
+      "ascending_node_longitude_deg": 347.916915793445,
+      "perihelion_argument_deg": 194.4218447163651,
+      "mean_anomaly_deg": 239.5931877700218,
+      "orbital_period_days": 412.846826292976,
+      "perihelion_distance_au": 1.005698188132896,
+      "aphelion_distance_au": 1.164454767522315
+    },
+    "orbit_class": "APO",
+    "is_hazardous": false,
+    "approach_date": "2025-09-26",
+    "impact_scenario": {
+      "latitude": 1.934576,
+      "longitude": 41.961517,
+      "region": "Indian",
+      "elevation_m": 211.0
+    },
+    "impact_effects": {
+      "surface_type": "land",
+      "elevation_m": 211.0,
+      "crater": {
+        "diameter_m": 706.35,
+        "depth_m": 141.27,
+        "destruction_radius_km": 2.12
+      },
+      "seismic": {
+        "magnitude": 4.69,
+        "felt_radius_km": 222.0
+      },
+      "tsunami": null
+    }
+  },
+  {
+    "id": "54215203",
+    "name": "(2021 VF)",
+    "physical_params": {
+      "diameter_min_m": 7.1540995088,
+      "diameter_max_m": 15.9970528196,
+      "diameter_avg_m": 11.575576164200001,
+      "velocity_kms": 6.4680914742,
+      "velocity_ms": 6468.0914742,
+      "mass_kg": 2436395.157274451,
+      "density_kgm3": 3000
+    },
+    "impact_calculations": {
+      "kinetic_energy_j": 50964766454906.32,
+      "tnt_megatons": 12.180871523639178,
+      "crater_diameter_m": 213.6324358333585,
+      "seismic_magnitude": 3.3138709257321546
+    },
+    "orbital_data": {
+      "semi_major_axis_au": 1.008117303412594,
+      "eccentricity": 0.2855390386732974,
+      "inclination_deg": 2.625581713691069,
+      "ascending_node_longitude_deg": 35.72288925866437,
+      "perihelion_argument_deg": 110.7047444614739,
+      "mean_anomaly_deg": 288.014745871325,
+      "orbital_period_days": 369.7132628807854,
+      "perihelion_distance_au": 0.7202604577262448,
+      "aphelion_distance_au": 1.295974149098942
+    },
+    "orbit_class": "APO",
+    "is_hazardous": false,
+    "approach_date": "2025-09-26",
+    "impact_scenario": {
+      "latitude": -32.514231,
+      "longitude": -176.468973,
+      "region": "Pacific",
+      "elevation_m": 0.0
+    },
+    "impact_effects": {
+      "surface_type": "ocean",
+      "elevation_m": -3818.181175652412,
+      "tsunami": {
+        "risk": "high",
+        "estimated_wave_height_m": 8.19,
+        "ocean_depth_m": 3818.181175652412,
+        "coastal_threat_radius_km": 409.0
+      },
+      "crater": null
+    }
+  },
+  {
+    "id": "3840725",
+    "name": "(2019 FL1)",
+    "physical_params": {
+      "diameter_min_m": 11.0803882126,
+      "diameter_max_m": 24.7765012606,
+      "diameter_avg_m": 17.9284447366,
+      "velocity_kms": 26.5509255762,
+      "velocity_ms": 26550.9255762,
+      "mass_kg": 9052066.329291811,
+      "density_kgm3": 3000
+    },
+    "impact_calculations": {
+      "kinetic_energy_j": 3190634542632694.5,
+      "tnt_megatons": 762.5799576081965,
+      "crater_diameter_m": 559.3977789122072,
+      "seismic_magnitude": 4.517597631987674
+    },
+    "orbital_data": {
+      "semi_major_axis_au": 1.341605588931787,
+      "eccentricity": 0.4206800897143823,
+      "inclination_deg": 6.904673672799145,
+      "ascending_node_longitude_deg": 189.4279553914566,
+      "perihelion_argument_deg": 75.45754855895653,
+      "mean_anomaly_deg": 65.56238621016942,
+      "orbital_period_days": 567.5912805050546,
+      "perihelion_distance_au": 0.7772188294186458,
+      "aphelion_distance_au": 1.905992348444927
+    },
+    "orbit_class": "APO",
+    "is_hazardous": false,
+    "approach_date": "2025-09-30",
+    "impact_scenario": {
+      "latitude": -51.395481,
+      "longitude": 11.313612,
+      "region": "Atlantic",
+      "elevation_m": 0.0
+    },
+    "impact_effects": {
+      "surface_type": "ocean",
+      "elevation_m": -1952.8836245752655,
+      "tsunami": {
+        "risk": "high",
+        "estimated_wave_height_m": 24.63,
+        "ocean_depth_m": 1952.8836245752655,
+        "coastal_threat_radius_km": 1232.0
+      },
+      "crater": null
+    }
+  },
+  {
+    "id": "54073368",
+    "name": "(2020 UV)",
+    "physical_params": {
+      "diameter_min_m": 8.801465209,
+      "diameter_max_m": 19.6806745089,
+      "diameter_avg_m": 14.24106985895,
+      "velocity_kms": 14.0812231707,
+      "velocity_ms": 14081.2231707,
+      "mass_kg": 4536780.082164148,
+      "density_kgm3": 3000
+    },
+    "impact_calculations": {
+      "kinetic_energy_j": 449778296365298.56,
+      "tnt_megatons": 107.49959282153408,
+      "crater_diameter_m": 353.6123730953597,
+      "seismic_magnitude": 3.947508991735508
+    },
+    "orbital_data": {
+      "semi_major_axis_au": 1.833548107090897,
+      "eccentricity": 0.484299465899358,
+      "inclination_deg": 1.71183926418435,
+      "ascending_node_longitude_deg": 205.5461194037777,
+      "perihelion_argument_deg": 216.4084528904159,
+      "mean_anomaly_deg": 5.969875513940351,
+      "orbital_period_days": 906.8529926339207,
+      "perihelion_distance_au": 0.9455617381259964,
+      "aphelion_distance_au": 2.721534476055797
+    },
+    "orbit_class": "APO",
+    "is_hazardous": false,
+    "approach_date": "2025-09-30",
+    "impact_scenario": {
+      "latitude": -31.678991,
+      "longitude": 85.543867,
+      "region": "Indian",
+      "elevation_m": 0.0
+    },
+    "impact_effects": {
+      "surface_type": "ocean",
+      "elevation_m": -3780.701739298682,
+      "tsunami": {
+        "risk": "high",
+        "estimated_wave_height_m": 14.13,
+        "ocean_depth_m": 3780.701739298682,
+        "coastal_threat_radius_km": 706.0
+      },
+      "crater": null
+    }
+  }
+]

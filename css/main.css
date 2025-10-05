@@ -3653,7 +3653,7 @@ input[type="submit"]:hover {
     font-size: 1.7rem;
     text-transform: uppercase;
     letter-spacing: .25rem;
-    color: #ff0505; /* ENHANCEMENT: Using orange as a secondary accent for headers */
+    color: #ed0202; /* ENHANCEMENT: Using orange as a secondary accent for headers */
     margin-top: 0;
     margin-bottom: 0;
 }

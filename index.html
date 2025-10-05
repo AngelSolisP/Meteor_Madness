@@ -34,6 +34,9 @@
             <button class="sidebar-btn" id="btn-simulator">
                 🎯 Simulador
             </button>
+            <button class="sidebar-btn" id="btn-alert">
+                🚨 Alerta de Meteorito
+            </button>
             <div class="filter-section">
                 <label class="toggle-container">
                     <input type="checkbox" id="toggle-hazardous">
@@ -446,6 +449,322 @@
         <div class="tooltip-arrow"></div>
     </div>
 
+    <!-- Alert System Modal -->
+    <div id="alert-backdrop" class="alert-backdrop"></div>
+    <div id="alert-modal" class="alert-modal">
+        <div class="alert-header">
+            <h2>🚨 Alerta de Meteorito</h2>
+            <p class="alert-subtitle">Guía Interactiva de Concienciación Pública</p>
+            <button class="close-btn" id="alert-close">&times;</button>
+        </div>
+
+        <div class="alert-content">
+            <!-- Stage Navigation -->
+            <div class="stage-navigation">
+                <button class="stage-nav-btn active" data-stage="1">
+                    <span class="stage-icon">🟢</span>
+                    <span class="stage-name">Monitoreo</span>
+                </button>
+                <button class="stage-nav-btn" data-stage="2">
+                    <span class="stage-icon">🟡</span>
+                    <span class="stage-name">Vigilancia</span>
+                </button>
+                <button class="stage-nav-btn" data-stage="3">
+                    <span class="stage-icon">🟠</span>
+                    <span class="stage-name">Alerta</span>
+                </button>
+                <button class="stage-nav-btn" data-stage="4">
+                    <span class="stage-icon">🔴</span>
+                    <span class="stage-name">Impacto</span>
+                </button>
+                <button class="stage-nav-btn" data-stage="5">
+                    <span class="stage-icon">🏥</span>
+                    <span class="stage-name">Recuperación</span>
+                </button>
+                <button class="stage-nav-btn" data-stage="6">
+                    <span class="stage-icon">📚</span>
+                    <span class="stage-name">Fuentes</span>
+                </button>
+            </div>
+
+            <!-- Stage 1: Monitor Mode -->
+            <div class="alert-stage active" id="stage-1">
+                <div class="stage-header stage-green">
+                    <h3>🛰️ ETAPA 1 — MODO MONITOREO</h3>
+                    <p class="stage-status">"¡El cielo está siendo vigilado!"</p>
+                </div>
+                <div class="stage-body">
+                    <div class="stage-section">
+                        <h4>🧭 Qué está pasando:</h4>
+                        <p>Científicos alrededor del mundo (IAWN - Red Internacional de Alerta de Asteroides) escanean constantemente el espacio en busca de cualquier objeto que pueda acercarse a la Tierra.</p>
+                    </div>
+                    <div class="stage-section">
+                        <h4>📊 Criterios Técnicos:</h4>
+                        <ul class="criteria-list">
+                            <li><strong>Tamaño de interés:</strong> Objetos mayores a 10 metros de diámetro</li>
+                            <li><strong>Densidad típica:</strong> 2,000-3,500 kg/m³ (según composición: rocoso, metálico, o carbonáceo)</li>
+                            <li><strong>Probabilidad de impacto:</strong> &lt;1%</li>
+                            <li><strong>Tiempo hasta posible impacto:</strong> No aplicable</li>
+                            <li><strong>Nivel de alerta:</strong> Ninguno - operación normal</li>
+                        </ul>
+                    </div>
+                    <div class="stage-section">
+                        <h4>💡 Qué puedes hacer:</h4>
+                        <ul class="action-list">
+                            <li>Mantén la calma — los meteoros son comunes, pero los peligrosos son raros</li>
+                            <li>Sigue páginas científicas confiables (NASA, ESA, agencia espacial local)</li>
+                            <li>No creas rumores virales sobre "fin del mundo" en redes sociales</li>
+                        </ul>
+                    </div>
+                    <div class="alert-level level-green">
+                        🟢 Nivel de Alerta: VERDE — Sin peligro detectado
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stage 2: Watch Mode -->
+            <div class="alert-stage" id="stage-2">
+                <div class="stage-header stage-yellow">
+                    <h3>⚠️ ETAPA 2 — MODO VIGILANCIA</h3>
+                    <p class="stage-status">"¡Científicos encontraron una roca — está siendo verificada!"</p>
+                </div>
+                <div class="stage-body">
+                    <div class="stage-section">
+                        <h4>🧭 Qué está pasando:</h4>
+                        <p>IAWN ha detectado un asteroide pasando cerca de la Tierra. Están calculando su órbita para determinar si podría impactar.</p>
+                    </div>
+                    <div class="stage-section">
+                        <h4>📊 Criterios Técnicos (IAWN):</h4>
+                        <ul class="criteria-list">
+                            <li><strong>Tamaño del objeto:</strong> &gt;10 metros de diámetro</li>
+                            <li><strong>Magnitud absoluta:</strong> ~28 (si solo se tiene dato de brillo)</li>
+                            <li><strong>Densidad estimada:</strong> Se determina mediante espectroscopía (rocoso: 2,500 kg/m³, metálico: 7,800 kg/m³)</li>
+                            <li><strong>Probabilidad de impacto:</strong> &gt;1% (suficiente para emitir advertencia)</li>
+                            <li><strong>Efectos esperados:</strong> Onda de choque aérea y fragmentos que pueden alcanzar la superficie</li>
+                            <li><strong>Tiempo de análisis:</strong> Días a semanas de observación orbital</li>
+                        </ul>
+                        <p class="criteria-note">⚡ Nota: Un objeto de 10m con velocidad de 20 km/s libera ~50 kilotones de energía (similar a Chelyabinsk, 2013)</p>
+                    </div>
+                    <div class="stage-section">
+                        <h4>💡 Qué puedes hacer:</h4>
+                        <ul class="action-list">
+                            <li>Sigue actualizaciones oficiales — no el pánico de redes sociales</li>
+                            <li>Escucha alertas de IAWN o gobiernos</li>
+                            <li>Escuelas, líderes locales y agencias de emergencia pueden comenzar informes</li>
+                        </ul>
+                    </div>
+                    <div class="alert-level level-yellow">
+                        🟡 Nivel de Alerta: AMARILLO — Objeto bajo observación
+                        <br>⏳ No necesitas actuar, solo mantente informado
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stage 3: Alert Mode -->
+            <div class="alert-stage" id="stage-3">
+                <div class="stage-header stage-orange">
+                    <h3>🚨 ETAPA 3 — MODO ALERTA</h3>
+                    <p class="stage-status">"Podría acercarse — nos estamos preparando por precaución"</p>
+                </div>
+                <div class="stage-body">
+                    <div class="stage-section">
+                        <h4>🧭 Qué está pasando:</h4>
+                        <p>La probabilidad de impacto es de 1–10%. Expertos espaciales (IAWN + SMPAG) y gobiernos comienzan coordinación de emergencia.</p>
+                    </div>
+                    <div class="stage-section">
+                        <h4>📊 Criterios Técnicos (Preparación Terrestre):</h4>
+                        <ul class="criteria-list">
+                            <li><strong>Tamaño del objeto:</strong> &gt;20 metros de diámetro</li>
+                            <li><strong>Magnitud absoluta:</strong> ~27 (si solo se tiene dato de brillo)</li>
+                            <li><strong>Densidad y masa:</strong> Un objeto rocoso de 20m (~2,500 kg/m³) = ~10,000 toneladas</li>
+                            <li><strong>Probabilidad de impacto:</strong> &gt;10%</li>
+                            <li><strong>Tiempo hasta posible impacto:</strong> Dentro de 20 años</li>
+                            <li><strong>Corredor de riesgo:</strong> Se determina zona geográfica de posible impacto</li>
+                            <li><strong>Energía estimada:</strong> ~400 kilotones para objeto de 20m a 20 km/s</li>
+                        </ul>
+                        <p class="criteria-note">⚡ Referencia: Evento de Chelyabinsk (2013) — objeto de ~18m causó daños significativos y lesiones por onda de choque</p>
+                    </div>
+                    <div class="stage-section">
+                        <h4>💡 Qué debes hacer:</h4>
+                        <ul class="action-list">
+                            <li>Mantente atento a canales oficiales de radio o emergencia en línea</li>
+                            <li>Aprende las ubicaciones de refugios locales</li>
+                            <li>Prepara un kit de emergencia: agua, linterna, radio a pilas, primeros auxilios, documentos importantes</li>
+                            <li>Evita difundir información no verificada</li>
+                        </ul>
+                    </div>
+                    <div class="alert-level level-orange">
+                        🟠 Nivel de Alerta: NARANJA — Prepárate y mantente alerta
+                        <br>⚙️ Autoridades prueban sistemas de alerta y planes de respuesta
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stage 4: Impact Warning -->
+            <div class="alert-stage" id="stage-4">
+                <div class="stage-header stage-red">
+                    <h3>💥 ETAPA 4 — ADVERTENCIA DE IMPACTO</h3>
+                    <p class="stage-status">"¡Impacto esperado — sigue las instrucciones de seguridad AHORA!"</p>
+                </div>
+                <div class="stage-body">
+                    <div class="stage-section">
+                        <h4>🧭 Qué está pasando:</h4>
+                        <p>Los científicos confirman que el asteroide podría impactar la Tierra en días o semanas. La defensa civil está activa.</p>
+                    </div>
+                    <div class="stage-section">
+                        <h4>📊 Criterios Técnicos (Misión SMPAG):</h4>
+                        <ul class="criteria-list">
+                            <li><strong>Tamaño del objeto:</strong> &gt;50 metros de diámetro</li>
+                            <li><strong>Magnitud absoluta:</strong> ~26</li>
+                            <li><strong>Densidad y masa:</strong> Objeto de 50m rocoso = ~300,000 toneladas; metálico = ~1 millón de toneladas</li>
+                            <li><strong>Probabilidad de impacto:</strong> &gt;1% (con alta certeza orbital)</li>
+                            <li><strong>Tiempo hasta impacto:</strong> Dentro de 50 años (pero en esta etapa, días/semanas)</li>
+                            <li><strong>Energía de impacto:</strong> ~10-15 megatones (objeto de 50m a 20 km/s)</li>
+                            <li><strong>Radio de destrucción:</strong> Hasta 50-100 km según energía</li>
+                            <li><strong>Efectos:</strong> Cráter significativo, onda sísmica, incendios, tsunamis (si es impacto oceánico)</li>
+                        </ul>
+                        <p class="criteria-note">⚡ Evento de Tunguska (1908) — objeto de ~50-60m causó devastación en 2,000 km²</p>
+                    </div>
+                    <div class="stage-section">
+                        <h4>💡 Qué DEBES hacer:</h4>
+                        <ul class="action-list action-critical">
+                            <li>Escucha SOLO alertas oficiales (TV, radio, notificaciones telefónicas)</li>
+                            <li>Si te ordenan evacuar, hazlo con calma y rapidez</li>
+                            <li>Si no puedes evacuar:
+                                <ul>
+                                    <li>Quédate dentro, lejos de ventanas</li>
+                                    <li>Ve a un sótano o habitación interior</li>
+                                    <li>Acuéstate boca abajo y protege tu cabeza durante la onda de choque</li>
+                                </ul>
+                            </li>
+                            <li>Mantén agua y comida para al menos 72 horas</li>
+                        </ul>
+                    </div>
+                    <div class="alert-level level-red">
+                        🔴 Nivel de Alerta: ROJO — ¡Actúa inmediatamente!
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stage 5: After Impact -->
+            <div class="alert-stage" id="stage-5">
+                <div class="stage-header stage-recovery">
+                    <h3>🌈 ETAPA 5 — DESPUÉS DEL IMPACTO</h3>
+                    <p class="stage-status">"El peligro ha pasado — ahora reconstruimos"</p>
+                </div>
+                <div class="stage-body">
+                    <div class="stage-section">
+                        <h4>🧭 Qué está pasando:</h4>
+                        <p>El impacto (si ocurrió) puede causar ondas de choque, incendios o cortes de energía. Los equipos de rescate se movilizarán.</p>
+                    </div>
+                    <div class="stage-section">
+                        <h4>📊 Efectos Post-Impacto:</h4>
+                        <ul class="criteria-list">
+                            <li><strong>Onda de choque:</strong> Puede viajar varios kilómetros causando daños estructurales</li>
+                            <li><strong>Fragmentos:</strong> Meteoritos pueden estar calientes (&gt;1000°C) o contener materiales tóxicos</li>
+                            <li><strong>Cráter:</strong> Zona de impacto directa — extremadamente peligrosa</li>
+                            <li><strong>Incendios:</strong> Por alta temperatura y materiales inflamables</li>
+                            <li><strong>Actividad sísmica:</strong> Temblores secundarios posibles</li>
+                            <li><strong>Contaminación:</strong> Polvo y partículas en el aire</li>
+                        </ul>
+                    </div>
+                    <div class="stage-section">
+                        <h4>💡 Qué puedes hacer:</h4>
+                        <ul class="action-list">
+                            <li>Espera mensajes oficiales de "todo despejado" antes de salir del refugio</li>
+                            <li>Ayuda a otros de forma segura; evita edificios dañados o escombros desconocidos</li>
+                            <li>Sigue instrucciones de emergencia y autoridades de salud</li>
+                            <li>NO toques ni te acerques a fragmentos de meteorito — pueden estar calientes o ser tóxicos</li>
+                        </ul>
+                    </div>
+                    <div class="alert-level level-green">
+                        🟢 Nivel de Alerta: VERDE — Fase de recuperación y apoyo
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stage 6: Sources -->
+            <div class="alert-stage" id="stage-6">
+                <div class="stage-header stage-sources">
+                    <h3>📚 FUENTES Y REFERENCIAS OFICIALES</h3>
+                    <p class="stage-status">"Información basada en protocolos internacionales de defensa planetaria"</p>
+                </div>
+                <div class="stage-body">
+                    <div class="stage-section">
+                        <h4>📄 Documentos Oficiales IAWN/SMPAG:</h4>
+                        <ul class="sources-list">
+                            <li>
+                                <strong>Criterios y Umbrales de Respuesta a Impactos (2017)</strong>
+                                <p>Documento oficial de UNOOSA que establece los criterios técnicos para alertas de asteroides.</p>
+                                <a href="https://www.unoosa.org/res/oosadoc/data/documents/2017/aac_105c_12017crp/aac_105c_12017crp_25_0_html/AC105_C1_2017_CRP25E.pdf" target="_blank" class="source-link">
+                                    🔗 Ver documento PDF
+                                </a>
+                            </li>
+                            <li>
+                                <strong>Recomendaciones para Impacto Hipotético de Asteroides (2024)</strong>
+                                <p>Guía actualizada de SMPAG sobre planificación de misiones y respuesta a amenazas.</p>
+                                <a href="https://www.cosmos.esa.int/documents/336356/336472/SMPAG-RP-006_1_1_Hypothetical_asteroid_impact_recommendations_2024-10-29.pdf/63f3a135-ddc3-288c-f225-91394d00da57?t=1736444210029" target="_blank" class="source-link">
+                                    🔗 Ver documento PDF
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="stage-section">
+                        <h4>🛰️ Organizaciones Internacionales:</h4>
+                        <ul class="sources-list">
+                            <li>
+                                <strong>IAWN - International Asteroid Warning Network</strong>
+                                <p>Red internacional responsable de detectar y emitir advertencias sobre asteroides cercanos a la Tierra.</p>
+                                <a href="https://iawn.net/" target="_blank" class="source-link">
+                                    🔗 Visitar sitio oficial
+                                </a>
+                            </li>
+                            <li>
+                                <strong>SMPAG - Space Mission Planning Advisory Group</strong>
+                                <p>Grupo asesor para la planificación de misiones de deflexión de asteroides.</p>
+                                <a href="https://www.cosmos.esa.int/web/smpag" target="_blank" class="source-link">
+                                    🔗 Visitar sitio oficial
+                                </a>
+                            </li>
+                            <li>
+                                <strong>UN-SPIDER - United Nations Platform for Space-based Information</strong>
+                                <p>Plataforma de Naciones Unidas para gestión de desastres espaciales.</p>
+                                <a href="https://www.un-spider.org/" target="_blank" class="source-link">
+                                    🔗 Visitar sitio oficial
+                                </a>
+                            </li>
+                            <li>
+                                <strong>NASA - National Aeronautics and Space Administration</strong>
+                                <p>Centro de Estudios de Objetos Cercanos a la Tierra (CNEOS).</p>
+                                <a href="https://cneos.jpl.nasa.gov/" target="_blank" class="source-link">
+                                    🔗 Visitar CNEOS
+                                </a>
+                            </li>
+                            <li>
+                                <strong>ESA - European Space Agency</strong>
+                                <p>Oficina de Defensa Planetaria de la Agencia Espacial Europea.</p>
+                                <a href="https://www.esa.int/Safety_Security/Planetary_Defence" target="_blank" class="source-link">
+                                    🔗 Visitar ESA Planetary Defence
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="stage-section">
+                        <h4>🌍 Mensaje Simple para el Público:</h4>
+                        <div class="info-box-inline">
+                            <p>🚀 <strong>El mundo está vigilando el cielo.</strong><br>
+                            Solo necesitas mantener la calma, estar informado y preparado.<br>
+                            Sigue instrucciones de fuentes confiables, no rumores.<br>
+                            Juntos, podemos convertir una amenaza cósmica en un momento de unidad y seguridad.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Footer -->
     <footer>
         <p>Datos: NASA NEO API + USGS | Meteor Madness &copy; 2025</p>
@@ -467,6 +786,7 @@
     <script src="js/chartController.js"></script>
     <script src="js/tooltipController.js"></script>
     <script src="js/simulatorController.js"></script>
+    <script src="js/alertController.js"></script>
     <script src="js/uiController.js"></script>
     <script src="js/main.js"></script>
 </body>

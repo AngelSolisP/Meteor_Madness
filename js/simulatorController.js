@@ -86,6 +86,11 @@ function activateSimulatorMode() {
         hideAsteroidPanel();
     }
 
+    // Limpiar círculos de asteroides si existen
+    if (typeof clearAsteroidCircles === 'function') {
+        clearAsteroidCircles();
+    }
+
     // Cerrar catálogo si está abierto
     if (typeof closeCatalog === 'function') {
         closeCatalog();
@@ -127,9 +132,10 @@ function deactivateSimulatorMode() {
         map.off('click', onMapClickSimulator);
     }
 
-    // Cerrar panel si está abierto
-    if (SimulatorState.isPanelOpen) {
-        closeSimulatorPanel();
+    // Cerrar panel si está abierto (sin llamar deactivate de nuevo)
+    if (SimulatorState.isPanelOpen && simulatorPanel) {
+        simulatorPanel.classList.remove('active');
+        SimulatorState.isPanelOpen = false;
     }
 
     // Limpiar visualización
@@ -288,8 +294,26 @@ function closeSimulatorPanel() {
     // Limpiar visualización
     clearSimulatorVisualization();
 
-    // Desactivar modo simulador
-    deactivateSimulatorMode();
+    // Desactivar modo simulador (sin cerrar panel de nuevo)
+    SimulatorState.isActive = false;
+
+    // Restaurar apariencia del botón
+    if (simulatorBtn) {
+        simulatorBtn.classList.remove('active');
+        simulatorBtn.style.background = '';
+    }
+
+    // Restaurar cursor del mapa
+    const mapElement = document.getElementById('map');
+    if (mapElement) {
+        mapElement.style.cursor = '';
+    }
+
+    // Remover event listener del mapa
+    const map = getMap();
+    if (map) {
+        map.off('click', onMapClickSimulator);
+    }
 }
 
 /**
@@ -664,7 +688,7 @@ function openComparisonModal() {
     renderComparisonTable(similarAsteroids, results.tnt_megatons);
 
     // Renderizar gráfica
-    renderComparisonChart(similarAsteroids);
+    renderSimulatorComparisonChart(similarAsteroids);
 
     // Calcular estadísticas
     const totalAsteroids = allAsteroids.length;
@@ -745,10 +769,10 @@ function renderComparisonTable(asteroids, simEnergy) {
 }
 
 /**
- * Renderiza la gráfica de comparación
+ * Renderiza la gráfica de comparación del simulador
  * @param {Array} asteroids - Asteroides similares
  */
-function renderComparisonChart(asteroids) {
+function renderSimulatorComparisonChart(asteroids) {
     const canvas = document.getElementById('comparison-chart');
     if (!canvas) return;
 

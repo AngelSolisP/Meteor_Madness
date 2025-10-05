@@ -183,6 +183,16 @@ function showAsteroidPanel(asteroidData) {
         renderAllCharts(asteroidData, allAsteroids);
     }
 
+    // Renderizar círculos de destrucción en el mapa
+    if (typeof renderAsteroidDestructionCircles === 'function') {
+        renderAsteroidDestructionCircles(asteroidData);
+    }
+
+    // Mostrar leyenda flotante
+    if (typeof showLegend === 'function') {
+        showLegend();
+    }
+
     // Mostrar panel con animación
     infoPanelElement.classList.add('active');
 
@@ -201,6 +211,16 @@ function hideAsteroidPanel() {
         // Destruir gráficas para liberar memoria
         if (typeof destroyCharts === 'function') {
             destroyCharts();
+        }
+
+        // Limpiar círculos de destrucción del mapa
+        if (typeof clearAsteroidCircles === 'function') {
+            clearAsteroidCircles();
+        }
+
+        // Ocultar leyenda flotante
+        if (typeof hideLegend === 'function') {
+            hideLegend();
         }
     }
 }

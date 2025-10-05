@@ -8,6 +8,7 @@ let map = null;
 let markersLayer = null;
 let currentMarkers = [];
 let selectedMarker = null;
+let asteroidCirclesLayer = null;
 
 /**
  * Inicializa el mapa Leaflet
@@ -34,6 +35,9 @@ function initializeMap() {
 
         // Crear capa para marcadores
         markersLayer = L.layerGroup().addTo(map);
+
+        // Crear capa para círculos de destrucción de asteroides (featureGroup tiene getBounds)
+        asteroidCirclesLayer = L.featureGroup();
 
         console.log('✓ Mapa inicializado correctamente');
 
@@ -112,25 +116,27 @@ function addAsteroidMarkers(asteroids) {
 
             // Evento click para mostrar panel de información
             marker.on('click', (e) => {
+                console.log(`🎯 Click en asteroide: ${asteroid.name}`);
+
                 // Detener propagación para evitar que el simulador capture el evento
                 L.DomEvent.stopPropagation(e);
 
-                // Si el simulador está activo, desactivarlo primero
-                if (typeof SimulatorState !== 'undefined' && SimulatorState.isActive) {
-                    if (typeof deactivateSimulatorMode === 'function') {
-                        deactivateSimulatorMode();
+                // Si el panel del simulador está abierto O el modo está activo, cerrarlo todo
+                if (typeof SimulatorState !== 'undefined' &&
+                    (SimulatorState.isActive || SimulatorState.isPanelOpen)) {
+                    console.log('Cerrando panel de simulador antes de mostrar asteroide');
+                    if (typeof closeSimulatorPanel === 'function') {
+                        closeSimulatorPanel();
                     }
-                }
-
-                // Si el panel del simulador está abierto, cerrarlo
-                if (typeof closeSimulatorPanel === 'function') {
-                    closeSimulatorPanel();
                 }
 
                 highlightMarker(asteroid.id);
                 // Llamar a función del UI controller (se define en uiController.js)
+                console.log('Intentando mostrar panel de asteroide...');
                 if (typeof showAsteroidPanel === 'function') {
                     showAsteroidPanel(asteroid);
+                } else {
+                    console.error('❌ showAsteroidPanel no está definida!');
                 }
             });
 
@@ -267,5 +273,98 @@ function getMarkers() {
 function centerMap(lat, lon, zoom = 5) {
     if (map) {
         map.setView([lat, lon], zoom, { animate: true });
+    }
+}
+
+/**
+ * Renderiza los círculos de destrucción para un asteroide del dataset
+ * @param {Object} asteroidData - Datos del asteroide
+ */
+function renderAsteroidDestructionCircles(asteroidData) {
+    if (!asteroidCirclesLayer || !asteroidData) return;
+
+    console.log(`Renderizando círculos de destrucción para: ${asteroidData.name}`);
+
+    // Limpiar círculos anteriores
+    asteroidCirclesLayer.clearLayers();
+
+    // Obtener ubicación de impacto
+    const lat = asteroidData.impact_scenario?.latitude;
+    const lng = asteroidData.impact_scenario?.longitude;
+
+    if (!lat || !lng) {
+        console.warn('No hay ubicación de impacto para este asteroide');
+        return;
+    }
+
+    // Obtener energía del impacto
+    const energy_mt = asteroidData.impact_calculations?.tnt_megatons || 0;
+
+    if (energy_mt === 0) {
+        console.warn('No hay energía de impacto calculada');
+        return;
+    }
+
+    // Calcular radios de destrucción (usando las mismas fórmulas del simulador)
+    const total_radius_km = Math.pow(energy_mt, 0.33) * 2;
+    const severe_radius_km = total_radius_km * 2.1;
+    const moderate_radius_km = severe_radius_km * 1.9;
+
+    console.log(`Radios calculados: Total=${total_radius_km.toFixed(1)}km, Severe=${severe_radius_km.toFixed(1)}km, Moderate=${moderate_radius_km.toFixed(1)}km`);
+
+    // Círculo 3 - Daño Moderado (más grande, se dibuja primero)
+    L.circle([lat, lng], {
+        radius: moderate_radius_km * 1000, // km a metros
+        color: '#ffd700',
+        fillColor: '#ffd700',
+        fillOpacity: 0.1,
+        weight: 2
+    }).addTo(asteroidCirclesLayer)
+      .bindTooltip(`Daño moderado: ${moderate_radius_km.toFixed(1)} km`, { permanent: false });
+
+    // Círculo 2 - Daño Severo
+    L.circle([lat, lng], {
+        radius: severe_radius_km * 1000,
+        color: '#ff6b35',
+        fillColor: '#ff6b35',
+        fillOpacity: 0.2,
+        weight: 2
+    }).addTo(asteroidCirclesLayer)
+      .bindTooltip(`Daño severo: ${severe_radius_km.toFixed(1)} km`, { permanent: false });
+
+    // Círculo 1 - Destrucción Total (más pequeño, se dibuja último)
+    L.circle([lat, lng], {
+        radius: total_radius_km * 1000,
+        color: '#ff0000',
+        fillColor: '#ff0000',
+        fillOpacity: 0.3,
+        weight: 2
+    }).addTo(asteroidCirclesLayer)
+      .bindTooltip(`Destrucción total: ${total_radius_km.toFixed(1)} km`, { permanent: false });
+
+    // Agregar capa al mapa
+    asteroidCirclesLayer.addTo(map);
+
+    // Ajustar vista para mostrar todos los círculos
+    const bounds = asteroidCirclesLayer.getBounds();
+    if (bounds.isValid()) {
+        map.fitBounds(bounds, { padding: [50, 50] });
+    }
+
+    console.log('✓ Círculos de destrucción renderizados');
+}
+
+/**
+ * Limpia los círculos de destrucción del mapa
+ */
+function clearAsteroidCircles() {
+    if (!asteroidCirclesLayer) return;
+
+    console.log('Limpiando círculos de destrucción de asteroides');
+
+    asteroidCirclesLayer.clearLayers();
+
+    if (map && map.hasLayer(asteroidCirclesLayer)) {
+        map.removeLayer(asteroidCirclesLayer);
     }
 }

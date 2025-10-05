@@ -45,6 +45,10 @@ async function initializeApp() {
         console.log('Paso 5.5/7: Inicializando simulador...');
         initSimulator();
 
+        // 5.6 Inicializar sistema de alertas
+        console.log('Paso 5.6/7: Inicializando sistema de alertas...');
+        initAlertSystem();
+
         // 6. Cargar datos de asteroides
         console.log('Paso 6/7: Cargando datos de asteroides...');
         const asteroids = await loadAsteroidData();
@@ -162,9 +166,9 @@ window.debugMeteorMadness = function() {
 /**
  * Información de la aplicación para consola
  */
-console.log('%c🌠 METEOR MADNESS v1.1 - Fase 1B 🌠', 'color: #ff6b35; font-size: 20px; font-weight: bold;');
+console.log('%c🌠 METEOR MADNESS v1.2 - Fase 2 🌠', 'color: #ff6b35; font-size: 20px; font-weight: bold;');
 console.log('%cVisualización Interactiva de Impactos de Asteroides', 'color: #b8c5d6; font-size: 12px;');
-console.log('%cNUEVO: Catálogo completo | Gráficas interactivas | Tooltips educativos', 'color: #4ecca3; font-size: 11px;');
+console.log('%cNUEVO: Simulador de Impactos | Sistema de Alertas IAWN/SMPAG | Concienciación Pública', 'color: #4ecca3; font-size: 11px;');
 console.log('%cDatos: NASA NEO API + USGS | Desarrollado con Leaflet.js y Chart.js', 'color: #7a8ba3; font-size: 10px;');
 console.log('%cPara debugging, usa: window.debugMeteorMadness()', 'color: #ffd23f; font-size: 10px;');
 console.log('\n');

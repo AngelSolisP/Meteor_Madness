@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meteor Madness - Asteroid Impact Simulator by Apollo Paputs VI</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+          integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+          crossorigin=""/>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <!-- Header -->
+<header>
+    <div class="header-content">
+
+        <h1><a href="../index.html" class="back-button"> 🌠 Meteor Madness</a></h1>
+        <p class="subtitle">Interactive Asteroid Impact Visualization by Apollo Paputs VI</p>
+    </div>
+</header>
+
+    <!-- Sidebar -->
+<aside class="sidebar">
+        <div class="sidebar-content">
+            <button class="sidebar-btn" id="btn-catalog">
+                📋 <span class="btn-text">Catalog</span>
+            </button>
+            <button class="sidebar-btn" id="btn-simulator">
+                🎯 <span class="btn-text">Simulator</span>
+            </button>
+            <button class="sidebar-btn" id="btn-alert">
+                🚨 <span class="btn-text">Alert</span>
+            </button>
+            
+            <div class="filter-section">
+                <label class="toggle-container">
+                    <input type="checkbox" id="toggle-hazardous">
+                    <span class="toggle-label">Show Hazardous Only</span>
+                </label>
+                <div class="asteroid-counter">
+                    <span id="asteroid-count">0</span> asteroids visible
+                </div>
+            </div>
+            </div>
+    </aside>
+    <!-- Main Content -->
+    <main>
+        <!-- Map Container -->
+        <div id="map"></div>
+
+        <!-- Loading Indicator -->
+        <div id="loading" class="loading">
+            <div class="spinner"></div>
+            <p>Loading asteroid data...</p>
+        </div>
+    </main>
+
+    <!-- Catalog Modal -->
+    <div id="catalog-backdrop" class="catalog-backdrop"></div>
+    <div id="catalog-modal" class="catalog-modal">
+        <div class="catalog-header">
+            <h2>🌠 Asteroid Catalog</h2>
+            <button class="close-btn" id="catalog-close">&times;</button>
+        </div>
+        <div class="catalog-filters">
+            <div class="filter-group">
+                <input type="text" id="catalog-search" class="search-input" placeholder="🔍 Search by name or ID...">
+            </div>
+            <div class="filter-group">
+                <label class="checkbox-label">
+                    <input type="checkbox" id="catalog-filter-hazardous">
+                    <span>Hazardous Only</span>
+                </label>
+            </div>
+            <div class="filter-group">
+                <label for="catalog-sort">Sort by:</label>
+                <select id="catalog-sort" class="sort-select">
+                    <option value="energy">Energy (High to Low)</option>
+                    <option value="diameter">Diameter (High to Low)</option>
+                    <option value="velocity">Velocity (High to Low)</option>
+                    <option value="name">Name (A-Z)</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <span id="catalog-count" class="catalog-count">0 asteroids</span>
+            </div>
+        </div>
+        <div class="catalog-table-container">
+            <table class="catalog-table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Name</th>
+                        <th>Diameter</th>
+                        <th>Velocity</th>
+                        <th>Energy</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="catalog-table-body">
+                    <!-- Rows will be populated by JavaScript -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Asteroid Info Panel -->
+    <div id="info-panel" class="info-panel">
+        <button class="close-btn" id="close-panel">&times;</button>
+        <div class="panel-content">
+            <h2 id="panel-name">Asteroid Name</h2>
+
+            <div class="info-section">
+                <h3>Physical Parameters</h3>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <span class="info-label">
+                            Diameter:
+                            <span class="info-icon" data-tooltip="diameter">ℹ️</span>
+                        </span>
+                        <span id="panel-diameter">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">
+                            Velocity:
+                            <span class="info-icon" data-tooltip="velocity">ℹ️</span>
+                        </span>
+                        <span id="panel-velocity">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">
+                            Mass:
+                            <span class="info-icon" data-tooltip="mass">ℹ️</span>
+                        </span>
+                        <span id="panel-mass">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">
+                            Status:
+                            <span class="info-icon" data-tooltip="hazardous">ℹ️</span>
+                        </span>
+                        <span id="panel-hazard" class="hazard-badge">-</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-section">
+                <h3>
+                    Impact Energy
+                    <span class="info-icon" data-tooltip="energy">ℹ️</span>
+                </h3>
+                <div class="energy-display">
+                    <div class="energy-value">
+                        <span id="panel-energy">-</span>
+                        <span class="energy-unit">
+                            Megatons TNT
+                            <span class="info-icon" data-tooltip="megatons">ℹ️</span>
+                        </span>
+                    </div>
+                    <div class="comparison">
+                        <p id="panel-comparison">-</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-section">
+                <h3>Visual Analysis</h3>
+                <div class="charts-tabs">
+                    <button class="chart-tab active" data-chart="comparison">Comparison</button>
+                    <button class="chart-tab" data-chart="distribution">Distribution</button>
+                    <button class="chart-tab" data-chart="scatter">Energy-Size</button>
+                </div>
+                <div class="charts-container">
+                    <canvas id="chart-comparison" class="chart-canvas active"></canvas>
+                    <canvas id="chart-distribution" class="chart-canvas"></canvas>
+                    <canvas id="chart-scatter" class="chart-canvas"></canvas>
+                </div>
+            </div>
+
+            <div class="info-section">
+                <h3>Impact Effects</h3>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <span class="info-label">Location:</span>
+                        <span id="panel-location">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Surface Type:</span>
+                        <span id="panel-surface">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">
+                            Seismic Magnitude:
+                            <span class="info-icon" data-tooltip="seismic">ℹ️</span>
+                        </span>
+                        <span id="panel-seismic">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">
+                            Crater Diameter:
+                            <span class="info-icon" data-tooltip="crater">ℹ️</span>
+                        </span>
+                        <span id="panel-crater">-</span>
+                    </div>
+                </div>
+                <div id="tsunami-info" class="tsunami-warning" style="display: none;">
+                    <h4>⚠️ Tsunami Alert</h4>
+                    <p id="tsunami-details">-</p>
+                </div>
+            </div>
+
+            <div class="info-section">
+                <h3>Orbital Data</h3>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <span class="info-label">Approach Date:</span>
+                        <span id="panel-approach">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Orbital Class:</span>
+                        <span id="panel-orbit-class">-</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Simulator Panel -->
+    <div id="simulator-panel" class="simulator-panel">
+        <button class="close-btn" id="close-simulator-panel">&times;</button>
+        <div class="panel-content">
+            <h2>🎯 Impact Simulator</h2>
+
+            <!-- Simulation Configuration -->
+            <div class="simulator-section">
+                <div class="section-header">
+                    <h3>🎯 Simulation Configuration</h3>
+                </div>
+
+                <div class="subsection">
+                    <h4>📍 Location</h4>
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <span class="info-label">Latitude:</span>
+                            <span id="sim-latitude">-</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Longitude:</span>
+                            <span id="sim-longitude">-</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Type:</span>
+                            <span id="sim-surface-type">-</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h4>⚙️ Asteroid Parameters</h4>
+
+                    <!-- Slider Diameter -->
+                    <div class="slider-container">
+                        <label for="sim-diameter">📏 Diameter</label>
+                        <input type="range" id="sim-diameter" class="sim-slider"
+                               min="10" max="1000" step="5" value="200">
+                        <div class="slider-display">
+                            <span id="sim-diameter-value" class="slider-value">200 m</span>
+                            <span id="sim-diameter-comparison" class="slider-comparison">2 football fields</span>
+                        </div>
+                    </div>
+
+                    <!-- Slider Velocity -->
+                    <div class="slider-container">
+                        <label for="sim-velocity">🚀 Velocity</label>
+                        <input type="range" id="sim-velocity" class="sim-slider"
+                               min="5" max="50" step="0.5" value="20">
+                        <div class="slider-display">
+                            <span id="sim-velocity-value" class="slider-value">20 km/s</span>
+                            <span id="sim-velocity-comparison" class="slider-comparison">Typical velocity</span>
+                        </div>
+                    </div>
+
+                    <!-- Slider Angle -->
+                    <div class="slider-container">
+                        <label for="sim-angle">📐 Impact Angle</label>
+                        <input type="range" id="sim-angle" class="sim-slider"
+                               min="45" max="90" step="5" value="90">
+                        <div class="slider-display">
+                            <span id="sim-angle-value" class="slider-value">90°</span>
+                            <span id="sim-angle-comparison" class="slider-comparison">Vertical impact</span>
+                        </div>
+                    </div>
+
+                    <!-- Radio Composition -->
+                    <div class="composition-container">
+                        <label class="composition-label">🪨 Composition</label>
+                        <div class="radio-group">
+                            <label class="radio-label">
+                                <input type="radio" name="composition" value="rocky" checked>
+                                <span>Rocky (3000 kg/m³)</span>
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="composition" value="metallic">
+                                <span>Metallic (7800 kg/m³)</span>
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="composition" value="ice">
+                                <span>Ice (917 kg/m³)</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Response Protocols -->
+            <div class="simulator-section">
+                <div class="section-header">
+                    <h3>🚨 Response Protocols</h3>
+                </div>
+
+                <div class="protocols-container">
+                    <div class="protocol-phase" id="sim-protocol-phase">Calculating...</div>
+                    <div class="protocol-description" id="sim-protocol-description">
+                        Analyzing meteorite characteristics to determine appropriate protocols...
+                    </div>
+                    <div class="protocol-actions">
+                        <h4>💡 What to do:</h4>
+                        <ul id="sim-protocol-actions">
+                            <li>Loading protocols...</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Simulation Results -->
+            <div class="simulator-section">
+                <div class="section-header">
+                    <h3>💥 Simulation Results</h3>
+                </div>
+
+                <div class="subsection">
+                    <h4>📊 Calculated Impact</h4>
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <span class="info-label">Mass:</span>
+                            <span id="sim-result-mass">-</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Energy:</span>
+                            <span id="sim-result-energy">-</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Crater:</span>
+                            <span id="sim-result-crater">-</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Seismic Magnitude:</span>
+                            <span id="sim-result-seismic">-</span>
+                        </div>
+                    </div>
+                    <div class="comparison">
+                        <p id="sim-result-comparison">-</p>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h4>🎯 Destruction Zones</h4>
+                    <div class="destruction-radii">
+                        <div class="radius-item radius-total">
+                            <span class="radius-color"></span>
+                            <span class="radius-label">Total Destruction:</span>
+                            <span id="sim-result-radius-total" class="radius-value">-</span>
+                        </div>
+                        <div class="radius-item radius-severe">
+                            <span class="radius-color"></span>
+                            <span class="radius-label">Severe Damage:</span>
+                            <span id="sim-result-radius-severe" class="radius-value">-</span>
+                        </div>
+                        <div class="radius-item radius-moderate">
+                            <span class="radius-color"></span>
+                            <span class="radius-label">Moderate Damage:</span>
+                            <span id="sim-result-radius-moderate" class="radius-value">-</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Actions -->
+            <div class="simulator-section">
+                <div class="section-header">
+                    <h3>⚡ Actions</h3>
+                </div>
+
+                <div class="action-buttons">
+                    <button class="action-btn export" id="btn-export-json">
+                        📄 Export JSON
+                    </button>
+                    <button class="action-btn secondary" id="btn-compare">
+                        📊 Compare with Dataset
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Comparison Modal -->
+    <div id="comparison-backdrop" class="catalog-backdrop"></div>
+    <div id="comparison-modal" class="comparison-modal">
+        <div class="catalog-header">
+            <h2>📊 Comparison with Dataset</h2>
+            <button class="close-btn" id="comparison-close">&times;</button>
+        </div>
+        <div class="comparison-content">
+            <!-- Your Simulation Summary -->
+            <div class="comparison-summary">
+                <h3>🎯 Your Simulation</h3>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <span class="info-label">Diameter:</span>
+                        <span id="comp-sim-diameter">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Energy:</span>
+                        <span id="comp-sim-energy">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Crater:</span>
+                        <span id="comp-sim-crater">-</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Similar Asteroids Table -->
+            <div class="comparison-table-section">
+                <h3>🌠 Similar Asteroids from Dataset</h3>
+                <div class="catalog-table-container">
+                    <table class="catalog-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Diameter</th>
+                                <th>Energy</th>
+                                <th>Difference</th>
+                            </tr>
+                        </thead>
+                        <tbody id="comparison-table-body">
+                            <!-- Populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Comparison Chart -->
+            <div class="comparison-chart-section">
+                <h3>📈 Comparison Chart</h3>
+                <canvas id="comparison-chart" class="comparison-chart-canvas"></canvas>
+            </div>
+
+            <!-- Statistics -->
+            <div class="comparison-stats">
+                <p id="comparison-stats-text">-</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Legend -->
+    <div id="impact-legend" class="impact-legend" style="display: none;">
+        <h4>💥 Impact Zones</h4>
+        <div class="legend-item">
+            <span class="legend-color" style="background-color: #ff0000;"></span>
+            <span>Total Destruction</span>
+        </div>
+        <div class="legend-item">
+            <span class="legend-color" style="background-color: #ff6b35;"></span>
+            <span>Severe Damage</span>
+        </div>
+        <div class="legend-item">
+            <span class="legend-color" style="background-color: #ffd700;"></span>
+            <span>Moderate Damage</span>
+        </div>
+    </div>
+
+    <!-- Tooltip Container -->
+    <div id="tooltip-container" class="tooltip-container" style="display: none;">
+        <div class="tooltip-content"></div>
+        <div class="tooltip-arrow"></div>
+    </div>
+
+    <!-- Alert System Modal -->
+    <div id="alert-backdrop" class="alert-backdrop"></div>
+    <div id="alert-modal" class="alert-modal">
+        <div class="alert-header">
+            <h2>🚨 Meteorite Alert</h2>
+            <p class="alert-subtitle">Interactive Public Awareness Guide</p>
+            <button class="close-btn" id="alert-close">&times;</button>
+        </div>
+
+        <div class="alert-content">
+            <!-- Stage Navigation -->
+            <div class="stage-navigation">
+                <button class="stage-nav-btn active" data-stage="1">
+                    <span class="stage-icon">🟢</span>
+                    <span class="stage-name">Monitoring</span>
+                </button>
+                <button class="stage-nav-btn" data-stage="2">
+                    <span class="stage-icon">🟡</span>
+                    <span class="stage-name">Watch</span>
+                </button>
+                <button class="stage-nav-btn" data-stage="3">
+                    <span class="stage-icon">🟠</span>
+                    <span class="stage-name">Alert</span>
+                </button>
+                <button class="stage-nav-btn" data-stage="4">
+                    <span class="stage-icon">🔴</span>
+                    <span class="stage-name">Impact</span>
+                </button>
+                <button class="stage-nav-btn" data-stage="5">
+                    <span class="stage-icon">🛠️</span>
+                    <span class="stage-name">Recovery</span>
+                </button>
+                <button class="stage-nav-btn" data-stage="6">
+                    <span class="stage-icon">📚</span>
+                    <span class="stage-name">Sources</span>
+                </button>
+            </div>
+
+            <!-- Stage 1: Monitor Mode -->
+            <div class="alert-stage active" id="stage-1">
+                <div class="stage-header stage-green">
+                    <h3>🛰️ STAGE 1 — MONITOR MODE</h3>
+                    <p class="stage-status">"The sky is being watched!"</p>
+                </div>
+                <div class="stage-body">
+                    <div class="stage-section">
+                        <h4>🧭 What's happening:</h4>
+                        <p>Scientists around the world (IAWN - International Asteroid Warning Network) constantly scan space for any object that might approach Earth.</p>
+                    </div>
+                    <div class="stage-section">
+                        <h4>📊 Technical Criteria:</h4>
+                        <ul class="criteria-list">
+                            <li><strong>Size of interest:</strong> Objects larger than 10 meters in diameter</li>
+                            <li><strong>Typical density:</strong> 2,000-3,500 kg/m³ (depending on composition: rocky, metallic, or carbonaceous)</li>
+                            <li><strong>Impact probability:</strong> &lt;1%</li>
+                            <li><strong>Time to possible impact:</strong> Not applicable</li>
+                            <li><strong>Alert level:</strong> None - normal operation</li>
+                        </ul>
+                    </div>
+                    <div class="stage-section">
+                        <h4>💡 What you can do:</h4>
+                        <ul class="action-list">
+                            <li>Stay calm — meteors are common, but dangerous ones are rare</li>
+                            <li>Follow reliable scientific pages (NASA, ESA, local space agency)</li>
+                            <li>Don't believe viral "end of the world" rumors on social media</li>
+                        </ul>
+                    </div>
+                    <div class="alert-level level-green">
+                        🟢 Alert Level: GREEN — No danger detected
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stage 2: Watch Mode -->
+            <div class="alert-stage" id="stage-2">
+                <div class="stage-header stage-yellow">
+                    <h3>⚠️ STAGE 2 — WATCH MODE</h3>
+                    <p class="stage-status">"Scientists found a rock — it's being verified!"</p>
+                </div>
+                <div class="stage-body">
+                    <div class="stage-section">
+                        <h4>🧭 What's happening:</h4>
+                        <p>IAWN has detected an asteroid passing close to Earth. They are calculating its orbit to determine if it could impact.</p>
+                    </div>
+                    <div class="stage-section">
+                        <h4>📊 Technical Criteria (IAWN):</h4>
+                        <ul class="criteria-list">
+                            <li><strong>Object size:</strong> &gt;10 meters in diameter</li>
+                            <li><strong>Absolute magnitude:</strong> ~28 (if only brightness data is available)</li>
+                            <li><strong>Estimated density:</strong> Determined by spectroscopy (rocky: 2,500 kg/m³, metallic: 7,800 kg/m³)</li>
+                            <li><strong>Impact probability:</strong> &gt;1% (enough to issue a warning)</li>
+                            <li><strong>Expected effects:</strong> Air blast and fragments that can reach the surface</li>
+                            <li><strong>Analysis time:</strong> Days to weeks of orbital observation</li>
+                        </ul>
+                        <p class="criteria-note">⚡ Note: A 10m object with a velocity of 20 km/s releases ~50 kilotons of energy (similar to Chelyabinsk, 2013)</p>
+                    </div>
+                    <div class="stage-section">
+                        <h4>💡 What you can do:</h4>
+                        <ul class="action-list">
+                            <li>Follow official updates — not social media panic</li>
+                            <li>Listen for alerts from IAWN or governments</li>
+                            <li>Schools, local leaders, and emergency agencies may begin briefings</li>
+                        </ul>
+                    </div>
+                    <div class="alert-level level-yellow">
+                        🟡 Alert Level: YELLOW — Object under observation
+                        <br>⏳ You don't need to act, just stay informed
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stage 3: Alert Mode -->
+            <div class="alert-stage" id="stage-3">
+                <div class="stage-header stage-orange">
+                    <h3>🚨 STAGE 3 — ALERT MODE</h3>
+                    <p class="stage-status">"It might get close — we are preparing as a precaution"</p>
+                </div>
+                <div class="stage-body">
+                    <div class="stage-section">
+                        <h4>🧭 What's happening:</h4>
+                        <p>The probability of impact is 1–10%. Space experts (IAWN + SMPAG) and governments begin emergency coordination.</p>
+                    </div>
+                    <div class="stage-section">
+                        <h4>📊 Technical Criteria (Ground-based Preparation):</h4>
+                        <ul class="criteria-list">
+                            <li><strong>Object size:</strong> &gt;20 meters in diameter</li>
+                            <li><strong>Absolute magnitude:</strong> ~27 (if only brightness data is available)</li>
+                            <li><strong>Density and mass:</strong> A 20m rocky object (~2,500 kg/m³) = ~10,000 tons</li>
+                            <li><strong>Impact probability:</strong> &gt;10%</li>
+                            <li><strong>Time to possible impact:</strong> Within 20 years</li>
+                            <li><strong>Risk corridor:</strong> A geographical area of possible impact is determined</li>
+                            <li><strong>Estimated energy:</strong> ~400 kilotons for a 20m object at 20 km/s</li>
+                        </ul>
+                        <p class="criteria-note">⚡ Reference: Chelyabinsk event (2013) — ~18m object caused significant damage and injuries from the shockwave</p>
+                    </div>
+                    <div class="stage-section">
+                        <h4>💡 What you should do:</h4>
+                        <ul class="action-list">
+                            <li>Stay tuned to official radio or online emergency channels</li>
+                            <li>Learn the locations of local shelters</li>
+                            <li>Prepare an emergency kit: water, flashlight, battery-powered radio, first aid, important documents</li>
+                            <li>Avoid spreading unverified information</li>
+                        </ul>
+                    </div>
+                    <div class="alert-level level-orange">
+                        🟠 Alert Level: ORANGE — Prepare and stay alert
+                        <br>⚙️ Authorities test warning systems and response plans
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stage 4: Impact Warning -->
+            <div class="alert-stage" id="stage-4">
+                <div class="stage-header stage-red">
+                    <h3>💥 STAGE 4 — IMPACT WARNING</h3>
+                    <p class="stage-status">"Impact expected — follow safety instructions NOW!"</p>
+                </div>
+                <div class="stage-body">
+                    <div class="stage-section">
+                        <h4>🧭 What's happening:</h4>
+                        <p>Scientists confirm the asteroid could impact Earth in days or weeks. Civil defense is active.</p>
+                    </div>
+                    <div class="stage-section">
+                        <h4>📊 Technical Criteria (SMPAG Mission):</h4>
+                        <ul class="criteria-list">
+                            <li><strong>Object size:</strong> &gt;50 meters in diameter</li>
+                            <li><strong>Absolute magnitude:</strong> ~26</li>
+                            <li><strong>Density and mass:</strong> 50m rocky object = ~300,000 tons; metallic = ~1 million tons</li>
+                            <li><strong>Impact probability:</strong> &gt;1% (with high orbital certainty)</li>
+                            <li><strong>Time to impact:</strong> Within 50 years (but at this stage, days/weeks)</li>
+                            <li><strong>Impact energy:</strong> ~10-15 megatons (50m object at 20 km/s)</li>
+                            <li><strong>Destruction radius:</strong> Up to 50-100 km depending on energy</li>
+                            <li><strong>Effects:</strong> Significant crater, seismic wave, fires, tsunamis (if an ocean impact)</li>
+                        </ul>
+                        <p class="criteria-note">⚡ Tunguska event (1908) — ~50-60m object caused devastation over 2,000 km²</p>
+                    </div>
+                    <div class="stage-section">
+                        <h4>💡 What you MUST do:</h4>
+                        <ul class="action-list action-critical">
+                            <li>Listen ONLY to official alerts (TV, radio, phone notifications)</li>
+                            <li>If ordered to evacuate, do so calmly and quickly</li>
+                            <li>If you cannot evacuate:
+                                <ul>
+                                    <li>Stay inside, away from windows</li>
+                                    <li>Go to a basement or interior room</li>
+                                    <li>Lie face down and protect your head during the shockwave</li>
+                                </ul>
+                            </li>
+                            <li>Keep water and food for at least 72 hours</li>
+                        </ul>
+                    </div>
+                    <div class="alert-level level-red">
+                        🔴 Alert Level: RED — Act immediately!
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stage 5: After Impact -->
+            <div class="alert-stage" id="stage-5">
+                <div class="stage-header stage-recovery">
+                    <h3>🛠️ STAGE 5 — AFTER IMPACT</h3>
+                    <p class="stage-status">"The danger has passed — now we rebuild"</p>
+                </div>
+                <div class="stage-body">
+                    <div class="stage-section">
+                        <h4>🧭 What's happening:</h4>
+                        <p>The impact (if it occurred) can cause shockwaves, fires, or power outages. Rescue teams will be mobilized.</p>
+                    </div>
+                    <div class="stage-section">
+                        <h4>📊 Post-Impact Effects:</h4>
+                        <ul class="criteria-list">
+                            <li><strong>Shockwave:</strong> Can travel several kilometers causing structural damage</li>
+                            <li><strong>Fragments:</strong> Meteorites can be hot (>1000°C) or contain toxic materials</li>
+                            <li><strong>Crater:</strong> Direct impact zone — extremely dangerous</li>
+                            <li><strong>Fires:</strong> Due to high temperature and flammable materials</li>
+                            <li><strong>Seismic activity:</strong> Secondary tremors possible</li>
+                            <li><strong>Contamination:</strong> Dust and particles in the air</li>
+                        </ul>
+                    </div>
+                    <div class="stage-section">
+                        <h4>💡 What you can do:</h4>
+                        <ul class="action-list">
+                            <li>Wait for official "all clear" messages before leaving the shelter</li>
+                            <li>Help others safely; avoid damaged buildings or unknown debris</li>
+                            <li>Follow instructions from emergency and health authorities</li>
+                            <li>DO NOT touch or approach meteorite fragments — they can be hot or toxic</li>
+                        </ul>
+                    </div>
+                    <div class="alert-level level-green">
+                        🟢 Alert Level: GREEN — Recovery and support phase
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stage 6: Sources -->
+            <div class="alert-stage" id="stage-6">
+                <div class="stage-header stage-sources">
+                    <h3>📚 OFFICIAL SOURCES AND REFERENCES</h3>
+                    <p class="stage-status">"Information based on international planetary defense protocols"</p>
+                </div>
+                <div class="stage-body">
+                    <div class="stage-section">
+                        <h4>📄 Official IAWN/SMPAG Documents:</h4>
+                        <ul class="sources-list">
+                            <li>
+                                <strong>Impact Response Criteria and Thresholds (2017)</strong>
+                                <p>Official UNOOSA document establishing technical criteria for asteroid alerts.</p>
+                                <a href="https://www.unoosa.org/res/oosadoc/data/documents/2017/aac_105c_12017crp/aac_105c_12017crp_25_0_html/AC105_C1_2017_CRP25E.pdf" target="_blank" class="source-link">
+                                    🔗 View PDF document
+                                </a>
+                            </li>
+                            <li>
+                                <strong>Recommendations for a Hypothetical Asteroid Impact (2024)</strong>
+                                <p>Updated SMPAG guide on mission planning and threat response.</p>
+                                <a href="https://www.cosmos.esa.int/documents/336356/336472/SMPAG-RP-006_1_1_Hypothetical_asteroid_impact_recommendations_2024-10-29.pdf/63f3a135-ddc3-288c-f225-91394d00da57?t=1736444210029" target="_blank" class="source-link">
+                                    🔗 View PDF document
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="stage-section">
+                        <h4>🛰️ International Organizations:</h4>
+                        <ul class="sources-list">
+                            <li>
+                                <strong>IAWN - International Asteroid Warning Network</strong>
+                                <p>International network responsible for detecting and issuing warnings about near-Earth asteroids.</p>
+                                <a href="https://iawn.net/" target="_blank" class="source-link">
+                                    🔗 Visit official site
+                                </a>
+                            </li>
+                            <li>
+                                <strong>SMPAG - Space Mission Planning Advisory Group</strong>
+                                <p>Advisory group for planning asteroid deflection missions.</p>
+                                <a href="https://www.cosmos.esa.int/web/smpag" target="_blank" class="source-link">
+                                    🔗 Visit official site
+                                </a>
+                            </li>
+                            <li>
+                                <strong>UN-SPIDER - United Nations Platform for Space-based Information</strong>
+                                <p>United Nations platform for space-based disaster management.</p>
+                                <a href="https://www.un-spider.org/" target="_blank" class="source-link">
+                                    🔗 Visit official site
+                                </a>
+                            </li>
+                            <li>
+                                <strong>NASA - National Aeronautics and Space Administration</strong>
+                                <p>Center for Near-Earth Object Studies (CNEOS).</p>
+                                <a href="https://cneos.jpl.nasa.gov/" target="_blank" class="source-link">
+                                    🔗 Visit CNEOS
+                                </a>
+                            </li>
+                            <li>
+                                <strong>ESA - European Space Agency</strong>
+                                <p>Planetary Defence Office of the European Space Agency.</p>
+                                <a href="https://www.esa.int/Safety_Security/Planetary_Defence" target="_blank" class="source-link">
+                                    🔗 Visit ESA Planetary Defence
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="stage-section">
+                        <h4>🌍 Simple Message for the Public:</h4>
+                        <div class="info-box-inline">
+                            <p>🚀 <strong>The world is watching the sky.</strong><br>
+                            You just need to stay calm, informed, and prepared.<br>
+                            Follow instructions from reliable sources, not rumors.<br>
+                            Together, we can turn a cosmic threat into a moment of unity and safety.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>Data: NASA NEO API + USGS | Meteor Madness &copy; 2025</p>
+    </footer>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+            integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+            crossorigin=""></script>
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
+
+    <!-- Custom Scripts -->
+    <script src="js/dataLoader.js"></script>
+    <script src="js/impactCalculator.js"></script>
+    <script src="js/mapController.js"></script>
+    <script src="js/catalogController.js"></script>
+    <script src="js/chartController.js"></script>
+    <script src="js/tooltipController.js"></script>
+    <script src="js/simulatorController.js"></script>
+    <script src="js/alertController.js"></script>
+    <script src="js/uiController.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(lsof:*)",
+      "Bash(xargs kill:*)",
+      "Bash(python3:*)",
+      "Read(//mnt/c/Users/titis/Desktop/meteor/**)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

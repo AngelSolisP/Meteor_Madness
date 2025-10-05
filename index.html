@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meteor Madness - Asteroid Impact Simulator</title>
+    <title>Meteor Madness - Asteroid Impact Simulator by Apollo Paputs VI</title>
 
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
@@ -18,25 +18,27 @@
 </head>
 <body>
     <!-- Header -->
-    <header>
-        <div class="header-content">
-            <h1>🌠 Meteor Madness</h1>
-            <p class="subtitle">Interactive Asteroid Impact Visualization</p>
-        </div>
-    </header>
+<header>
+    <div class="header-content">
+
+        <h1><a href="../index.html" class="back-button"> 🌠 Meteor Madness</a></h1>
+        <p class="subtitle">Interactive Asteroid Impact Visualization by Apollo Paputs VI</p>
+    </div>
+</header>
 
     <!-- Sidebar -->
-    <aside class="sidebar">
+<aside class="sidebar">
         <div class="sidebar-content">
             <button class="sidebar-btn" id="btn-catalog">
-                📋 View Catalog
+                📋 <span class="btn-text">Catalog</span>
             </button>
             <button class="sidebar-btn" id="btn-simulator">
-                🎯 Simulator
+                🎯 <span class="btn-text">Simulator</span>
             </button>
             <button class="sidebar-btn" id="btn-alert">
-                🚨 Meteor Alert
+                🚨 <span class="btn-text">Alert</span>
             </button>
+            
             <div class="filter-section">
                 <label class="toggle-container">
                     <input type="checkbox" id="toggle-hazardous">
@@ -46,9 +48,8 @@
                     <span id="asteroid-count">0</span> asteroids visible
                 </div>
             </div>
-        </div>
+            </div>
     </aside>
-
     <!-- Main Content -->
     <main>
         <!-- Map Container -->

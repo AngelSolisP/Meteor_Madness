@@ -93,6 +93,7 @@ header {
     display: flex;
     flex-direction: column;
     gap: var(--spacing-md);
+    height: 100%; /* <-- AÑADE ESTA LÍNEA */
 }
 
 .sidebar-btn {
@@ -2144,47 +2145,135 @@ footer p {
     margin: 0;
 }
 
-/* Responsive Alert Modal */
+/* ============================================
+   SECCIÓN DE RESPONSIVIDAD FINAL Y CORREGIDA
+   ============================================ */
 @media (max-width: 768px) {
-    .alert-modal {
-        width: 95%;
-        max-height: 90vh;
+    /* -- Header más compacto -- */
+    header {
+        height: 60px;
+        padding: var(--spacing-sm);
     }
 
-    .alert-header h2 {
-        font-size: 1.4rem;
-    }
-
-    .alert-subtitle {
-        font-size: 0.85rem;
-    }
-
-    .stage-navigation {
-        gap: 0.5rem;
-    }
-
-    .stage-nav-btn {
-        min-width: 70px;
-        padding: 0.4rem 0.6rem;
-    }
-
-    .stage-icon {
+    .header-content h1 {
         font-size: 1.2rem;
     }
 
-    .stage-name {
-        font-size: 0.7rem;
+    .subtitle {
+        display: none;
     }
 
-    .stage-header h3 {
-        font-size: 1.1rem;
+    /* -- Footer pequeño y en la base -- */
+    footer {
+        height: 30px;
+        padding: 0 var(--spacing-sm);
+        font-size: 0.65rem;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        z-index: 1001;
+    }
+    
+    /* -- Barra de botones con más altura y espacio inferior -- */
+    .sidebar {
+        top: auto;
+        bottom: 40px; /* <--- CAMBIO: Aumentado de 30px a 40px para crear un espacio de 10px con el footer */
+        left: 0;
+        right: 0;
+        width: 100%;
+        height: 70px;
+        border-right: none;
+        border-top: 1px solid var(--bg-light);
+        display: flex;
+        align-items: center;
+        padding: var(--spacing-xs);
+        background: var(--bg-medium);
+        z-index: 1002;
     }
 
-    .stage-status {
-        font-size: 0.9rem;
+    .sidebar-content {
+        flex-direction: row;
+        gap: var(--spacing-xs);
+        width: 100%;
+        justify-content: space-around;
+        align-items: center;
     }
 
-    .alert-content {
-        padding: var(--spacing-md);
+    /* -- Contenido del botón más compacto -- */
+    .sidebar-btn {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 3px;
+        font-size: 1.4rem;
+        padding: 5px 0;
+        line-height: 1.1;
+    }
+
+    .sidebar-btn .btn-text {
+        font-size: 0.65rem;
+        font-weight: 400;
+        display: block;
+    }
+
+    /* -- Panel de filtro flotante -- */
+    .filter-section {
+        position: fixed;
+        top: 70px;
+        right: 10px;
+        width: auto;
+        margin-top: 0;
+        z-index: 999;
+        background-color: rgba(31, 41, 81, 0.9);
+        backdrop-filter: blur(5px);
+    }
+
+    /* -- El mapa ahora deja el espacio correcto abajo -- */
+    main {
+        top: 60px;
+        left: 0;
+        bottom: 110px; /* <--- CAMBIO: Recalculado a 110px (70px botones + 10px espacio + 30px footer) */
+    }
+    
+    /* -- Los paneles también se ajustan -- */
+    .info-panel, .simulator-panel {
+        width: 100%;
+        right: -100%;
+        top: 60px;
+        bottom: 110px; /* <--- CAMBIO: Recalculado a 110px */
+        height: auto;
+        border-left: none;
+    }
+
+    .info-panel.active, .simulator-panel.active {
+        right: 0;
+    }
+    
+    /* -- Atribución del mapa integrada en el footer -- */
+    .leaflet-control-attribution {
+        position: fixed;
+        bottom: 0;
+        right: var(--spacing-sm);
+        height: 30px;
+        display: flex;
+        align-items: center;
+        background: none !important;
+        box-shadow: none !important;
+        padding: 0;
+        margin: 0;
+        color: var(--text-muted);
+        z-index: 1002;
+    }
+    
+    .leaflet-bottom.leaflet-right {
+       display: none;
+    }
+
+    /* Ajustes menores para modales */
+    .catalog-modal, .comparison-modal, .alert-modal {
+        width: 95%;
+        max-height: 80vh;
     }
 }

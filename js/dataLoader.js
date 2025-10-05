@@ -25,7 +25,7 @@ async function loadAsteroidData() {
 
         // Validar que sea un array
         if (!Array.isArray(data)) {
-            throw new Error('El formato de datos no es válido (se esperaba un array)');
+            throw new Error('Data format is invalid (expected an array)');
         }
 
         // Almacenar en cache
@@ -37,8 +37,8 @@ async function loadAsteroidData() {
         return data;
 
     } catch (error) {
-        console.error('Error al cargar datos de asteroides:', error);
-        alert('Error al cargar los datos de asteroides. Por favor, recarga la página.');
+        console.error('Error loading asteroid data:', error);
+        alert('Error loading asteroid data. Please reload the page.');
         throw error;
     }
 }

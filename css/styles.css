@@ -786,17 +786,24 @@ footer p {
 .charts-container {
     position: relative;
     width: 100%;
-    max-height: 250px;
+    min-height: 250px;
 }
 
 .chart-canvas {
-    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
     max-height: 250px;
-    animation: chartFadeIn 0.4s ease-out;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.3s ease-out;
 }
 
 .chart-canvas.active {
-    display: block;
+    position: relative;
+    visibility: visible;
+    opacity: 1;
 }
 
 /* ============================================

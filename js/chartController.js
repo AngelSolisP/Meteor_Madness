@@ -95,7 +95,7 @@ function renderComparisonChart(selectedAsteroid) {
             selectedAsteroid.name
         ],
         datasets: [{
-            label: 'Energía (Megatones TNT)',
+            label: 'Energy (Megatons TNT)',
             data: [
                 referenceEvents.hiroshima.energy_mt,
                 referenceEvents.chelyabinsk.energy_mt,
@@ -139,7 +139,7 @@ function renderComparisonChart(selectedAsteroid) {
                 },
                 title: {
                     display: true,
-                    text: 'Comparación con Eventos Históricos',
+                    text: 'Comparison with Historical Events',
                     color: '#b8c5d6',
                     font: {
                         size: 14,
@@ -209,7 +209,7 @@ function renderDistributionChart(allAsteroids) {
     const nonHazardous = allAsteroids.length - hazardous;
 
     const data = {
-        labels: ['Peligrosos', 'No Peligrosos'],
+        labels: ['Hazardous', 'Not Hazardous'],
         datasets: [{
             data: [hazardous, nonHazardous],
             backgroundColor: [
@@ -247,7 +247,7 @@ function renderDistributionChart(allAsteroids) {
                 },
                 title: {
                     display: true,
-                    text: `Distribución de ${allAsteroids.length} Asteroides`,
+                    text: `Distribution of ${allAsteroids.length} Asteroids`,
                     color: '#b8c5d6',
                     font: {
                         size: 14,
@@ -314,7 +314,7 @@ function renderScatterChart(allAsteroids, selectedId) {
 
     const datasets = [
         {
-            label: 'Peligrosos',
+            label: 'Hazardous',
             data: hazardousData,
             backgroundColor: 'rgba(230, 57, 70, 0.6)',
             borderColor: 'rgba(230, 57, 70, 1)',
@@ -323,7 +323,7 @@ function renderScatterChart(allAsteroids, selectedId) {
             pointHoverRadius: 7
         },
         {
-            label: 'No Peligrosos',
+            label: 'Not Hazardous',
             data: nonHazardousData,
             backgroundColor: 'rgba(255, 210, 63, 0.6)',
             borderColor: 'rgba(255, 210, 63, 1)',
@@ -336,7 +336,7 @@ function renderScatterChart(allAsteroids, selectedId) {
     // Agregar punto seleccionado con mayor tamaño
     if (selectedPoint) {
         datasets.push({
-            label: 'Seleccionado',
+            label: 'Selected',
             data: [selectedPoint],
             backgroundColor: 'rgba(255, 107, 53, 0.9)',
             borderColor: 'rgba(255, 107, 53, 1)',
@@ -371,7 +371,7 @@ function renderScatterChart(allAsteroids, selectedId) {
                 },
                 title: {
                     display: true,
-                    text: 'Energía vs. Diámetro',
+                    text: 'Energy vs. Diameter',
                     color: '#b8c5d6',
                     font: {
                         size: 14,
@@ -386,12 +386,12 @@ function renderScatterChart(allAsteroids, selectedId) {
                     borderWidth: 1,
                     callbacks: {
                         title: function(context) {
-                            return context[0].raw.label || 'Asteroide';
+                            return context[0].raw.label || 'Asteroid';
                         },
                         label: function(context) {
                             return [
-                                ` Diámetro: ${context.parsed.x.toFixed(1)} m`,
-                                ` Energía: ${context.parsed.y.toFixed(2)} MT`
+                                ` Diameter: ${context.parsed.x.toFixed(1)} m`,
+                                ` Energy: ${context.parsed.y.toFixed(2)} MT`
                             ];
                         }
                     }
@@ -411,7 +411,7 @@ function renderScatterChart(allAsteroids, selectedId) {
                     },
                     title: {
                         display: true,
-                        text: 'Diámetro (metros)',
+                        text: 'Diameter (meters)',
                         color: '#7a8ba3',
                         font: {
                             size: 11
@@ -434,7 +434,7 @@ function renderScatterChart(allAsteroids, selectedId) {
                     },
                     title: {
                         display: true,
-                        text: 'Energía (escala log)',
+                        text: 'Energy (log scale)',
                         color: '#7a8ba3',
                         font: {
                             size: 11

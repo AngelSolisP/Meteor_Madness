@@ -155,22 +155,22 @@ function compareToKnownEvents(energy_megatons) {
     const hiroshima_megatons = CONSTANTS.HIROSHIMA_KILOTONS / 1000; // 0.015 MT
 
     if (energy_megatons < 0.001) {
-        return "Equivalente a un meteorito pequeño (menos de 1 kilotón)";
+        return "Equivalent to a small meteorite (less than 1 kiloton)";
     } else if (energy_megatons < hiroshima_megatons) {
         const kilotons = energy_megatons * 1000;
-        return `Equivalente a ${kilotons.toFixed(2)} kilotones TNT`;
+        return `Equivalent to ${kilotons.toFixed(2)} kilotons TNT`;
     } else if (energy_megatons < 1) {
         const times_hiroshima = energy_megatons / hiroshima_megatons;
-        return `Equivalente a ${times_hiroshima.toFixed(1)} bombas de Hiroshima (15 kilotones)`;
+        return `Equivalent to ${times_hiroshima.toFixed(1)} Hiroshima bombs (15 kilotons)`;
     } else if (energy_megatons < 50) {
         const times_hiroshima = energy_megatons / hiroshima_megatons;
-        return `Equivalente a ${times_hiroshima.toFixed(0)} bombas de Hiroshima`;
+        return `Equivalent to ${times_hiroshima.toFixed(0)} Hiroshima bombs`;
     } else if (energy_megatons < 1000) {
-        return `Evento de impacto regional (${energy_megatons.toFixed(0)} megatones)`;
+        return `Regional impact event (${energy_megatons.toFixed(0)} megatons)`;
     } else if (energy_megatons < 100000) {
-        return `Evento de impacto continental (${(energy_megatons / 1000).toFixed(1)} gigatones)`;
+        return `Continental impact event (${(energy_megatons / 1000).toFixed(1)} gigatons)`;
     } else {
-        return `Evento de extinción masiva (${(energy_megatons / 1000000).toFixed(2)} teratones)`;
+        return `Mass extinction event (${(energy_megatons / 1000000).toFixed(2)} teratons)`;
     }
 }
 
@@ -208,11 +208,11 @@ function calculateImpactEffects(diameter_m, velocity_ms, density_kg_m3 = CONSTAN
  */
 function formatLargeNumber(num) {
     if (num >= 1e9) {
-        return (num / 1e9).toFixed(2) + ' mil millones';
+        return (num / 1e9).toFixed(2) + ' billion';
     } else if (num >= 1e6) {
-        return (num / 1e6).toFixed(2) + ' millones';
+        return (num / 1e6).toFixed(2) + ' million';
     } else if (num >= 1e3) {
-        return (num / 1e3).toFixed(2) + ' mil';
+        return (num / 1e3).toFixed(2) + ' thousand';
     } else {
         return num.toFixed(2);
     }

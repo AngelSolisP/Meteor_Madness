@@ -217,7 +217,7 @@ function renderCatalogTable(asteroids) {
     // Actualizar contador
     const counter = document.getElementById('catalog-count');
     if (counter) {
-        counter.textContent = `${asteroids.length} asteroides`;
+        counter.textContent = `${asteroids.length} asteroids`;
     }
 
     // Si no hay resultados
@@ -225,7 +225,7 @@ function renderCatalogTable(asteroids) {
         catalogTable.innerHTML = `
             <tr>
                 <td colspan="5" class="no-results">
-                    No se encontraron asteroides con los filtros aplicados
+                    No asteroids found with the applied filters
                 </td>
             </tr>
         `;
@@ -264,7 +264,7 @@ function createCatalogRow(asteroid, index) {
 
     // Icono de estado
     const statusIcon = isHazardous ? '🔴' : '🟡';
-    const statusText = isHazardous ? 'Peligroso' : 'No peligroso';
+    const statusText = isHazardous ? 'Hazardous' : 'Not hazardous';
 
     // HTML de la fila
     tr.innerHTML = `

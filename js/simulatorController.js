@@ -205,10 +205,10 @@ function createImpactMarker(lat, lng) {
     // Crear marcador
     impactMarker = L.marker([lat, lng], {
         icon: customIcon,
-        title: 'Punto de impacto simulado'
+        title: 'Simulated impact point'
     });
 
-    impactMarker.bindPopup('🎯 Punto de impacto simulado');
+    impactMarker.bindPopup('🎯 Simulated impact point');
     impactMarker.addTo(map);
 
     // Centrar mapa en el punto
@@ -395,37 +395,37 @@ function updateSliderDisplays() {
     const diamComp = document.getElementById('sim-diameter-comparison');
     if (diamComp) {
         if (diam < 50) {
-            diamComp.textContent = 'Tamaño de 3-4 casas';
+            diamComp.textContent = 'Size of 3-4 houses';
         } else if (diam < 150) {
-            diamComp.textContent = '1 campo de fútbol';
+            diamComp.textContent = '1 football field';
         } else if (diam < 300) {
-            diamComp.textContent = '2 campos de fútbol';
+            diamComp.textContent = '2 football fields';
         } else if (diam < 500) {
-            diamComp.textContent = '3-4 cuadras de ciudad';
+            diamComp.textContent = '3-4 city blocks';
         } else {
-            diamComp.textContent = 'Varios bloques urbanos';
+            diamComp.textContent = 'Several urban blocks';
         }
     }
 
     const velComp = document.getElementById('sim-velocity-comparison');
     if (velComp) {
         if (vel < 10) {
-            velComp.textContent = 'Velocidad baja';
+            velComp.textContent = 'Low velocity';
         } else if (vel < 25) {
-            velComp.textContent = 'Velocidad típica';
+            velComp.textContent = 'Typical velocity';
         } else {
-            velComp.textContent = 'Velocidad extrema';
+            velComp.textContent = 'Extreme velocity';
         }
     }
 
     const angleComp = document.getElementById('sim-angle-comparison');
     if (angleComp) {
         if (angle < 60) {
-            angleComp.textContent = 'Impacto muy oblicuo';
+            angleComp.textContent = 'Very oblique impact';
         } else if (angle < 80) {
-            angleComp.textContent = 'Impacto oblicuo';
+            angleComp.textContent = 'Oblique impact';
         } else {
-            angleComp.textContent = 'Impacto vertical (peor caso)';
+            angleComp.textContent = 'Vertical impact (worst case)';
         }
     }
 
@@ -571,7 +571,7 @@ function renderDestructionCircles() {
         fillOpacity: 0.1,
         weight: 2
     }).addTo(destructionCirclesLayer)
-      .bindTooltip(`Daño moderado: ${results.moderate_radius_km.toFixed(1)} km`, { permanent: false });
+      .bindTooltip(`Moderate damage: ${results.moderate_radius_km.toFixed(1)} km`, { permanent: false });
 
     // Círculo 2 - Daño Severo
     L.circle([lat, lng], {
@@ -581,7 +581,7 @@ function renderDestructionCircles() {
         fillOpacity: 0.2,
         weight: 2
     }).addTo(destructionCirclesLayer)
-      .bindTooltip(`Daño severo: ${results.severe_radius_km.toFixed(1)} km`, { permanent: false });
+      .bindTooltip(`Severe damage: ${results.severe_radius_km.toFixed(1)} km`, { permanent: false });
 
     // Círculo 1 - Destrucción Total (más pequeño, se dibuja último)
     L.circle([lat, lng], {
@@ -591,7 +591,7 @@ function renderDestructionCircles() {
         fillOpacity: 0.3,
         weight: 2
     }).addTo(destructionCirclesLayer)
-      .bindTooltip(`Destrucción total: ${results.total_radius_km.toFixed(1)} km`, { permanent: false });
+      .bindTooltip(`Total destruction: ${results.total_radius_km.toFixed(1)} km`, { permanent: false });
 
     // Agregar capa al mapa
     destructionCirclesLayer.addTo(map);
@@ -620,56 +620,56 @@ function determineAlertPhase(results, params) {
     if (energyMt < 0.05) { // < 50 kilotones
         return {
             stage: 1,
-            name: "Modo Monitoreo",
+            name: "Monitoring Mode",
             color: "stage-green",
             icon: "🟢",
-            description: "El objeto está bajo observación rutinaria. No hay peligro inmediato detectado.",
+            description: "The object is under routine observation. No immediate danger detected.",
             actions: [
-                "Mantén la calma — los meteoros son comunes, pero los peligrosos son raros",
-                "Sigue páginas científicas confiables (NASA, ESA, agencia espacial local)",
-                "No creas rumores virales sobre 'fin del mundo' en redes sociales"
+                "Stay calm — meteors are common, but dangerous ones are rare",
+                "Follow reliable scientific pages (NASA, ESA, local space agency)",
+                "Don't believe viral 'end of the world' rumors on social media"
             ]
         };
     } else if (energyMt < 0.4) { // 50kt - 400kt
         return {
             stage: 2,
-            name: "Modo Vigilancia",
+            name: "Vigilance Mode",
             color: "stage-yellow",
             icon: "🟡",
-            description: "Objeto detectado y bajo verificación. Probabilidad baja de impacto.",
+            description: "Object detected and under verification. Low probability of impact.",
             actions: [
-                "Sigue actualizaciones oficiales — no el pánico de redes sociales",
-                "Escucha alertas de IAWN o gobiernos",
-                "Escuelas, líderes locales y agencias de emergencia pueden comenzar informes"
+                "Follow official updates — not social media panic",
+                "Listen for alerts from IAWN or governments",
+                "Schools, local leaders, and emergency agencies may begin reports"
             ]
         };
     } else if (energyMt < 10) { // 400kt - 10Mt
         return {
             stage: 3,
-            name: "Modo Alerta",
+            name: "Alert Mode",
             color: "stage-orange",
             icon: "🟠",
-            description: "Probabilidad moderada de impacto. Se recomienda preparación preventiva.",
+            description: "Moderate probability of impact. Preventive preparation recommended.",
             actions: [
-                "Mantente atento a canales oficiales de radio o emergencia en línea",
-                "Aprende las ubicaciones de refugios locales",
-                "Prepara un kit de emergencia: agua, linterna, radio a pilas, primeros auxilios, documentos importantes",
-                "Evita difundir información no verificada"
+                "Stay tuned to official radio or online emergency channels",
+                "Learn the locations of local shelters",
+                "Prepare an emergency kit: water, flashlight, battery radio, first aid, important documents",
+                "Avoid spreading unverified information"
             ]
         };
     } else { // > 10Mt
         return {
             stage: 4,
-            name: "Advertencia de Impacto",
+            name: "Impact Warning",
             color: "stage-red",
             icon: "🔴",
-            description: "Alto riesgo de impacto. Se requieren acciones inmediatas de protección civil.",
+            description: "High risk of impact. Immediate civil protection actions required.",
             actions: [
-                "Escucha SOLO alertas oficiales (TV, radio, notificaciones telefónicas)",
-                "Si te ordenan evacuar, hazlo con calma y rapidez",
-                "Si no puedes evacuar: quédate dentro, lejos de ventanas, ve a un sótano o habitación interior",
-                "Acuéstate boca abajo y protege tu cabeza durante la onda de choque",
-                "Mantén agua y comida para al menos 72 horas"
+                "Listen ONLY to official alerts (TV, radio, phone notifications)",
+                "If ordered to evacuate, do so calmly and quickly",
+                "If you cannot evacuate: stay inside, away from windows, go to a basement or interior room",
+                "Lie face down and protect your head during the shock wave",
+                "Keep water and food for at least 72 hours"
             ]
         };
     }
@@ -714,7 +714,7 @@ function updateProtocolsDisplay() {
 function exportSimulationToJSON() {
     if (!SimulatorState.impactLocation || !SimulatorState.results) {
         console.warn('No hay simulación activa para exportar');
-        alert('No hay simulación activa para exportar. Confirma los parámetros primero.');
+        alert('No active simulation to export. Confirm parameters first.');
         return;
     }
 
@@ -798,9 +798,9 @@ function exportSimulationToJSON() {
 
     // Mostrar confirmación
     if (typeof showNotification === 'function') {
-        showNotification('Exportación Exitosa', 'La simulación ha sido exportada como archivo JSON y se ha activado el sistema de alerta.', 'success');
+        showNotification('Export Successful', 'The simulation has been exported as a JSON file and the alert system has been activated.', 'success');
     } else {
-        alert('✅ Simulación exportada exitosamente como archivo JSON\n🚨 Sistema de alerta activado');
+        alert('✅ Simulation exported successfully as JSON file\n🚨 Alert system activated');
     }
 }
 
@@ -819,30 +819,30 @@ function acceptSimulation() {
 
     // Crear mensaje de confirmación
     const confirmationMessage = `
-🎯 Simulación Aceptada
+🎯 Simulation Accepted
 
-📍 Ubicación: ${SimulatorState.impactLocation.lat.toFixed(4)}°, ${SimulatorState.impactLocation.lng.toFixed(4)}°
+📍 Location: ${SimulatorState.impactLocation.lat.toFixed(4)}°, ${SimulatorState.impactLocation.lng.toFixed(4)}°
 
-⚙️ Parámetros:
-• Diámetro: ${params.diameter_m} m
-• Velocidad: ${params.velocity_kms} km/s
-• Ángulo: ${params.angle_deg}°
-• Composición: ${params.density_kgm3 === 3000 ? 'Rocoso' : params.density_kgm3 === 7800 ? 'Metálico' : 'Hielo'}
+⚙️ Parameters:
+• Diameter: ${params.diameter_m} m
+• Velocity: ${params.velocity_kms} km/s
+• Angle: ${params.angle_deg}°
+• Composition: ${params.density_kgm3 === 3000 ? 'Rocky' : params.density_kgm3 === 7800 ? 'Metallic' : 'Ice'}
 
-💥 Resultados:
-• Energía: ${results.tnt_megatons.toLocaleString('es-ES', { maximumFractionDigits: 2 })} MT TNT
-• Cráter: ${results.crater_diameter_m.toFixed(0)} m
-• Radio de destrucción total: ${results.total_radius_km.toFixed(1)} km
+💥 Results:
+• Energy: ${results.tnt_megatons.toLocaleString('en-US', { maximumFractionDigits: 2 })} MT TNT
+• Crater: ${results.crater_diameter_m.toFixed(0)} m
+• Total destruction radius: ${results.total_radius_km.toFixed(1)} km
 
-🚨 Fase de Alerta: ${phase.name}
-• Nivel de respuesta: ${phase.icon} ${phase.name}
+🚨 Alert Phase: ${phase.name}
+• Response level: ${phase.icon} ${phase.name}
 
-La simulación ha sido guardada y está lista para análisis adicional.
+The simulation has been saved and is ready for additional analysis.
     `.trim();
 
     // Mostrar confirmación (podría ser un modal o alert)
     if (typeof showNotification === 'function') {
-        showNotification('Simulación Aceptada', confirmationMessage, 'success');
+        showNotification('Simulation Accepted', confirmationMessage, 'success');
     } else {
         alert(confirmationMessage);
     }
@@ -929,7 +929,7 @@ function determineSurfaceType(lat, lng) {
     // Índico: lng entre 20 y 150
 
     // Simplificación: asumir tierra por defecto
-    return 'Tierra (aproximado)';
+    return 'Land (approximate)';
 }
 
 /* ============================================
@@ -993,7 +993,7 @@ function openComparisonModal() {
     const percentLess = ((lessPowerful / totalAsteroids) * 100).toFixed(0);
 
     document.getElementById('comparison-stats-text').textContent =
-        `🎯 Tu simulación es MÁS POTENTE que el ${percentLess}% del catálogo y MENOS POTENTE que el ${percentMore}%.`;
+        `🎯 Your simulation is MORE POWERFUL than ${percentLess}% of the catalog and LESS POWERFUL than ${percentMore}%.`;
 
     // Mostrar modal
     if (comparisonBackdrop) comparisonBackdrop.classList.add('active');
@@ -1079,7 +1079,7 @@ function renderSimulatorComparisonChart(asteroids) {
     const ctx = canvas.getContext('2d');
 
     // Preparar datos
-    const labels = ['Tu Simulación', ...asteroids.map(a => a.name)];
+    const labels = ['Your Simulation', ...asteroids.map(a => a.name)];
     const data = [
         SimulatorState.results.tnt_megatons,
         ...asteroids.map(a => a.impact_calculations?.tnt_megatons || 0)
@@ -1098,7 +1098,7 @@ function renderSimulatorComparisonChart(asteroids) {
         data: {
             labels: labels,
             datasets: [{
-                label: 'Energía (MT TNT)',
+                label: 'Energy (MT TNT)',
                 data: data,
                 backgroundColor: backgroundColors.slice(0, data.length),
                 borderColor: backgroundColors.slice(0, data.length),
@@ -1116,7 +1116,7 @@ function renderSimulatorComparisonChart(asteroids) {
                 tooltip: {
                     callbacks: {
                         label: function(context) {
-                            return `Energía: ${context.parsed.x.toLocaleString('es-ES', { maximumFractionDigits: 2 })} MT TNT`;
+                            return `Energy: ${context.parsed.x.toLocaleString('en-US', { maximumFractionDigits: 2 })} MT TNT`;
                         }
                     }
                 }
@@ -1126,14 +1126,14 @@ function renderSimulatorComparisonChart(asteroids) {
                     type: 'logarithmic',
                     title: {
                         display: true,
-                        text: 'Energía (Megatones TNT)',
+                        text: 'Energy (Megatons TNT)',
                         color: '#b8c5d6'
                     },
                     ticks: {
                         color: '#b8c5d6',
                         callback: function(value) {
                             if (value === 0.01 || value === 0.1 || value === 1 || value === 10 || value === 100 || value === 1000 || value === 10000 || value === 100000) {
-                                return value.toLocaleString('es-ES');
+                                return value.toLocaleString('en-US');
                             }
                             return '';
                         }
@@ -1195,7 +1195,7 @@ function activateAlertForSimulation(stageNumber) {
         // Fallback: mostrar mensaje en consola
         const phase = determineAlertPhase(SimulatorState.results, SimulatorState.parameters);
         console.log(`🚨 ALERTA SIMULADA - ${phase.name}: ${phase.description}`);
-        alert(`🚨 ALERTA DE SIMULACIÓN\n\n${phase.icon} ${phase.name}\n\n${phase.description}\n\nAcciones recomendadas:\n${phase.actions.map(action => `• ${action}`).join('\n')}`);
+        alert(`🚨 SIMULATION ALERT\n\n${phase.icon} ${phase.name}\n\n${phase.description}\n\nRecommended actions:\n${phase.actions.map(action => `• ${action}`).join('\n')}`);
     }
 }
 

@@ -88,17 +88,17 @@ function showAsteroidPanel(asteroidData) {
     // Estado de peligrosidad
     const hazardBadge = document.getElementById('panel-hazard');
     if (asteroidData.is_hazardous) {
-        hazardBadge.textContent = 'Peligroso';
+        hazardBadge.textContent = 'Hazardous';
         hazardBadge.className = 'hazard-badge dangerous';
     } else {
-        hazardBadge.textContent = 'No Peligroso';
+        hazardBadge.textContent = 'Not Hazardous';
         hazardBadge.className = 'hazard-badge safe';
     }
 
     // Energía de impacto
     const energy_mt = asteroidData.impact_calculations?.tnt_megatons;
     if (energy_mt) {
-        document.getElementById('panel-energy').textContent = energy_mt.toLocaleString('es-ES', {
+        document.getElementById('panel-energy').textContent = energy_mt.toLocaleString('en-US', {
             maximumFractionDigits: 2
         });
 
@@ -107,7 +107,7 @@ function showAsteroidPanel(asteroidData) {
         document.getElementById('panel-comparison').textContent = comparison;
     } else {
         document.getElementById('panel-energy').textContent = 'N/A';
-        document.getElementById('panel-comparison').textContent = 'No disponible';
+        document.getElementById('panel-comparison').textContent = 'Not available';
     }
 
     // Efectos del impacto
@@ -125,8 +125,8 @@ function showAsteroidPanel(asteroidData) {
     // Tipo de superficie
     const surface_type = asteroidData.impact_effects?.surface_type;
     document.getElementById('panel-surface').textContent =
-        surface_type === 'ocean' ? 'Océano' :
-        surface_type === 'land' ? 'Tierra' : 'N/A';
+        surface_type === 'ocean' ? 'Ocean' :
+        surface_type === 'land' ? 'Land' : 'N/A';
 
     // Magnitud sísmica
     const seismic_mag = asteroidData.impact_calculations?.seismic_magnitude;
@@ -152,9 +152,9 @@ function showAsteroidPanel(asteroidData) {
         const threat_radius = tsunami.coastal_threat_radius_km;
         const risk = tsunami.risk;
 
-        const tsunamiText = `Altura de ola estimada: ${wave_height} m | ` +
-                          `Radio de amenaza costera: ${threat_radius} km | ` +
-                          `Nivel de riesgo: ${risk === 'high' ? 'Alto' : risk === 'moderate' ? 'Moderado' : 'Bajo'}`;
+        const tsunamiText = `Estimated wave height: ${wave_height} m | ` +
+                          `Coastal threat radius: ${threat_radius} km | ` +
+                          `Risk level: ${risk === 'high' ? 'High' : risk === 'moderate' ? 'Moderate' : 'Low'}`;
 
         document.getElementById('tsunami-details').textContent = tsunamiText;
         tsunamiInfo.style.display = 'block';
@@ -301,13 +301,13 @@ function showSuccess(message) {
  */
 function formatLargeNumber(num) {
     if (num >= 1e12) {
-        return (num / 1e12).toFixed(2) + ' billones';
+        return (num / 1e12).toFixed(2) + ' trillion';
     } else if (num >= 1e9) {
-        return (num / 1e9).toFixed(2) + ' mil millones';
+        return (num / 1e9).toFixed(2) + ' billion';
     } else if (num >= 1e6) {
-        return (num / 1e6).toFixed(2) + ' millones';
+        return (num / 1e6).toFixed(2) + ' million';
     } else if (num >= 1e3) {
-        return (num / 1e3).toFixed(2) + ' mil';
+        return (num / 1e3).toFixed(2) + ' thousand';
     } else {
         return num.toFixed(2);
     }

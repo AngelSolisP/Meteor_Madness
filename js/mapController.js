@@ -105,9 +105,9 @@ function addAsteroidMarkers(asteroids) {
             const popupContent = `
                 <div style="color: white; min-width: 200px;">
                     <strong style="color: #ff6b35; font-size: 1.1em;">${asteroid.name}</strong><br>
-                    <span style="color: #b8c5d6;">Energía: ${energyMT} MT TNT</span><br>
+                    <span style="color: #b8c5d6;">Energy: ${energyMT} MT TNT</span><br>
                     <span style="color: ${isHazardous ? '#e63946' : '#4ecca3'}; font-weight: bold;">
-                        ${isHazardous ? '⚠️ Peligroso' : '✓ No Peligroso'}
+                        ${isHazardous ? '⚠️ Hazardous' : '✓ Not Hazardous'}
                     </span>
                 </div>
             `;

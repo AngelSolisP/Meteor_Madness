@@ -80,7 +80,7 @@ body {
     font-style: normal;
     font-weight: normal;
     line-height: 1.765;
-    color: #757575;
+    color: #ffffff;
     margin: 0;
     padding: 0;
 }
@@ -2197,7 +2197,7 @@ html.no-csstransitions .home-content__main {
     padding-top: 16.2rem;
     padding-bottom: 9rem;
     background-color: #3542fc;
-    color: #010507;
+    color: #ffffff;
     position: relative;
 }
 
@@ -2367,7 +2367,7 @@ html.no-csstransitions .home-content__main {
     padding-top: 16.2rem;
     padding-bottom: 13.2rem;
     background-color: #FFFFFF;
-    color: #757575;
+    color: #ffffff;
     position: relative;
 }
 
@@ -2729,7 +2729,7 @@ html.no-csstransitions .home-content__main {
     padding-top: 16.2rem;
     padding-bottom: 16.8rem;
     background-color: #e6e6e6;
-    color: #757575;
+    color: #ffffff;
     position: relative;
 }
 

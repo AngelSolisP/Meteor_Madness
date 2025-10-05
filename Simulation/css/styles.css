@@ -2146,7 +2146,7 @@ footer p {
 }
 
 /* ============================================
-   SECCIÓN DE RESPONSIVIDAD (CON MARGEN DE SEGURIDAD INFERIOR)
+   SECCIÓN DE RESPONSIVIDAD FINAL Y CORREGIDA
    ============================================ */
 @media (max-width: 768px) {
     /* -- Header más compacto -- */
@@ -2163,7 +2163,7 @@ footer p {
         display: none;
     }
 
-    /* -- Footer con espacio inferior -- */
+    /* -- Footer pequeño y en la base -- */
     footer {
         height: 30px;
         padding: 0 var(--spacing-sm);
@@ -2172,16 +2172,12 @@ footer p {
         align-items: center;
         justify-content: flex-start;
         z-index: 1001;
-        bottom: 15px; /* <--- CAMBIO: Lo levantamos 15px del borde */
-        position: fixed; /* Aseguramos su posicionamiento */
-        left: 0;
-        right: 0;
     }
     
-    /* -- Barra de botones levantada -- */
+    /* -- Barra de botones con más altura y espacio inferior -- */
     .sidebar {
         top: auto;
-        bottom: 45px; /* <--- CAMBIO: Lo levantamos (30px del footer + 15px de espacio) */
+        bottom: 40px; /* <--- CAMBIO: Aumentado de 30px a 40px para crear un espacio de 10px con el footer */
         left: 0;
         right: 0;
         width: 100%;
@@ -2203,6 +2199,7 @@ footer p {
         align-items: center;
     }
 
+    /* -- Contenido del botón más compacto -- */
     .sidebar-btn {
         flex: 1;
         display: flex;
@@ -2233,70 +2230,31 @@ footer p {
         backdrop-filter: blur(5px);
     }
 
-    /* -- Área del mapa ajustada al nuevo espacio total -- */
+    /* -- El mapa ahora deja el espacio correcto abajo -- */
     main {
         top: 60px;
         left: 0;
-        bottom: 115px; /* <--- CAMBIO: Recalculado (70px botones + 30px footer + 15px espacio) */
+        bottom: 110px; /* <--- CAMBIO: Recalculado a 110px (70px botones + 10px espacio + 30px footer) */
     }
     
-    /* -- Paneles también se ajustan -- */
+    /* -- Los paneles también se ajustan -- */
     .info-panel, .simulator-panel {
         width: 100%;
         right: -100%;
         top: 60px;
-        bottom: 115px; /* <--- CAMBIO: Recalculado */
+        bottom: 110px; /* <--- CAMBIO: Recalculado a 110px */
         height: auto;
         border-left: none;
     }
 
-    .info-panel.active {
+    .info-panel.active, .simulator-panel.active {
         right: 0;
     }
     
-    /* -- Panel SIMULADOR -- */
-    .simulator-panel {
-        position: fixed;
-        left: 0;
-        bottom: -100vh;
-        width: 100%;
-        height: 45%;
-        background-color: var(--bg-medium);
-        box-shadow: var(--shadow-lg);
-        border-top: 2px solid var(--accent-orange);
-        border-radius: 16px 16px 0 0;
-        transition: bottom 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-        z-index: 1003;
-        top: auto;
-        right: auto;
-        border-left: none;
-        display: flex;
-        flex-direction: column;
-    }
-
-    .simulator-panel.active {
-        bottom: 0;
-    }
-    
-    .simulator-panel .panel-content {
-        overflow-y: auto;
-        flex: 1;
-        padding: var(--spacing-md);
-    }
-    
-    /* Estilos para contenido compacto del simulador */
-    .simulator-panel h2 { font-size: 1.2rem; margin-bottom: var(--spacing-sm); }
-    .simulator-panel .section-header h3 { font-size: 1rem; }
-    .simulator-panel .subsection h4 { font-size: 0.9rem; margin-bottom: var(--spacing-xs); }
-    .simulator-panel .info-item, .simulator-panel .slider-display { padding: var(--spacing-xs); font-size: 0.8rem; }
-    .simulator-panel .slider-container { margin-bottom: var(--spacing-sm); }
-    .simulator-panel .slider-container label { font-size: 0.85rem; }
-    .slider-value { font-size: 0.85rem; }
-    
-    /* -- Atribución del mapa integrada y levantada -- */
+    /* -- Atribución del mapa integrada en el footer -- */
     .leaflet-control-attribution {
         position: fixed;
-        bottom: 15px; /* <--- CAMBIO: Lo levantamos 15px del borde */
+        bottom: 0;
         right: var(--spacing-sm);
         height: 30px;
         display: flex;

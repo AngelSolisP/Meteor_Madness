@@ -312,9 +312,9 @@ function renderAsteroidDestructionCircles(asteroidData) {
 
     console.log(`Radios calculados: Total=${total_radius_km.toFixed(1)}km, Severe=${severe_radius_km.toFixed(1)}km, Moderate=${moderate_radius_km.toFixed(1)}km`);
 
-    // Círculo 3 - Daño Moderado (más grande, se dibuja primero)
+    // Circle 3 - Moderate Damage (largest, drawn first)
     L.circle([lat, lng], {
-        radius: moderate_radius_km * 1000, // km a metros
+        radius: moderate_radius_km * 1000, // km to meters
         color: '#ffd700',
         fillColor: '#ffd700',
         fillOpacity: 0.1,
@@ -322,7 +322,7 @@ function renderAsteroidDestructionCircles(asteroidData) {
     }).addTo(asteroidCirclesLayer)
       .bindTooltip(`Moderate damage: ${moderate_radius_km.toFixed(1)} km`, { permanent: false });
 
-    // Círculo 2 - Daño Severo
+    // Circle 2 - Severe Damage
     L.circle([lat, lng], {
         radius: severe_radius_km * 1000,
         color: '#ff6b35',
@@ -332,7 +332,7 @@ function renderAsteroidDestructionCircles(asteroidData) {
     }).addTo(asteroidCirclesLayer)
       .bindTooltip(`Severe damage: ${severe_radius_km.toFixed(1)} km`, { permanent: false });
 
-    // Círculo 1 - Destrucción Total (más pequeño, se dibuja último)
+    // Circle 1 - Total Destruction (smallest, drawn last)
     L.circle([lat, lng], {
         radius: total_radius_km * 1000,
         color: '#ff0000',

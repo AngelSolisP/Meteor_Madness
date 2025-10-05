@@ -237,131 +237,174 @@
         <div class="panel-content">
             <h2>🎯 Simulador de Impacto</h2>
 
-            <div class="info-section">
-                <h3>📍 Ubicación</h3>
-                <div class="info-grid">
-                    <div class="info-item">
-                        <span class="info-label">Latitud:</span>
-                        <span id="sim-latitude">-</span>
+            <!-- Simulation Configuration -->
+            <div class="simulator-section">
+                <div class="section-header">
+                    <h3>🎯 Configuración de Simulación</h3>
+                </div>
+
+                <div class="subsection">
+                    <h4>📍 Ubicación</h4>
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <span class="info-label">Latitud:</span>
+                            <span id="sim-latitude">-</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Longitud:</span>
+                            <span id="sim-longitude">-</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Tipo:</span>
+                            <span id="sim-surface-type">-</span>
+                        </div>
                     </div>
-                    <div class="info-item">
-                        <span class="info-label">Longitud:</span>
-                        <span id="sim-longitude">-</span>
+                </div>
+
+                <div class="subsection">
+                    <h4>⚙️ Parámetros del Asteroide</h4>
+
+                    <!-- Slider Diámetro -->
+                    <div class="slider-container">
+                        <label for="sim-diameter">📏 Diámetro</label>
+                        <input type="range" id="sim-diameter" class="sim-slider"
+                               min="10" max="1000" step="5" value="200">
+                        <div class="slider-display">
+                            <span id="sim-diameter-value" class="slider-value">200 m</span>
+                            <span id="sim-diameter-comparison" class="slider-comparison">2 campos de fútbol</span>
+                        </div>
                     </div>
-                    <div class="info-item">
-                        <span class="info-label">Tipo:</span>
-                        <span id="sim-surface-type">-</span>
+
+                    <!-- Slider Velocidad -->
+                    <div class="slider-container">
+                        <label for="sim-velocity">🚀 Velocidad</label>
+                        <input type="range" id="sim-velocity" class="sim-slider"
+                               min="5" max="50" step="0.5" value="20">
+                        <div class="slider-display">
+                            <span id="sim-velocity-value" class="slider-value">20 km/s</span>
+                            <span id="sim-velocity-comparison" class="slider-comparison">Velocidad típica</span>
+                        </div>
+                    </div>
+
+                    <!-- Slider Ángulo -->
+                    <div class="slider-container">
+                        <label for="sim-angle">📐 Ángulo de Impacto</label>
+                        <input type="range" id="sim-angle" class="sim-slider"
+                               min="45" max="90" step="5" value="90">
+                        <div class="slider-display">
+                            <span id="sim-angle-value" class="slider-value">90°</span>
+                            <span id="sim-angle-comparison" class="slider-comparison">Impacto vertical</span>
+                        </div>
+                    </div>
+
+                    <!-- Radio Composición -->
+                    <div class="composition-container">
+                        <label class="composition-label">🪨 Composición</label>
+                        <div class="radio-group">
+                            <label class="radio-label">
+                                <input type="radio" name="composition" value="rocky" checked>
+                                <span>Rocoso (3000 kg/m³)</span>
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="composition" value="metallic">
+                                <span>Metálico (7800 kg/m³)</span>
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="composition" value="ice">
+                                <span>Hielo (917 kg/m³)</span>
+                            </label>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <div class="info-section">
-                <h3>⚙️ Parámetros del Asteroide</h3>
-
-                <!-- Slider Diámetro -->
-                <div class="slider-container">
-                    <label for="sim-diameter">📏 Diámetro</label>
-                    <input type="range" id="sim-diameter" class="sim-slider"
-                           min="10" max="1000" step="5" value="200">
-                    <div class="slider-display">
-                        <span id="sim-diameter-value" class="slider-value">200 m</span>
-                        <span id="sim-diameter-comparison" class="slider-comparison">2 campos de fútbol</span>
-                    </div>
+            <!-- Response Protocols -->
+            <div class="simulator-section">
+                <div class="section-header">
+                    <h3>🚨 Protocolos de Respuesta</h3>
                 </div>
 
-                <!-- Slider Velocidad -->
-                <div class="slider-container">
-                    <label for="sim-velocity">🚀 Velocidad</label>
-                    <input type="range" id="sim-velocity" class="sim-slider"
-                           min="5" max="50" step="0.5" value="20">
-                    <div class="slider-display">
-                        <span id="sim-velocity-value" class="slider-value">20 km/s</span>
-                        <span id="sim-velocity-comparison" class="slider-comparison">Velocidad típica</span>
+                <div class="protocols-container">
+                    <div class="protocol-phase" id="sim-protocol-phase">Calculando...</div>
+                    <div class="protocol-description" id="sim-protocol-description">
+                        Analizando características del meteorito para determinar protocolos apropiados...
                     </div>
-                </div>
-
-                <!-- Slider Ángulo -->
-                <div class="slider-container">
-                    <label for="sim-angle">📐 Ángulo de Impacto</label>
-                    <input type="range" id="sim-angle" class="sim-slider"
-                           min="45" max="90" step="5" value="90">
-                    <div class="slider-display">
-                        <span id="sim-angle-value" class="slider-value">90°</span>
-                        <span id="sim-angle-comparison" class="slider-comparison">Impacto vertical</span>
-                    </div>
-                </div>
-
-                <!-- Radio Composición -->
-                <div class="composition-container">
-                    <label class="composition-label">🪨 Composición</label>
-                    <div class="radio-group">
-                        <label class="radio-label">
-                            <input type="radio" name="composition" value="rocky" checked>
-                            <span>Rocoso (3000 kg/m³)</span>
-                        </label>
-                        <label class="radio-label">
-                            <input type="radio" name="composition" value="metallic">
-                            <span>Metálico (7800 kg/m³)</span>
-                        </label>
-                        <label class="radio-label">
-                            <input type="radio" name="composition" value="ice">
-                            <span>Hielo (917 kg/m³)</span>
-                        </label>
+                    <div class="protocol-actions">
+                        <h4>💡 Qué hacer:</h4>
+                        <ul id="sim-protocol-actions">
+                            <li>Cargando protocolos...</li>
+                        </ul>
                     </div>
                 </div>
             </div>
 
-            <div class="info-section">
-                <h3>💥 Resultados del Impacto</h3>
-                <div class="info-grid">
-                    <div class="info-item">
-                        <span class="info-label">Masa:</span>
-                        <span id="sim-result-mass">-</span>
+            <!-- Simulation Results -->
+            <div class="simulator-section">
+                <div class="section-header">
+                    <h3>💥 Resultados de la Simulación</h3>
+                </div>
+
+                <div class="subsection">
+                    <h4>📊 Impacto Calculado</h4>
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <span class="info-label">Masa:</span>
+                            <span id="sim-result-mass">-</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Energía:</span>
+                            <span id="sim-result-energy">-</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Cráter:</span>
+                            <span id="sim-result-crater">-</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Magnitud Sísmica:</span>
+                            <span id="sim-result-seismic">-</span>
+                        </div>
                     </div>
-                    <div class="info-item">
-                        <span class="info-label">Energía:</span>
-                        <span id="sim-result-energy">-</span>
-                    </div>
-                    <div class="info-item">
-                        <span class="info-label">Cráter:</span>
-                        <span id="sim-result-crater">-</span>
-                    </div>
-                    <div class="info-item">
-                        <span class="info-label">Magnitud Sísmica:</span>
-                        <span id="sim-result-seismic">-</span>
+                    <div class="comparison">
+                        <p id="sim-result-comparison">-</p>
                     </div>
                 </div>
-                <div class="comparison">
-                    <p id="sim-result-comparison">-</p>
+
+                <div class="subsection">
+                    <h4>🎯 Zonas de Destrucción</h4>
+                    <div class="destruction-radii">
+                        <div class="radius-item radius-total">
+                            <span class="radius-color"></span>
+                            <span class="radius-label">Destrucción Total:</span>
+                            <span id="sim-result-radius-total" class="radius-value">-</span>
+                        </div>
+                        <div class="radius-item radius-severe">
+                            <span class="radius-color"></span>
+                            <span class="radius-label">Daño Severo:</span>
+                            <span id="sim-result-radius-severe" class="radius-value">-</span>
+                        </div>
+                        <div class="radius-item radius-moderate">
+                            <span class="radius-color"></span>
+                            <span class="radius-label">Daño Moderado:</span>
+                            <span id="sim-result-radius-moderate" class="radius-value">-</span>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <div class="info-section">
-                <h3>🎯 Radios de Destrucción</h3>
-                <div class="destruction-radii">
-                    <div class="radius-item radius-total">
-                        <span class="radius-color"></span>
-                        <span class="radius-label">Destrucción Total:</span>
-                        <span id="sim-result-radius-total" class="radius-value">-</span>
-                    </div>
-                    <div class="radius-item radius-severe">
-                        <span class="radius-color"></span>
-                        <span class="radius-label">Daño Severo:</span>
-                        <span id="sim-result-radius-severe" class="radius-value">-</span>
-                    </div>
-                    <div class="radius-item radius-moderate">
-                        <span class="radius-color"></span>
-                        <span class="radius-label">Daño Moderado:</span>
-                        <span id="sim-result-radius-moderate" class="radius-value">-</span>
-                    </div>
+            <!-- Actions -->
+            <div class="simulator-section">
+                <div class="section-header">
+                    <h3>⚡ Acciones</h3>
                 </div>
-            </div>
 
-            <div class="info-section">
-                <h3>📊 Comparación</h3>
-                <button class="sidebar-btn" id="btn-compare" style="width: 100%;">
-                    📊 Comparar con Dataset
-                </button>
+                <div class="action-buttons">
+                    <button class="action-btn export" id="btn-export-json">
+                        📄 Exportar JSON
+                    </button>
+                    <button class="action-btn secondary" id="btn-compare">
+                        📊 Comparar con Dataset
+                    </button>
+                </div>
             </div>
         </div>
     </div>

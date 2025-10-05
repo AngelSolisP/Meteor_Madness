@@ -265,6 +265,12 @@ function openSimulatorPanel(lat, lng) {
         if (compareBtn) {
             compareBtn.addEventListener('click', openComparisonModal);
         }
+
+        // Botón exportar JSON
+        const exportBtn = document.getElementById('btn-export-json');
+        if (exportBtn) {
+            exportBtn.addEventListener('click', exportSimulationToJSON);
+        }
     }
 
     // Establecer valores iniciales
@@ -274,6 +280,9 @@ function openSimulatorPanel(lat, lng) {
 
     // Actualizar displays
     updateSliderDisplays();
+
+    // Actualizar protocolos
+    updateProtocolsDisplay();
 
     // Mostrar panel
     simulatorPanel.classList.add('active');
@@ -479,6 +488,7 @@ function updateSimulation() {
 
     // Actualizar UI
     updateResultsDisplay();
+    updateProtocolsDisplay();
 
     // Actualizar círculos en el mapa
     renderDestructionCircles();
@@ -594,6 +604,291 @@ function renderDestructionCircles() {
 
     // Mostrar leyenda
     showLegend();
+}
+
+/**
+ * Determina la fase de alerta basada en los resultados de la simulación
+ * @param {Object} results - Resultados de la simulación
+ * @param {Object} params - Parámetros de la simulación
+ * @returns {Object} Información de la fase {stage, name, color, description, actions}
+ */
+function determineAlertPhase(results, params) {
+    const energyMt = results.tnt_megatons;
+    const diameterM = params.diameter_m;
+
+    // Criterios basados en las fases de alerta IAWN/SMPAG
+    if (energyMt < 0.05) { // < 50 kilotones
+        return {
+            stage: 1,
+            name: "Modo Monitoreo",
+            color: "stage-green",
+            icon: "🟢",
+            description: "El objeto está bajo observación rutinaria. No hay peligro inmediato detectado.",
+            actions: [
+                "Mantén la calma — los meteoros son comunes, pero los peligrosos son raros",
+                "Sigue páginas científicas confiables (NASA, ESA, agencia espacial local)",
+                "No creas rumores virales sobre 'fin del mundo' en redes sociales"
+            ]
+        };
+    } else if (energyMt < 0.4) { // 50kt - 400kt
+        return {
+            stage: 2,
+            name: "Modo Vigilancia",
+            color: "stage-yellow",
+            icon: "🟡",
+            description: "Objeto detectado y bajo verificación. Probabilidad baja de impacto.",
+            actions: [
+                "Sigue actualizaciones oficiales — no el pánico de redes sociales",
+                "Escucha alertas de IAWN o gobiernos",
+                "Escuelas, líderes locales y agencias de emergencia pueden comenzar informes"
+            ]
+        };
+    } else if (energyMt < 10) { // 400kt - 10Mt
+        return {
+            stage: 3,
+            name: "Modo Alerta",
+            color: "stage-orange",
+            icon: "🟠",
+            description: "Probabilidad moderada de impacto. Se recomienda preparación preventiva.",
+            actions: [
+                "Mantente atento a canales oficiales de radio o emergencia en línea",
+                "Aprende las ubicaciones de refugios locales",
+                "Prepara un kit de emergencia: agua, linterna, radio a pilas, primeros auxilios, documentos importantes",
+                "Evita difundir información no verificada"
+            ]
+        };
+    } else { // > 10Mt
+        return {
+            stage: 4,
+            name: "Advertencia de Impacto",
+            color: "stage-red",
+            icon: "🔴",
+            description: "Alto riesgo de impacto. Se requieren acciones inmediatas de protección civil.",
+            actions: [
+                "Escucha SOLO alertas oficiales (TV, radio, notificaciones telefónicas)",
+                "Si te ordenan evacuar, hazlo con calma y rapidez",
+                "Si no puedes evacuar: quédate dentro, lejos de ventanas, ve a un sótano o habitación interior",
+                "Acuéstate boca abajo y protege tu cabeza durante la onda de choque",
+                "Mantén agua y comida para al menos 72 horas"
+            ]
+        };
+    }
+}
+
+/**
+ * Actualiza el display de protocolos de respuesta
+ */
+function updateProtocolsDisplay() {
+    const results = SimulatorState.results;
+    const params = SimulatorState.parameters;
+
+    if (!results || !params) return;
+
+    const phase = determineAlertPhase(results, params);
+
+    // Actualizar elementos del DOM
+    const phaseElement = document.getElementById('sim-protocol-phase');
+    const descriptionElement = document.getElementById('sim-protocol-description');
+    const actionsElement = document.getElementById('sim-protocol-actions');
+
+    if (phaseElement) {
+        phaseElement.textContent = `${phase.icon} ${phase.name}`;
+        phaseElement.className = `protocol-phase ${phase.color}`;
+    }
+
+    if (descriptionElement) {
+        descriptionElement.textContent = phase.description;
+    }
+
+    if (actionsElement) {
+        actionsElement.innerHTML = phase.actions.map(action =>
+            `<li>${action}</li>`
+        ).join('');
+    }
+}
+
+
+/**
+ * Exporta la simulación actual a un archivo JSON
+ */
+function exportSimulationToJSON() {
+    if (!SimulatorState.impactLocation || !SimulatorState.results) {
+        console.warn('No hay simulación activa para exportar');
+        alert('No hay simulación activa para exportar. Confirma los parámetros primero.');
+        return;
+    }
+
+    const results = SimulatorState.results;
+    const params = SimulatorState.parameters;
+    const phase = determineAlertPhase(results, params);
+
+    // Crear objeto de datos de exportación
+    const exportData = {
+        metadata: {
+            exported_at: new Date().toISOString(),
+            version: "1.0",
+            application: "Meteor Madness Simulator"
+        },
+        location: {
+            latitude: SimulatorState.impactLocation.lat,
+            longitude: SimulatorState.impactLocation.lng,
+            surface_type: determineSurfaceType(SimulatorState.impactLocation.lat, SimulatorState.impactLocation.lng)
+        },
+        parameters: {
+            diameter_meters: params.diameter_m,
+            velocity_kms: params.velocity_kms,
+            angle_degrees: params.angle_deg,
+            density_kgm3: params.density_kgm3,
+            composition: params.density_kgm3 === 3000 ? 'rocky' : params.density_kgm3 === 7800 ? 'metallic' : 'ice'
+        },
+        results: {
+            mass_kg: results.mass_kg,
+            kinetic_energy_joules: results.kinetic_energy_j,
+            tnt_equivalent_megatons: results.tnt_megatons,
+            crater_diameter_meters: results.crater_diameter_m,
+            seismic_magnitude: results.seismic_magnitude,
+            destruction_radii_km: {
+                total: results.total_radius_km,
+                severe: results.severe_radius_km,
+                moderate: results.moderate_radius_km
+            }
+        },
+        alert_phase: {
+            stage: phase.stage,
+            name: phase.name,
+            color: phase.color,
+            icon: phase.icon,
+            description: phase.description,
+            recommended_actions: phase.actions
+        },
+        comparisons: {
+            energy_comparison: compareToKnownEvents(results.tnt_megatons),
+            similar_asteroids: findSimilarAsteroids(results.tnt_megatons, getAllAsteroids()).map(ast => ({
+                name: ast.name,
+                diameter_m: ast.physical_params?.diameter_avg_m || 0,
+                energy_mt: ast.impact_calculations?.tnt_megatons || 0
+            }))
+        }
+    };
+
+    // Convertir a JSON con formato legible
+    const jsonString = JSON.stringify(exportData, null, 2);
+
+    // Crear blob y descargar
+    const blob = new Blob([jsonString], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+
+    // Crear elemento de descarga
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `meteor-simulation-${new Date().toISOString().split('T')[0]}.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+
+    // Liberar URL del objeto
+    URL.revokeObjectURL(url);
+
+    console.log('Simulación exportada a JSON:', exportData);
+
+    // Activar alerta correspondiente
+    setTimeout(() => {
+        activateAlertForSimulation(phase.stage);
+    }, 500);
+
+    // Mostrar confirmación
+    if (typeof showNotification === 'function') {
+        showNotification('Exportación Exitosa', 'La simulación ha sido exportada como archivo JSON y se ha activado el sistema de alerta.', 'success');
+    } else {
+        alert('✅ Simulación exportada exitosamente como archivo JSON\n🚨 Sistema de alerta activado');
+    }
+}
+
+/**
+ * Acepta la simulación actual y muestra confirmación
+ */
+function acceptSimulation() {
+    if (!SimulatorState.impactLocation || !SimulatorState.results) {
+        console.warn('No hay simulación activa para aceptar');
+        return;
+    }
+
+    const results = SimulatorState.results;
+    const params = SimulatorState.parameters;
+    const phase = determineAlertPhase(results, params);
+
+    // Crear mensaje de confirmación
+    const confirmationMessage = `
+🎯 Simulación Aceptada
+
+📍 Ubicación: ${SimulatorState.impactLocation.lat.toFixed(4)}°, ${SimulatorState.impactLocation.lng.toFixed(4)}°
+
+⚙️ Parámetros:
+• Diámetro: ${params.diameter_m} m
+• Velocidad: ${params.velocity_kms} km/s
+• Ángulo: ${params.angle_deg}°
+• Composición: ${params.density_kgm3 === 3000 ? 'Rocoso' : params.density_kgm3 === 7800 ? 'Metálico' : 'Hielo'}
+
+💥 Resultados:
+• Energía: ${results.tnt_megatons.toLocaleString('es-ES', { maximumFractionDigits: 2 })} MT TNT
+• Cráter: ${results.crater_diameter_m.toFixed(0)} m
+• Radio de destrucción total: ${results.total_radius_km.toFixed(1)} km
+
+🚨 Fase de Alerta: ${phase.name}
+• Nivel de respuesta: ${phase.icon} ${phase.name}
+
+La simulación ha sido guardada y está lista para análisis adicional.
+    `.trim();
+
+    // Mostrar confirmación (podría ser un modal o alert)
+    if (typeof showNotification === 'function') {
+        showNotification('Simulación Aceptada', confirmationMessage, 'success');
+    } else {
+        alert(confirmationMessage);
+    }
+
+    // Aquí se podría guardar la simulación en localStorage o enviar a un servidor
+    saveSimulationToStorage();
+
+    console.log('Simulación aceptada:', {
+        location: SimulatorState.impactLocation,
+        parameters: params,
+        results: results,
+        phase: phase
+    });
+}
+
+/**
+ * Guarda la simulación actual en localStorage
+ */
+function saveSimulationToStorage() {
+    try {
+        const simulationData = {
+            timestamp: new Date().toISOString(),
+            location: SimulatorState.impactLocation,
+            parameters: SimulatorState.parameters,
+            results: SimulatorState.results,
+            phase: determineAlertPhase(SimulatorState.results, SimulatorState.parameters)
+        };
+
+        // Obtener simulaciones previas
+        const savedSimulations = JSON.parse(localStorage.getItem('meteorMadness_simulations') || '[]');
+
+        // Agregar nueva simulación al inicio
+        savedSimulations.unshift(simulationData);
+
+        // Mantener solo las últimas 10 simulaciones
+        if (savedSimulations.length > 10) {
+            savedSimulations.splice(10);
+        }
+
+        // Guardar
+        localStorage.setItem('meteorMadness_simulations', JSON.stringify(savedSimulations));
+
+        console.log('Simulación guardada en localStorage');
+    } catch (error) {
+        console.error('Error al guardar simulación:', error);
+    }
 }
 
 /**
@@ -877,6 +1172,33 @@ function showLegend() {
         legend.style.display = 'block';
     }
 }
+
+/**
+ * Activa el sistema de alerta con la fase correspondiente a la simulación
+ * @param {number} stageNumber - Número de etapa de alerta (1-4)
+ */
+function activateAlertForSimulation(stageNumber) {
+    console.log(`Activando alerta de simulación - Etapa ${stageNumber}`);
+
+    // Verificar que las funciones del sistema de alertas estén disponibles
+    if (typeof openAlertModal === 'function' && typeof navigateToStage === 'function') {
+        // Abrir el modal de alertas
+        openAlertModal();
+
+        // Navegar a la etapa correspondiente después de un breve delay
+        setTimeout(() => {
+            navigateToStage(stageNumber);
+            console.log(`Alerta activada en etapa ${stageNumber}`);
+        }, 300);
+    } else {
+        console.warn('Sistema de alertas no disponible');
+        // Fallback: mostrar mensaje en consola
+        const phase = determineAlertPhase(SimulatorState.results, SimulatorState.parameters);
+        console.log(`🚨 ALERTA SIMULADA - ${phase.name}: ${phase.description}`);
+        alert(`🚨 ALERTA DE SIMULACIÓN\n\n${phase.icon} ${phase.name}\n\n${phase.description}\n\nAcciones recomendadas:\n${phase.actions.map(action => `• ${action}`).join('\n')}`);
+    }
+}
+
 
 /**
  * Oculta la leyenda flotante

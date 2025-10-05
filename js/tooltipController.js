@@ -5,21 +5,21 @@
 
 // Contenido educativo de los tooltips
 const educationalContent = {
-    diameter: "Ancho del asteroide. Un asteroide de 200m es del tamaño de aproximadamente 2 campos de fútbol colocados uno tras otro.",
+    diameter: "Width of the asteroid. A 200m asteroid is about the size of 2 football fields placed end to end.",
 
-    velocity: "Velocidad de impacto contra la Tierra. Para comparar: un avión comercial vuela a 0.25 km/s, esto es hasta 100 veces más rápido.",
+    velocity: "Impact velocity against Earth. For comparison: a commercial airplane flies at 0.25 km/s, this is up to 100 times faster.",
 
-    mass: "Peso total del asteroide. Calculado asumiendo composición rocosa con densidad de 3000 kg/m³ (densidad típica de rocas terrestres).",
+    mass: "Total weight of the asteroid. Calculated assuming rocky composition with a density of 3000 kg/m³ (typical density of terrestrial rocks).",
 
-    hazardous: "Clasificación de NASA basada en tamaño (mayor a 140m) y proximidad orbital a la Tierra. Los asteroides peligrosos requieren monitoreo continuo.",
+    hazardous: "NASA classification based on size (greater than 140m) and orbital proximity to Earth. Hazardous asteroids require continuous monitoring.",
 
-    energy: "Energía cinética liberada al momento del impacto. Se calcula usando la fórmula E = ½mv², donde m es la masa y v es la velocidad.",
+    energy: "Kinetic energy released at the moment of impact. Calculated using the formula E = ½mv², where m is mass and v is velocity.",
 
-    megatons: "Equivalente en bombas nucleares. 1 megatón TNT = 4.184 × 10¹⁵ joules. La bomba de Hiroshima fue de solo 0.015 megatones (15 kilotones).",
+    megatons: "Equivalent in nuclear bombs. 1 megaton TNT = 4.184 × 10¹⁵ joules. The Hiroshima bomb was only 0.015 megatons (15 kilotons).",
 
-    seismic: "Magnitud en escala de Richter que produciría el impacto. Para comparar: terremoto de México 1985 fue 8.1, terremoto de Chile 2010 fue 8.8.",
+    seismic: "Magnitude on the Richter scale that the impact would produce. For comparison: Mexico earthquake 1985 was 8.1, Chile earthquake 2010 was 8.8.",
 
-    crater: "Tamaño estimado del cráter de impacto usando ecuaciones de Collins et al. El diámetro del cráter es típicamente 20-30 veces el diámetro del asteroide."
+    crater: "Estimated size of the impact crater using Collins et al. equations. Crater diameter is typically 20-30 times the asteroid's diameter."
 };
 
 // Estado del tooltip

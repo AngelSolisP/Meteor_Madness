@@ -320,7 +320,7 @@ function renderAsteroidDestructionCircles(asteroidData) {
         fillOpacity: 0.1,
         weight: 2
     }).addTo(asteroidCirclesLayer)
-      .bindTooltip(`Daño moderado: ${moderate_radius_km.toFixed(1)} km`, { permanent: false });
+      .bindTooltip(`Moderate damage: ${moderate_radius_km.toFixed(1)} km`, { permanent: false });
 
     // Círculo 2 - Daño Severo
     L.circle([lat, lng], {
@@ -330,7 +330,7 @@ function renderAsteroidDestructionCircles(asteroidData) {
         fillOpacity: 0.2,
         weight: 2
     }).addTo(asteroidCirclesLayer)
-      .bindTooltip(`Daño severo: ${severe_radius_km.toFixed(1)} km`, { permanent: false });
+      .bindTooltip(`Severe damage: ${severe_radius_km.toFixed(1)} km`, { permanent: false });
 
     // Círculo 1 - Destrucción Total (más pequeño, se dibuja último)
     L.circle([lat, lng], {
@@ -340,7 +340,7 @@ function renderAsteroidDestructionCircles(asteroidData) {
         fillOpacity: 0.3,
         weight: 2
     }).addTo(asteroidCirclesLayer)
-      .bindTooltip(`Destrucción total: ${total_radius_km.toFixed(1)} km`, { permanent: false });
+      .bindTooltip(`Total destruction: ${total_radius_km.toFixed(1)} km`, { permanent: false });
 
     // Agregar capa al mapa
     asteroidCirclesLayer.addTo(map);

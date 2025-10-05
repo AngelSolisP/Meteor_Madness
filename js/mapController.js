@@ -26,11 +26,12 @@ function initializeMap() {
             zoomControl: true
         });
 
-        // Agregar capa de tiles (OpenStreetMap estilo oscuro)
-        L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+        // Agregar capa de tiles (CartoDB dark matter with visible labels)
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/dark_all/{z}/{x}/{y}{r}.png', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
             subdomains: 'abcd',
-            maxZoom: 19
+            maxZoom: 19,
+            className: 'map-tiles-brightened'
         }).addTo(map);
 
         // Crear capa para marcadores
@@ -73,25 +74,20 @@ function addAsteroidMarkers(asteroids) {
             const lat = asteroid.impact_scenario.latitude;
             const lon = asteroid.impact_scenario.longitude;
 
-            // Determinar color del marcador según peligrosidad
+            // Determinar estilo del marcador según peligrosidad
             const isHazardous = asteroid.is_hazardous;
-            const markerColor = isHazardous ? '#e63946' : '#ffd23f';
-            const markerIcon = isHazardous ? '🔴' : '🟡';
 
-            // Crear icono personalizado
+            // Crear icono personalizado con nuevo diseño
             const customIcon = L.divIcon({
                 className: 'custom-marker',
-                html: `<div style="
-                    background-color: ${markerColor};
-                    width: 20px;
-                    height: 20px;
-                    border-radius: 50%;
-                    border: 2px solid white;
-                    box-shadow: 0 0 10px ${markerColor};
-                    cursor: pointer;
-                "></div>`,
-                iconSize: [20, 20],
-                iconAnchor: [10, 10]
+                html: `
+                    <div class="marker-wrapper ${isHazardous ? 'marker--hazardous' : ''}">
+                        <div class="marker-outer-ring"></div>
+                        <div class="marker-inner-dot"></div>
+                    </div>
+                `,
+                iconSize: [24, 24],
+                iconAnchor: [12, 12]
             });
 
             // Crear marcador
@@ -313,7 +309,7 @@ function renderAsteroidDestructionCircles(asteroidData) {
     console.log(`Radios calculados: Total=${total_radius_km.toFixed(1)}km, Severe=${severe_radius_km.toFixed(1)}km, Moderate=${moderate_radius_km.toFixed(1)}km`);
 
     // Círculo 3 - Daño Moderado (más grande, se dibuja primero)
-    L.circle([lat, lng], {
+    const moderateCircle = L.circle([lat, lng], {
         radius: moderate_radius_km * 1000, // km a metros
         color: '#ffd700',
         fillColor: '#ffd700',
@@ -321,9 +317,11 @@ function renderAsteroidDestructionCircles(asteroidData) {
         weight: 2
     }).addTo(asteroidCirclesLayer)
       .bindTooltip(`Moderate damage: ${moderate_radius_km.toFixed(1)} km`, { permanent: false });
+    moderateCircle.getElement()?.setAttribute('role', 'img');
+    moderateCircle.getElement()?.setAttribute('aria-label', `Moderate damage zone: ${moderate_radius_km.toFixed(1)} kilometer radius`);
 
     // Círculo 2 - Daño Severo
-    L.circle([lat, lng], {
+    const severeCircle = L.circle([lat, lng], {
         radius: severe_radius_km * 1000,
         color: '#ff6b35',
         fillColor: '#ff6b35',
@@ -331,9 +329,11 @@ function renderAsteroidDestructionCircles(asteroidData) {
         weight: 2
     }).addTo(asteroidCirclesLayer)
       .bindTooltip(`Severe damage: ${severe_radius_km.toFixed(1)} km`, { permanent: false });
+    severeCircle.getElement()?.setAttribute('role', 'img');
+    severeCircle.getElement()?.setAttribute('aria-label', `Severe damage zone: ${severe_radius_km.toFixed(1)} kilometer radius`);
 
     // Círculo 1 - Destrucción Total (más pequeño, se dibuja último)
-    L.circle([lat, lng], {
+    const totalCircle = L.circle([lat, lng], {
         radius: total_radius_km * 1000,
         color: '#ff0000',
         fillColor: '#ff0000',
@@ -341,6 +341,8 @@ function renderAsteroidDestructionCircles(asteroidData) {
         weight: 2
     }).addTo(asteroidCirclesLayer)
       .bindTooltip(`Total destruction: ${total_radius_km.toFixed(1)} km`, { permanent: false });
+    totalCircle.getElement()?.setAttribute('role', 'img');
+    totalCircle.getElement()?.setAttribute('aria-label', `Total destruction zone: ${total_radius_km.toFixed(1)} kilometer radius`);
 
     // Agregar capa al mapa
     asteroidCirclesLayer.addTo(map);
@@ -349,6 +351,12 @@ function renderAsteroidDestructionCircles(asteroidData) {
     const bounds = asteroidCirclesLayer.getBounds();
     if (bounds.isValid()) {
         map.fitBounds(bounds, { padding: [50, 50] });
+    }
+
+    // Show legend
+    const legend = document.getElementById('map-legend');
+    if (legend) {
+        legend.classList.remove('hidden');
     }
 
     console.log('✓ Círculos de destrucción renderizados');
@@ -366,5 +374,11 @@ function clearAsteroidCircles() {
 
     if (map && map.hasLayer(asteroidCirclesLayer)) {
         map.removeLayer(asteroidCirclesLayer);
+    }
+
+    // Hide legend
+    const legend = document.getElementById('map-legend');
+    if (legend) {
+        legend.classList.add('hidden');
     }
 }

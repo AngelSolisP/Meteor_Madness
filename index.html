@@ -14,58 +14,161 @@
           crossorigin=""/>
 
     <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/design-tokens.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/responsive.css">
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
     <!-- Header -->
-    <header>
-        <div class="header-content">
-            <h1>🌠 Meteor Madness</h1>
-            <p class="subtitle">Interactive Asteroid Impact Visualization</p>
+    <header class="app-header">
+        <div class="header-left">
+            <div class="app-logo">
+                <span class="logo-icon">🌠</span>
+                <div class="logo-text">
+                    <h1 class="app-title">Meteor Madness</h1>
+                    <p class="app-subtitle">Asteroid Impact Analysis</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="header-center">
+            <div class="mode-indicator" id="mode-indicator">
+                <span class="mode-icon">🌍</span>
+                <span class="mode-label">Normal Mode</span>
+            </div>
+        </div>
+
+        <div class="header-right">
+            <div class="system-status">
+                <div class="status-item">
+                    <span class="status-dot status-dot--online"></span>
+                    <span class="status-label">Online</span>
+                </div>
+                <div class="status-item">
+                    <span class="status-label">NASA NEO</span>
+                </div>
+            </div>
+            <button class="btn btn--icon btn--ghost" id="btn-help" aria-label="Help & Shortcuts" title="Help & Shortcuts">
+                <span>?</span>
+            </button>
         </div>
     </header>
 
     <!-- Sidebar -->
-    <aside class="sidebar">
+    <aside class="sidebar" id="sidebar">
         <div class="sidebar-content">
-            <button class="sidebar-btn" id="btn-catalog">
-                📋 View Catalog
-            </button>
-            <button class="sidebar-btn" id="btn-simulator">
-                🎯 Simulator
-            </button>
-            <button class="sidebar-btn" id="btn-alert">
-                🚨 Meteor Alert
-            </button>
-            <div class="filter-section">
-                <label class="toggle-container">
-                    <input type="checkbox" id="toggle-hazardous">
-                    <span class="toggle-label">Show Hazardous Only</span>
-                </label>
-                <div class="asteroid-counter">
-                    <span id="asteroid-count">0</span> asteroids visible
+
+            <!-- Primary Action Section -->
+            <div class="sidebar-section sidebar-section--primary">
+                <button class="btn btn--primary btn--large btn--full-width" id="btn-simulator">
+                    <span class="btn-icon">🎯</span>
+                    <span class="btn-label">Launch Simulator</span>
+                    <span class="btn-badge">Interactive</span>
+                </button>
+            </div>
+
+            <!-- Exploration Tools Section -->
+            <div class="sidebar-section">
+                <h3 class="sidebar-heading">Exploration Tools</h3>
+                <nav class="sidebar-nav">
+                    <ul class="nav-list">
+                        <li>
+                            <button class="nav-item" id="btn-catalog">
+                                <span class="nav-icon">📋</span>
+                                <span class="nav-label">Asteroid Catalog</span>
+                                <span class="nav-arrow">→</span>
+                            </button>
+                        </li>
+                        <li>
+                            <button class="nav-item" id="btn-alert">
+                                <span class="nav-icon">🚨</span>
+                                <span class="nav-label">Alert System</span>
+                                <span class="nav-arrow">→</span>
+                            </button>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+
+            <!-- Display Options Section -->
+            <div class="sidebar-section">
+                <h3 class="sidebar-heading">Display Options</h3>
+                <div class="filter-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="toggle-hazardous" class="checkbox-input">
+                        <span class="checkbox-custom"></span>
+                        <span class="checkbox-text">Hazardous Only</span>
+                    </label>
                 </div>
             </div>
+
+            <!-- Status Section -->
+            <div class="sidebar-section sidebar-section--footer">
+                <div class="stats-card">
+                    <div class="stat-item">
+                        <span class="stat-value" id="asteroid-count">0</span>
+                        <span class="stat-label">Visible</span>
+                    </div>
+                    <div class="stat-divider"></div>
+                    <div class="stat-item">
+                        <span class="stat-value stat-value--danger" id="hazardous-count">0</span>
+                        <span class="stat-label">Hazardous</span>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </aside>
+
+    <!-- Mobile FAB Button -->
+    <button class="sidebar-fab" id="sidebar-fab" aria-label="Open menu">
+        <span>☰</span>
+    </button>
 
     <!-- Main Content -->
     <main>
         <!-- Map Container -->
         <div id="map"></div>
 
+        <!-- Map Legend (shown when impact circles are visible) -->
+        <div id="map-legend" class="map-legend hidden">
+            <div class="map-legend-header">
+                <h4 class="map-legend-title">Impact Zones</h4>
+            </div>
+            <div class="map-legend-items">
+                <div class="map-legend-item">
+                    <div class="legend-color legend-color--total"></div>
+                    <span class="legend-label">Total Destruction</span>
+                </div>
+                <div class="map-legend-item">
+                    <div class="legend-color legend-color--severe"></div>
+                    <span class="legend-label">Severe Damage</span>
+                </div>
+                <div class="map-legend-item">
+                    <div class="legend-color legend-color--moderate"></div>
+                    <span class="legend-label">Moderate Damage</span>
+                </div>
+            </div>
+        </div>
+
         <!-- Loading Indicator -->
-        <div id="loading" class="loading">
-            <div class="spinner"></div>
-            <p>Loading asteroid data...</p>
+        <div id="loading" class="loading loading-overlay">
+            <div class="spinner spinner--large"></div>
+            <p class="loading-message">Loading asteroid data...</p>
         </div>
     </main>
 
+    <!-- Toast Container -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <!-- Shared Backdrop for all overlays -->
+    <div id="shared-backdrop" class="overlay-backdrop"></div>
+
     <!-- Catalog Modal -->
-    <div id="catalog-backdrop" class="catalog-backdrop"></div>
-    <div id="catalog-modal" class="catalog-modal">
+    <div id="catalog-modal" class="catalog-modal" role="dialog" aria-modal="true" aria-labelledby="catalog-title">
         <div class="catalog-header">
-            <h2>🌠 Asteroid Catalog</h2>
+            <h2 id="catalog-title">🌠 Asteroid Catalog</h2>
             <button class="close-btn" id="catalog-close">&times;</button>
         </div>
         <div class="catalog-filters">
@@ -111,8 +214,8 @@
     </div>
 
     <!-- Asteroid Info Panel -->
-    <div id="info-panel" class="info-panel">
-        <button class="close-btn" id="close-panel">&times;</button>
+    <div id="info-panel" class="info-panel" role="complementary" aria-label="Asteroid information panel">
+        <button class="close-btn" id="close-panel" aria-label="Close panel">&times;</button>
         <div class="panel-content">
             <h2 id="panel-name">Asteroid Name</h2>
 
@@ -232,8 +335,8 @@
     </div>
 
     <!-- Simulator Panel -->
-    <div id="simulator-panel" class="simulator-panel">
-        <button class="close-btn" id="close-simulator-panel">&times;</button>
+    <div id="simulator-panel" class="simulator-panel" role="complementary" aria-label="Impact simulator panel">
+        <button class="close-btn" id="close-simulator-panel" aria-label="Close simulator">&times;</button>
         <div class="panel-content">
             <h2>🎯 Impact Simulator</h2>
 
@@ -410,10 +513,9 @@
     </div>
 
     <!-- Comparison Modal -->
-    <div id="comparison-backdrop" class="catalog-backdrop"></div>
-    <div id="comparison-modal" class="comparison-modal">
+    <div id="comparison-modal" class="comparison-modal" role="dialog" aria-modal="true" aria-labelledby="comparison-title">
         <div class="catalog-header">
-            <h2>📊 Comparison with Dataset</h2>
+            <h2 id="comparison-title">📊 Comparison with Dataset</h2>
             <button class="close-btn" id="comparison-close">&times;</button>
         </div>
         <div class="comparison-content">
@@ -493,10 +595,9 @@
     </div>
 
     <!-- Alert System Modal -->
-    <div id="alert-backdrop" class="alert-backdrop"></div>
-    <div id="alert-modal" class="alert-modal">
+    <div id="alert-modal" class="alert-modal" role="dialog" aria-modal="true" aria-labelledby="alert-title">
         <div class="alert-header">
-            <h2>🚨 Meteorite Alert</h2>
+            <h2 id="alert-title">🚨 Meteorite Alert</h2>
             <p class="alert-subtitle">Interactive Public Awareness Guide</p>
             <button class="close-btn" id="alert-close">&times;</button>
         </div>
@@ -822,6 +923,10 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
 
     <!-- Custom Scripts -->
+    <script src="js/stateManager.js"></script>
+    <script src="js/feedbackController.js"></script>
+    <script src="js/keyboardController.js"></script>
+    <script src="js/onboardingController.js"></script>
     <script src="js/dataLoader.js"></script>
     <script src="js/impactCalculator.js"></script>
     <script src="js/mapController.js"></script>

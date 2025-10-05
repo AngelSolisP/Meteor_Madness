@@ -38,8 +38,26 @@ let velocitySlider = null;
 let angleSlider = null;
 let compositionRadios = null;
 
-// Debounce timer
+// Debounce utility
 let calculationTimer = null;
+
+/**
+ * Debounce function - delays execution until after wait time has elapsed
+ * @param {Function} func - Function to debounce
+ * @param {number} wait - Wait time in milliseconds
+ * @returns {Function} Debounced function
+ */
+function debounce(func, wait = 300) {
+    let timeout;
+    return function executedFunction(...args) {
+        const later = () => {
+            clearTimeout(timeout);
+            func.apply(this, args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+    };
+}
 
 /**
  * Inicializa el controlador del simulador
@@ -81,20 +99,9 @@ function activateSimulatorMode() {
         mapElement.style.cursor = 'crosshair';
     }
 
-    // Cerrar panel de info si está abierto
-    if (typeof hideAsteroidPanel === 'function') {
-        hideAsteroidPanel();
-    }
-
-    // Limpiar círculos de asteroides si existen
-    if (typeof clearAsteroidCircles === 'function') {
-        clearAsteroidCircles();
-    }
-
-    // Cerrar catálogo si está abierto
-    if (typeof closeCatalog === 'function') {
-        closeCatalog();
-    }
+    // Use StateManager to close all panels and modals
+    UIStateManager.closeAllPanels();
+    UIStateManager.closeAllModals();
 
     // Agregar event listener para clicks en el mapa
     const map = getMap();
@@ -225,6 +232,9 @@ function openSimulatorPanel(lat, lng) {
 
     console.log('Abriendo panel de simulador...');
 
+    // Use StateManager to open simulator panel
+    UIStateManager.openPanel('simulator');
+
     // Mostrar ubicación
     document.getElementById('sim-latitude').textContent = lat.toFixed(4) + '°';
     document.getElementById('sim-longitude').textContent = lng.toFixed(4) + '°';
@@ -297,6 +307,9 @@ function closeSimulatorPanel() {
 
     console.log('Cerrando panel de simulador...');
 
+    // Use StateManager to close simulator panel
+    UIStateManager.closePanel('simulator');
+
     simulatorPanel.classList.remove('active');
     SimulatorState.isPanelOpen = false;
 
@@ -325,6 +338,9 @@ function closeSimulatorPanel() {
     }
 }
 
+// Create debounced update function
+const debouncedUpdateSimulation = debounce(updateSimulation, 300);
+
 /**
  * Maneja cambios en los sliders
  * @param {Event} e - Evento del slider
@@ -342,16 +358,11 @@ function onSliderChange(e) {
         SimulatorState.parameters.angle_deg = value;
     }
 
-    // Actualizar displays
+    // Actualizar displays immediately (visual feedback)
     updateSliderDisplays();
 
-    // Recalcular con debounce
-    if (calculationTimer) {
-        clearTimeout(calculationTimer);
-    }
-    calculationTimer = setTimeout(() => {
-        updateSimulation();
-    }, 200);
+    // Recalcular con debounce (performance optimization)
+    debouncedUpdateSimulation();
 }
 
 /**
@@ -938,7 +949,6 @@ function determineSurfaceType(lat, lng) {
 
 // Referencias DOM comparison modal
 let comparisonModal = null;
-let comparisonBackdrop = null;
 let comparisonChart = null;
 
 /**
@@ -952,18 +962,17 @@ function openComparisonModal() {
 
     console.log('Abriendo modal de comparación...');
 
+    // Use StateManager to handle modal opening
+    UIStateManager.openModal('comparison');
+
     // Obtener referencias si no están
     if (!comparisonModal) {
         comparisonModal = document.getElementById('comparison-modal');
-        comparisonBackdrop = document.getElementById('comparison-backdrop');
 
         // Event listeners
         const closeBtn = document.getElementById('comparison-close');
         if (closeBtn) {
             closeBtn.addEventListener('click', closeComparisonModal);
-        }
-        if (comparisonBackdrop) {
-            comparisonBackdrop.addEventListener('click', closeComparisonModal);
         }
     }
 
@@ -996,15 +1005,19 @@ function openComparisonModal() {
         `🎯 Your simulation is MORE POWERFUL than ${percentLess}% of the catalog and LESS POWERFUL than ${percentMore}%.`;
 
     // Mostrar modal
-    if (comparisonBackdrop) comparisonBackdrop.classList.add('active');
-    if (comparisonModal) comparisonModal.classList.add('active');
+    if (comparisonModal) {
+        comparisonModal.classList.add('active');
+        UIStateManager.trapFocus(comparisonModal);
+    }
 }
 
 /**
  * Cierra el modal de comparación
  */
 function closeComparisonModal() {
-    if (comparisonBackdrop) comparisonBackdrop.classList.remove('active');
+    // Use StateManager to handle modal closing
+    UIStateManager.closeModal('comparison');
+
     if (comparisonModal) comparisonModal.classList.remove('active');
 
     // Destruir gráfica

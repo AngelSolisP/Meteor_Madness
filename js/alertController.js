@@ -10,7 +10,6 @@ const AlertState = {
 };
 
 // Referencias a elementos DOM
-let alertBackdrop = null;
 let alertModal = null;
 let alertCloseBtn = null;
 let stageNavButtons = [];
@@ -24,7 +23,6 @@ function initAlertSystem() {
         console.log('Inicializando sistema de alertas...');
 
         // Obtener referencias a elementos DOM
-        alertBackdrop = document.getElementById('alert-backdrop');
         alertModal = document.getElementById('alert-modal');
         alertCloseBtn = document.getElementById('alert-close');
 
@@ -35,7 +33,7 @@ function initAlertSystem() {
         alertStages = Array.from(document.querySelectorAll('.alert-stage'));
 
         // Validar elementos requeridos
-        if (!alertBackdrop || !alertModal || !alertCloseBtn) {
+        if (!alertModal || !alertCloseBtn) {
             throw new Error('No se encontraron todos los elementos del sistema de alertas');
         }
 
@@ -65,17 +63,7 @@ function setupEventListeners() {
         alertCloseBtn.addEventListener('click', closeAlertModal);
     }
 
-    // Cerrar al hacer click en backdrop
-    if (alertBackdrop) {
-        alertBackdrop.addEventListener('click', closeAlertModal);
-    }
-
-    // Cerrar con tecla ESC
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && AlertState.isOpen) {
-            closeAlertModal();
-        }
-    });
+    // Backdrop click and ESC key are handled by StateManager
 
     // Botones de navegación de etapas
     stageNavButtons.forEach(btn => {
@@ -94,24 +82,20 @@ function setupEventListeners() {
 function openAlertModal() {
     console.log('Abriendo modal de alertas...');
 
-    // Cerrar otros paneles si están abiertos
-    if (typeof closeSimulatorPanel === 'function') {
-        closeSimulatorPanel();
-    }
-
-    if (typeof hideAsteroidPanel === 'function') {
-        hideAsteroidPanel();
-    }
+    // Use StateManager to handle modal opening
+    UIStateManager.openModal('alert');
 
     // Actualizar estado
     AlertState.isOpen = true;
 
-    // Mostrar modal y backdrop
-    alertBackdrop.classList.add('active');
+    // Mostrar modal
     alertModal.classList.add('active');
 
     // Navegar a la primera etapa
     navigateToStage(1);
+
+    // Focus trap
+    UIStateManager.trapFocus(alertModal);
 
     console.log('✓ Modal de alertas abierto');
 }
@@ -122,11 +106,13 @@ function openAlertModal() {
 function closeAlertModal() {
     console.log('Cerrando modal de alertas...');
 
+    // Use StateManager to handle modal closing
+    UIStateManager.closeModal('alert');
+
     // Actualizar estado
     AlertState.isOpen = false;
 
-    // Ocultar modal y backdrop
-    alertBackdrop.classList.remove('active');
+    // Ocultar modal
     alertModal.classList.remove('active');
 
     console.log('✓ Modal de alertas cerrado');

@@ -48,6 +48,49 @@ function initializeUIController() {
         });
     }
 
+    // Mobile menu toggle
+    const sidebarFab = document.getElementById('sidebar-fab');
+    const sidebar = document.getElementById('sidebar');
+    const sharedBackdrop = document.getElementById('shared-backdrop');
+
+    if (sidebarFab && sidebar) {
+        sidebarFab.addEventListener('click', () => {
+            sidebar.classList.add('is-open');
+            if (sharedBackdrop) {
+                sharedBackdrop.classList.add('active');
+            }
+        });
+
+        // Close on backdrop click
+        if (sharedBackdrop) {
+            sharedBackdrop.addEventListener('click', () => {
+                sidebar.classList.remove('is-open');
+                sharedBackdrop.classList.remove('active');
+            });
+        }
+
+        // Close sidebar after navigation on mobile
+        const navItems = sidebar.querySelectorAll('.nav-item, .btn--primary');
+        navItems.forEach(item => {
+            item.addEventListener('click', () => {
+                if (window.innerWidth < 768) {
+                    setTimeout(() => {
+                        sidebar.classList.remove('is-open');
+                        if (sharedBackdrop) {
+                            sharedBackdrop.classList.remove('active');
+                        }
+                    }, 300);
+                }
+            });
+        });
+    }
+
+    // Update hazardous count on initialization
+    const hazardousCount = getHazardousAsteroids ? getHazardousAsteroids().length : 0;
+    if (FeedbackController && FeedbackController.updateHazardousCount) {
+        FeedbackController.updateHazardousCount(hazardousCount);
+    }
+
     console.log('✓ Controladores de UI inicializados');
 }
 
@@ -59,6 +102,9 @@ function showAsteroidPanel(asteroidData) {
     if (!infoPanelElement) return;
 
     console.log(`Mostrando panel para asteroide: ${asteroidData.name}`);
+
+    // Use StateManager to handle panel opening (closes other panels/modals)
+    UIStateManager.openPanel('info');
 
     // Poblar datos básicos
     document.getElementById('panel-name').textContent = asteroidData.name || 'N/A';
@@ -205,6 +251,9 @@ function showAsteroidPanel(asteroidData) {
  */
 function hideAsteroidPanel() {
     if (infoPanelElement) {
+        // Use StateManager to handle panel closing
+        UIStateManager.closePanel('info');
+
         infoPanelElement.classList.remove('active');
         console.log('Panel cerrado');
 

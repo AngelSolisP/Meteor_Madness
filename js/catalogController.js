@@ -16,7 +16,6 @@ const CatalogState = {
 
 // Referencias a elementos del DOM
 let catalogModal = null;
-let catalogBackdrop = null;
 let catalogTable = null;
 let searchInput = null;
 let hazardousFilter = null;
@@ -31,7 +30,6 @@ function initCatalog() {
 
     // Obtener referencias
     catalogModal = document.getElementById('catalog-modal');
-    catalogBackdrop = document.getElementById('catalog-backdrop');
     catalogTable = document.getElementById('catalog-table-body');
     searchInput = document.getElementById('catalog-search');
     hazardousFilter = document.getElementById('catalog-filter-hazardous');
@@ -48,9 +46,7 @@ function initCatalog() {
         closeButton.addEventListener('click', closeCatalog);
     }
 
-    if (catalogBackdrop) {
-        catalogBackdrop.addEventListener('click', closeCatalog);
-    }
+    // Backdrop click is handled by StateManager
 
     if (searchInput) {
         searchInput.addEventListener('input', (e) => {
@@ -89,6 +85,9 @@ function initCatalog() {
 function openCatalog() {
     console.log('Abriendo catálogo...');
 
+    // Use StateManager to handle modal opening
+    UIStateManager.openModal('catalog');
+
     // Cargar asteroides si no están cargados
     if (CatalogState.allAsteroids.length === 0) {
         CatalogState.allAsteroids = getAllAsteroids();
@@ -99,19 +98,14 @@ function openCatalog() {
     applyFilters();
 
     // Mostrar modal
-    if (catalogBackdrop) {
-        catalogBackdrop.classList.add('active');
-    }
     if (catalogModal) {
         catalogModal.classList.add('active');
     }
 
     CatalogState.isOpen = true;
 
-    // Focus en búsqueda
-    if (searchInput) {
-        setTimeout(() => searchInput.focus(), 100);
-    }
+    // Focus trap and initial focus
+    UIStateManager.trapFocus(catalogModal);
 }
 
 /**
@@ -120,9 +114,9 @@ function openCatalog() {
 function closeCatalog() {
     console.log('Cerrando catálogo...');
 
-    if (catalogBackdrop) {
-        catalogBackdrop.classList.remove('active');
-    }
+    // Use StateManager to handle modal closing
+    UIStateManager.closeModal('catalog');
+
     if (catalogModal) {
         catalogModal.classList.remove('active');
     }

@@ -236,23 +236,31 @@ main {
     position: absolute;
     top: var(--spacing-sm);
     right: var(--spacing-sm);
-    background: none;
-    border: none;
-    color: var(--text-primary);
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--color-border-default, rgba(148, 163, 184, 0.2));
+    color: #00d4ff;
     font-size: 2rem;
     cursor: pointer;
-    width: 40px;
-    height: 40px;
+    width: 44px;
+    height: 44px;
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 50%;
     transition: all var(--transition);
+    font-weight: 300;
 }
 
 .close-btn:hover {
     background-color: var(--accent-red);
-    transform: rotate(90deg);
+    color: white;
+    transform: rotate(90deg) scale(1.1);
+    box-shadow: 0 0 16px rgba(239, 68, 68, 0.5);
+}
+
+.close-btn:focus-visible {
+    outline: 2px solid #00d4ff;
+    outline-offset: 2px;
 }
 
 .panel-content {
@@ -509,10 +517,10 @@ footer p {
    ============================================ */
 
 /* ============================================
-   CATALOG MODAL
+   UNIFIED BACKDROP SYSTEM
    ============================================ */
 
-.catalog-backdrop {
+.overlay-backdrop {
     position: fixed;
     top: 0;
     left: 0;
@@ -523,12 +531,28 @@ footer p {
     opacity: 0;
     pointer-events: none;
     transition: opacity 400ms ease-out;
+    will-change: opacity;
 }
 
-.catalog-backdrop.active {
+.overlay-backdrop.active {
     opacity: 1;
     pointer-events: all;
 }
+
+/* Backdrop variants */
+.overlay-backdrop[data-type="modal"] {
+    z-index: 2000;
+    background-color: rgba(10, 14, 39, 0.95);
+}
+
+.overlay-backdrop[data-type="panel"] {
+    z-index: 1000;
+    background-color: rgba(10, 14, 39, 0.3);
+}
+
+/* ============================================
+   CATALOG MODAL
+   ============================================ */
 
 .catalog-modal {
     position: fixed;
@@ -944,27 +968,7 @@ footer p {
     }
 }
 
-/* Mejora de panel lateral con backdrop */
-.info-panel.active::before {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(10, 14, 39, 0.3);
-    z-index: -1;
-    animation: backdropFadeIn 0.4s ease-out;
-}
-
-@keyframes backdropFadeIn {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
-}
+/* Removed: Panel backdrop now handled by unified backdrop system */
 
 /* Hover mejorado para botones */
 .sidebar-btn:not(:disabled):hover {
@@ -975,8 +979,34 @@ footer p {
 /* Performance optimization */
 .catalog-modal,
 .info-panel,
-.catalog-backdrop {
+.simulator-panel,
+.alert-modal,
+.overlay-backdrop {
     will-change: transform, opacity;
+}
+
+/* ============================================
+   PANEL MUTUAL EXCLUSIVITY
+   ============================================ */
+
+/* Prevent info panel from showing when simulator is active */
+body.simulator-mode .info-panel {
+    display: none !important;
+}
+
+/* Prevent simulator panel from showing when viewing asteroid */
+body.viewing-asteroid-mode .simulator-panel {
+    display: none !important;
+}
+
+/* Hide panels when any modal is open */
+body:has(.catalog-modal.active) .info-panel,
+body:has(.catalog-modal.active) .simulator-panel,
+body:has(.alert-modal.active) .info-panel,
+body:has(.alert-modal.active) .simulator-panel,
+body:has(.comparison-modal.active) .info-panel,
+body:has(.comparison-modal.active) .simulator-panel {
+    display: none !important;
 }
 
 /* ============================================
@@ -1340,18 +1370,7 @@ footer p {
 }
 
 
-/* Simulator Panel Animations */
-.simulator-panel.active::before {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(10, 14, 39, 0.3);
-    z-index: -1;
-    animation: backdropFadeIn 0.4s ease-out;
-}
+/* Removed: Simulator panel backdrop now handled by unified backdrop system */
 
 /* Active Simulator Button */
 .sidebar-btn.active {
@@ -1696,25 +1715,6 @@ footer p {
 /* ============================================
    ALERT SYSTEM
    ============================================ */
-
-/* Alert Backdrop */
-.alert-backdrop {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(10, 14, 39, 0.95);
-    z-index: 3000;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 400ms ease-out;
-}
-
-.alert-backdrop.active {
-    opacity: 1;
-    pointer-events: all;
-}
 
 /* Alert Modal */
 .alert-modal {

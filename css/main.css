@@ -3616,14 +3616,14 @@ input[type="submit"] {
     cursor: pointer;
     transition: all 0.3s ease-in-out;
     background-color: transparent;
-    border: .2rem solid #00B8D9; /* Vibrant Cyan Border */
+    border: .2rem solid #ed0202; /* Vibrant Cyan Border */
     border-radius: 5px; /* Added for a modern look */
 }
 
 .btn:hover,
 button:hover,
 input[type="submit"]:hover {
-    background-color: #00B8D9;
+    background-color: #ed0202;
     color: #0A0F1A;
     transform: translateY(-3px); /* ENHANCEMENT: Add subtle lift on hover */
     box-shadow: 0 10px 20px rgba(0, 184, 217, 0.2);
@@ -3735,7 +3735,7 @@ input[type="submit"]:hover {
 .tooltip {
     position: relative;
     display: inline-block;
-    border-bottom: 2px dotted #00B8D9;
+    border-bottom: 2px dotted #ed0202;
     cursor: help;
     color: #FFFFFF;
     font-weight: 600;
@@ -3743,7 +3743,7 @@ input[type="submit"]:hover {
 .tooltip .tooltip-text {
     visibility: hidden;
     width: 250px;
-    background-color: #00B8D9;
+    background-color: #ed0202;
     color: #0A0F1A;
     text-align: center;
     border-radius: 6px;
@@ -3768,7 +3768,7 @@ input[type="submit"]:hover {
     margin-left: -5px;
     border-width: 5px;
     border-style: solid;
-    border-color: #00B8D9 transparent transparent transparent;
+    border-color: #ed0202 transparent transparent transparent;
 }
 .tooltip:hover .tooltip-text {
     visibility: visible;
@@ -3787,7 +3787,7 @@ input[type="submit"]:hover {
     position: relative;
 }
 .services-list .service-icon {
-    color: #00B8D9;
+    color: #ed0202;
 }
 .services-list .service-item h3 {
     color: #E6F1FF;
